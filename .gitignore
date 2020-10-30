@@ -1,0 +1,6 @@
+*
+!*/
+!/SaudiDrifter/Classes/**
+!/SaudiDrifter/Resources/**
+!/README.md
+!/.gitignore
