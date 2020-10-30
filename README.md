@@ -5,11 +5,10 @@
 ГДД: <https://docs.google.com/document/d/19uv2dgij6T1rJH0Fbyv6L3JpLGE9ccLXMQVQrCFil1M/edit?usp=sharing>
 
 
-##
+## 
 [Вкусные блинчики](#Blinchiki);  
 [Пицца по-домашнему](#Pizza);  
-##
- 
+## 
  
 - Kлонируешь наш репо куда ты там обычно клонируешь
 - Cоздаешь новый проект где-нибудь (вне репо): 
@@ -32,6 +31,7 @@
     - удаляешь ALL_BUILD если ругается на него
     - удаляешь SYNC_RESOURCE-SaudiDrifter если ругается на него
 - Наслаждаешься
+## 
 
 ## <a name="Blinchiki"></a> ВКУСНЫЕ БЛИНЧИКИ  
 
