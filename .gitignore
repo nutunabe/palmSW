@@ -2,5 +2,6 @@
 !*/
 !/SaudiDrifter/Classes/**
 !/SaudiDrifter/Resources/**
+!/SaudiDrifter/CMakeLists.txt
 !/README.md
 !/.gitignore
