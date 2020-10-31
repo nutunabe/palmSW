@@ -16,7 +16,7 @@
     cocos new SaudiDrifter -l cpp
      ```
     - Заходишь в папку только что созданного SaudiDrifter (проводником)
-    - Копируешь из нее все, кроме папок Classes и Resources, в папку в нашем репозитории (palmSW\SaudiDrifter)
+    - Копируешь из нее все, кроме файла CMakeLists.txt и папок Classes и Resources, в папку в нашем репозитории (palmSW\SaudiDrifter)
 - Переходишь в наш репозиторий (cmd)
     - переходишь в SaudiDrifter\proj.win32
     - вводишь команду: 
