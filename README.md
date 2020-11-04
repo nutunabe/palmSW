@@ -1,15 +1,12 @@
 # palmSW
 
-Концепт-док: <https://docs.google.com/document/d/1IAn7gX1z3kVRCEOLE9XHgdqvJGDT5kOBuBQogSu2LCw/edit?usp=sharing>
+[Концепт-док](https://docs.google.com/document/d/1IAn7gX1z3kVRCEOLE9XHgdqvJGDT5kOBuBQogSu2LCw/edit?usp=sharing)
 
-ГДД: <https://docs.google.com/document/d/19uv2dgij6T1rJH0Fbyv6L3JpLGE9ccLXMQVQrCFil1M/edit?usp=sharing>
-
-
-## 
+[ГДД](https://docs.google.com/document/d/19uv2dgij6T1rJH0Fbyv6L3JpLGE9ccLXMQVQrCFil1M/edit?usp=sharing)
+___
 [Вкусные блинчики](#Blinchiki);  
 [Пицца по-домашнему](#Pizza);  
-## 
- 
+___
 - Kлонируешь наш репо куда ты там обычно клонируешь
 - Cоздаешь новый проект где-нибудь (вне репо): 
      ```sh
@@ -32,7 +29,7 @@
     - удаляешь ALL_BUILD если ругается на него
     - удаляешь SYNC_RESOURCE-SaudiDrifter если ругается на него
 - Наслаждаешься
-## 
+___
 
 ## <a name="Blinchiki"></a> ВКУСНЫЕ БЛИНЧИКИ  
 
