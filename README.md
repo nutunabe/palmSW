@@ -1,3 +1,4 @@
+
 # palmSW
 
 [Концепт-док](https://docs.google.com/document/d/1IAn7gX1z3kVRCEOLE9XHgdqvJGDT5kOBuBQogSu2LCw/edit?usp=sharing)  
@@ -5,7 +6,42 @@
 ___
 [Вкусные блинчики](#Blinchiki);  
 [Пицца по-домашнему](#Pizza);  
-
+___
+## Getting started
+- Kлонируешь наш репо куда ты там обычно клонируешь
+- Cоздаешь новый проект где-нибудь (вне репо): 
+     ```sh
+    cocos new MyApp -l cpp
+     ```
+    - Заходишь в папку только что созданного "MyApp" (проводником)
+    - Копируешь из нее все, кроме файла "CMakeLists.txt" и папок "Classes" и "Resources", в папку в нашего репозитория (palmSW)
+- Заходишь в папку "palmSW\proj.win32" (проводником)
+	- Shift + ПКМ -> "Open PowerShell window here" (хз как на русском)
+	- вводишь команду: 
+        ```sh
+        cmake .. -G "Visual Studio 16 2019" -A Win32
+        ```
+    - находишь там файл "SaudiDrifter.sln"
+    - открываешь его
+    - ждешь пока все подгрузится (нижний левый край (не смотри на обманчивую надпись "Готово", нажми на кнопочку слева нее))
+- В обозревателе решений нажимаешь ПКМ на "SaudiDrifter"
+     - Жмешь "Set as Startup Project" (хз как на русском)
+- Запускаешь проект
+- Наслаждаешься
+## Добавление класса
+- В обозревателе решений нажимаешь ПКМ "SaudiDrifter" -> "Добавить" -> "Класс"
+- Вот тут указываешь путь к папке "palmSW\Classes" 
+![alt](https://cloclo25.cloud.mail.ru/weblink/view/BBya/gRwRQmuyp)
+- Вписываешь этот класс в "CMakeLists.txt"
+## Добавление ресурса
+- Закидываешь нужные файлы в папку "palmSW\Resources"
+- Заходишь в папку "palmSW\proj.win32" (проводником)
+	- Shift + ПКМ -> "Open PowerShell window here" (хз как на русском)
+	- вводишь команду: 
+        ```sh
+        cmake .. -G "Visual Studio 16 2019" -A Win32
+        ```
+___
 ## <a name="Blinchiki"></a> ВКУСНЫЕ БЛИНЧИКИ  
 
 
