@@ -21,7 +21,7 @@ ___
         ```sh
         cmake .. -G "Visual Studio 16 2019" -A Win32
         ```
-    - находишь там файл "SaudiDrifter.sln"
+- находишь там файл "SaudiDrifter.sln"
     - открываешь его
     - ждешь пока все подгрузится (нижний левый край (не смотри на обманчивую надпись "Готово", нажми на кнопочку слева нее))
 - В обозревателе решений нажимаешь ПКМ на "SaudiDrifter"
@@ -30,9 +30,10 @@ ___
 - Наслаждаешься
 ## Добавление класса
 - В обозревателе решений нажимаешь ПКМ "SaudiDrifter" -> "Добавить" -> "Класс"
-- Вот тут указываешь путь к папке "palmSW\Classes" 
-![alt](https://cloclo25.cloud.mail.ru/weblink/view/BBya/gRwRQmuyp)
-- Вписываешь этот класс в "CMakeLists.txt"
+	- Вот тут указываешь путь к папке "palmSW\Classes" 
+	![alt](https://cloclo25.cloud.mail.ru/weblink/view/BBya/gRwRQmuyp)
+- Вписываешь этот класс в "CMakeLists.txt"   
+![alt](https://cloclo25.cloud.mail.ru/weblink/view/W5V3/2oUeiNsTn)
 ## Добавление ресурса
 - Закидываешь нужные файлы в папку "palmSW\Resources"
 - Заходишь в папку "palmSW\proj.win32" (проводником)
