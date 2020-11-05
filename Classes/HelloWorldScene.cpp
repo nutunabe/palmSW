@@ -85,10 +85,10 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("HELLO SADDAM", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("HELLO SADDAM", "fonts/Pixel Times.ttf", 30);
     if (label == nullptr)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        problemLoading("'fonts/Pixel Times.ttf'");
     }
     else
     {
@@ -101,10 +101,10 @@ bool HelloWorld::init()
     }
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = Sprite::create("HelloSaddam.png");
     if (sprite == nullptr)
     {
-        problemLoading("'HelloWorld.png'");
+        problemLoading("'HelloSaddam.png'");
     }
     else
     {
