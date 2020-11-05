@@ -68,7 +68,7 @@ bool SplashScreen::init()
 	return true;
 }
 
-void SplashScreen::finishSplash() {
+void SplashScreen::finishSplash(float dt) {
 	// ... do whatever other initializations here
 	// Show the actual main scene
 	Director::getInstance()->replaceScene(HelloWorld::createScene());
@@ -77,12 +77,6 @@ void SplashScreen::finishSplash() {
 void SplashScreen::onEnter() {
 	Scene::onEnter();
 
-	float delay = 2.0f;
-	auto delayAction = DelayTime::create(delay);  // For 2 Seconds of Delay
-	auto funcCallback = CallFunc::create([]() {
-		Director::getInstance()->replaceScene(HelloWorld::createScene());
-		});
-	this->runAction(Sequence::create(delayAction, funcCallback, NULL));
-	// Wait for 0.5 seconds to load main scene
-	//this->scheduleOnce(CC_SCHEDULE_SELECTOR(SplashScreen::finishSplash), 0.5f);
+	// Wait for 2.0 seconds to load main scene
+	this->scheduleOnce(CC_SCHEDULE_SELECTOR(SplashScreen::finishSplash), 2.0f);
 }

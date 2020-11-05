@@ -12,7 +12,7 @@ public:
 
 	void onEnter();
 
-	void finishSplash();
+	void finishSplash(float dt);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(SplashScreen);
