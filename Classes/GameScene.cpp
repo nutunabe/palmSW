@@ -56,7 +56,27 @@ bool GameScene::init()
 
     /////////////////////////////
     // 3. add your codes below...
+    mySprite = Sprite::create("HelloSaddam.png");
 
+    mySprite->setPosition(Point((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y));
+     
+    this->addChild(mySprite);
+
+    auto eventListener = EventListenerKeyboard::create();
+    eventListener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event) {
+        Vec2 loc = event->getCurrentTarget()->getPosition();
+        switch (keyCode) {
+        case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+        case EventKeyboard::KeyCode::KEY_A:
+            event->getCurrentTarget()->setPosition(loc.x = loc.x - 50, loc.y);
+            break;
+        case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+        case EventKeyboard::KeyCode::KEY_D:
+            event->getCurrentTarget()->setPosition(loc.x = loc.x + 50, loc.y);
+            break;
+        }
+    };
+    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, mySprite);
 
     return true;
 }
