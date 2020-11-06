@@ -1,5 +1,5 @@
 #include "SplashScreen.h"
-#include "GameScene.h"
+#include "MainMenu.h"
 
 USING_NS_CC;
 
@@ -71,7 +71,7 @@ bool SplashScreen::init()
 void SplashScreen::finishSplash(float dt) {
 	// ... do whatever other initializations here
 	// Show the actual main scene
-	Director::getInstance()->replaceScene(GameScene::createScene());
+	Director::getInstance()->replaceScene(MainMenu::createScene());
 }
 
 void SplashScreen::onEnter() {

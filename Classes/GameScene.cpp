@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "MainMenu.h"
 
 USING_NS_CC;
 
@@ -30,26 +31,26 @@ bool GameScene::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-        "CloseNormal.png",
-        "CloseSelected.png",
-        CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+    auto menuItem = MenuItemImage::create(
+        "Menu Button.png",
+        "Menu Button Clicked.png",
+        CC_CALLBACK_1(GameScene::goToMenu, this));
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
+    if (menuItem == nullptr ||
+        menuItem->getContentSize().width <= 0 ||
+        menuItem->getContentSize().height <= 0)
     {
         problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
     }
     else
     {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-        float y = origin.y + closeItem->getContentSize().height / 2;
-        closeItem->setPosition(Vec2(x, y));
+        float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
+        float y = origin.y + menuItem->getContentSize().height / 2;
+        menuItem->setPosition(Vec2(x, y));
     }
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(menuItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -60,15 +61,8 @@ bool GameScene::init()
     return true;
 }
 
-void GameScene::menuCloseCallback(Ref* pSender)
+
+void GameScene::goToMenu(Ref* Sender) 
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
+    Director::getInstance()->replaceScene(MainMenu::createScene());
 }

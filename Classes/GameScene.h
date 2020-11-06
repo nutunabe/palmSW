@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+using namespace cocos2d;
+
 class GameScene : public cocos2d::Scene
 {
 public:
@@ -11,7 +13,9 @@ public:
 	virtual bool init();
 
 	// a selector callback
-	void menuCloseCallback(cocos2d::Ref* pSender);
+	void menuCloseCallback(Ref* pSender);
+
+	void goToMenu(Ref* Sender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
