@@ -30,7 +30,7 @@ ___
 - Наслаждаешься
 ## Добавление класса
 - В обозревателе решений нажимаешь ПКМ "SaudiDrifter" -> "Добавить" -> "Класс"
-	- Вот тут указываешь путь к папке "palmSW\Classes" 
+	- Вот тут обоим указываешь путь к папке "palmSW\Classes" 
 	![alt](https://cloclo25.cloud.mail.ru/weblink/view/BBya/gRwRQmuyp)
 - Вписываешь этот класс в "CMakeLists.txt"   
 ![alt](https://cloclo25.cloud.mail.ru/weblink/view/W5V3/2oUeiNsTn)
