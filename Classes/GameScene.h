@@ -2,6 +2,7 @@
 #define __GAMESCENE_H__
 
 #include "cocos2d.h"
+#include "Player.h"
 
 using namespace cocos2d;
 
@@ -21,6 +22,8 @@ public:
 	CREATE_FUNC(GameScene);
 
 	Sprite *mySprite;
+private:
+	Player* player;
 };
 
 #endif
