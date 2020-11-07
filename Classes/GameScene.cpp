@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "MainMenu.h"
 #include "Player.h"
+#include "Leveling.h"
 
 USING_NS_CC;
 
@@ -55,10 +56,13 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    player = Player::create();
-    player->setPosition(Point((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y));
-    this->addChild(player);
+   
+    auto level = Leveling::create();
+    this->addChild(level);
 
+    player = Player::create();
+    player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
+    this->addChild(player);
     /////////////////////////////
     // 3. add your codes below...
 

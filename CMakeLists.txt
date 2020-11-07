@@ -64,6 +64,7 @@ list(APPEND GAME_SOURCE
      Classes/GameScene.cpp
      Classes/Player.cpp
      Classes/KeyListener.cpp
+     Classes/Leveling.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -73,6 +74,7 @@ list(APPEND GAME_HEADER
      Classes/GameScene.h
      Classes/Player.h
      Classes/KeyListener.h
+     Classes/Leveling.h
      )
 
 if(ANDROID)
