@@ -7,7 +7,9 @@
 class KeyListener
 {
 public:
-	virtual bool init(cocos2d::Layer* layer);
+	static KeyListener* create(cocos2d::EventDispatcher* dispatcher);
+
+	virtual bool init(cocos2d::EventDispatcher* dispatcher);
 
 	cocos2d::EventListenerKeyboard* keyListener;
 	bool keyState[256];

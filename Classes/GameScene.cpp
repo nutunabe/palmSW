@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "Player.h"
 #include "Leveling.h"
+#include "KeyListener.h"
 
 USING_NS_CC;
 
@@ -56,7 +57,10 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+    // key listener
+    auto kl = KeyListener::create(this->_eventDispatcher);
    
+    // background
     auto level = Leveling::create();
     this->addChild(level);
 

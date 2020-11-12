@@ -1,6 +1,13 @@
 #include "KeyListener.h"
 
-bool KeyListener::init(cocos2d::Layer* layer) {
+KeyListener* KeyListener::create(cocos2d::EventDispatcher* dispatcher)
+{
+	KeyListener* kl = new KeyListener();
+	kl->init(dispatcher);
+	return kl;
+}
+
+bool KeyListener::init(cocos2d::EventDispatcher* dispatcher) {
 	auto director = cocos2d::Director::getInstance();
 	keyListener = cocos2d::EventListenerKeyboard::create();
 	director->getOpenGLView()->setIMEKeyboardState(true);
@@ -12,7 +19,6 @@ bool KeyListener::init(cocos2d::Layer* layer) {
 	{
 		keyState[static_cast<int>(keyCode)] = false;
 	};
-	layer->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, 2);
-
+	dispatcher->addEventListenerWithFixedPriority(keyListener, 1);
 	return true;
 }
