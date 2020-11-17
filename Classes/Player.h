@@ -2,6 +2,7 @@
 #define _PLAYER_
 
 #include "cocos2d.h"
+#include "Leveling.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,7 @@ private:
 	bool is_attackPress;
 	bool is_attacking;
 	std::string direction;
+	Size visibleSize;
 
 	void initPlayer();
 	void listenKeyboard();

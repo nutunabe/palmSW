@@ -26,6 +26,7 @@ void Player::initPlayer()
 	is_idle = false;
 	is_attackPress = false;
 	is_attacking = false;
+	visibleSize = Director::getInstance()->getVisibleSize();
 	Vector<SpriteFrame*> idleFrames(4);
 	Vector<SpriteFrame*> readyFrames(4);
 	Vector<SpriteFrame*> runFrames(8);
@@ -87,7 +88,7 @@ void Player::update(float dt)
 	{
 		if (this->getScaleX() > 0)
 			this->setScaleX(this->getScaleX() * -1);
-		if (is_moving)
+		if (is_moving && this->getPositionX() < visibleSize.width - visibleSize.width / 6)
 		{
 			this->setPositionX(this->getPositionX() + 3);
 		}
@@ -96,7 +97,7 @@ void Player::update(float dt)
 	{
 		if (this->getScaleX() < 0)
 			this->setScaleX(this->getScaleX() * -1);
-		if (is_moving)
+		if (is_moving && this->getPositionX() > visibleSize.width / 6)
 		{
 			this->setPositionX(this->getPositionX() - 3);
 		}

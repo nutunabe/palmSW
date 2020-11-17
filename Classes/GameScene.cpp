@@ -55,18 +55,18 @@ bool GameScene::init()
     // create menu, it's an autorelease object
     auto menu = Menu::create(menuItem, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    this->addChild(menu, 3);
 
     // key listener
     auto kl = KeyListener::create(this->_eventDispatcher);
    
     // background
-    auto level = Leveling::create();
-    this->addChild(level);
-
     player = Player::create();
     player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
-    this->addChild(player);
+    this->addChild(player, 2);
+
+    auto level = Leveling::create();
+    this->addChild(level, 1);
     /////////////////////////////
     // 3. add your codes below...
 
