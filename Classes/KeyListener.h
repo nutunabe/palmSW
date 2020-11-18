@@ -13,6 +13,8 @@ public:
 
 	cocos2d::EventListenerKeyboard* keyListener;
 	bool keyState[256];
+	bool keyReleased = false;
+	bool keyPressed = false;
 };
 
 #endif

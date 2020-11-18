@@ -7,7 +7,9 @@
 USING_NS_CC;
 
 Scene* GameScene::createScene() {
-	return GameScene::create();
+	GameScene* gameScene = GameScene::create();
+	gameScene->scheduleUpdate();
+	return gameScene;
 }
 
 static void problemLoading(const char* filename)
@@ -58,23 +60,76 @@ bool GameScene::init()
     this->addChild(menu, 3);
 
     // key listener
-    auto kl = KeyListener::create(this->_eventDispatcher);
+    keyListener = KeyListener::create(this->_eventDispatcher);
    
-    // background
-    player = Player::create();
-    player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
-    this->addChild(player, 2);
+	// background
+	player = Player::create();
+	player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
+	this->addChild(player, 2);
 
-    auto level = Leveling::create();
-    this->addChild(level, 1);
+	auto level = Leveling::create();
+	this->addChild(level, 1);
     /////////////////////////////
     // 3. add your codes below...
 
     return true;
 }
 
-
 void GameScene::goToMenu(Ref* Sender) 
 {
     Director::getInstance()->replaceScene(MainMenu::createScene());
+}
+
+void GameScene::whatKey(bool* keyState) {
+	/*
+	* arrow up		28
+	* arrow left	26
+	* arrow down	29
+	* arrow right	27
+	*	W			146
+	*	A			124
+	*	S			142
+	*	D			127
+	*	F			129
+	*/
+	if (player->state != State::isAttacking) {
+		if (keyListener->keyPressed) {
+			CCLOG("PRESSED");
+			player->stopAllActions();
+			keyListener->keyPressed = false;
+		}
+		if (keyListener->keyReleased) {
+			CCLOG("RELEASED");
+			player->stopAllActions();
+			keyListener->keyReleased = false;
+		}
+		if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
+			if (keyState[26] || keyState[124]) {		// left
+				player->velocity = -1 * player->maxVelocity;
+				player->setScaleX(abs(player->getScaleX()));
+			}
+			else if (keyState[27] || keyState[127]) {	// right
+				player->velocity = player->maxVelocity;
+				player->setScaleX(abs(player->getScaleX()) * -1);
+			}
+			player->state = State::isRunning;
+		}
+		if (!keyState[26] && !keyState[27] &&
+			!keyState[124] && !keyState[127]) {
+			player->velocity = 0;
+			player->state = State::isReady;
+		}
+	}
+	if (keyState[129]) {								// attack
+		if (player->state != State::isAttacking) {
+			player->stopAllActions();
+			player->velocity = 0;
+			player->state = State::isAttacking;
+		}
+	}
+}
+
+void GameScene::update(float dt) {
+	whatKey(keyListener->keyState);
+	player->update();
 }

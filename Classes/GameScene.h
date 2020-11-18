@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include "KeyListener.h"
 
 using namespace cocos2d;
 
@@ -24,6 +25,10 @@ public:
 	Sprite *mySprite;
 private:
 	Player* player;
+	KeyListener* keyListener;
+
+	void whatKey(bool* keyState);
+	void update(float dt);
 };
 
 #endif
