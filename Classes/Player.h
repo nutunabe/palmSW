@@ -75,6 +75,7 @@ private:
 	void jump();
 	void takeHit();
 	void Die();
+	//void borderStuck();
 };
 
 #endif

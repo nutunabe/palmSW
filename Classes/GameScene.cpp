@@ -67,7 +67,7 @@ bool GameScene::init()
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
 	this->addChild(player, 2);
 
-	auto level = Leveling::create();
+	level = Leveling::create();
 	this->addChild(level, 1);
     /////////////////////////////
     // 3. add your codes below...
@@ -92,25 +92,50 @@ void GameScene::whatKey(bool* keyState) {
 	*	D			127
 	*	F			129
 	*/
+	Size visibleSize = Director::getInstance()->getVisibleSize();
 	if (player->state != State::isAttacking) {
 		if (keyListener->keyPressed) {
 			CCLOG("PRESSED");
 			player->stopAllActions();
 			keyListener->keyPressed = false;
+			level->stopMoving();
+			level->isMoving = false;
 		}
 		if (keyListener->keyReleased) {
 			CCLOG("RELEASED");
 			player->stopAllActions();
 			keyListener->keyReleased = false;
+			level->stopMoving();
+			level->isMoving = false;
 		}
 		if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
 			if (keyState[26] || keyState[124]) {		// left
-				player->velocity = -1 * player->maxVelocity;
-				player->setScaleX(abs(player->getScaleX()));
+				level->setDirectionLeft();
+				if (player->getPositionX() < visibleSize.width / 6) {
+					player->velocity = 0;
+					if (level->isMoving == false) {
+						level->parallax();
+						level->isMoving = true;
+					}
+				}
+				else {
+					player->velocity = -1 * player->maxVelocity;
+					player->setScaleX(abs(player->getScaleX()));
+				}
 			}
 			else if (keyState[27] || keyState[127]) {	// right
-				player->velocity = player->maxVelocity;
-				player->setScaleX(abs(player->getScaleX()) * -1);
+				level->setDirectionRight();
+				if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
+					player->velocity = 0;
+					if (level->isMoving == false) {
+						level->parallax();
+						level->isMoving = true;
+					}
+				}
+				else {
+					player->velocity = player->maxVelocity;
+					player->setScaleX(abs(player->getScaleX()) * -1);
+				}
 			}
 			player->state = State::isRunning;
 		}
@@ -122,6 +147,8 @@ void GameScene::whatKey(bool* keyState) {
 	}
 	if (keyState[129]) {								// attack
 		if (player->state != State::isAttacking) {
+			level->stopMoving();
+			level->isMoving = false;
 			player->stopAllActions();
 			player->velocity = 0;
 			player->state = State::isAttacking;
@@ -133,3 +160,4 @@ void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	player->update();
 }
+

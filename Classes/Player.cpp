@@ -264,6 +264,7 @@ void Player::update()
 		break;
 	case State::isRunning:
 		setPositionX(getPositionX() + velocity);
+		//borderStuck();
 		run();
 		// . . .
 		break;
@@ -323,3 +324,11 @@ void Player::takeHit() {
 void Player::Die() {
 	// . . .
 }
+
+/*void Player::borderStuck() {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	if (getPositionX() < visibleSize.width - visibleSize.width / 6) {
+		setPositionX(getPositionX() + velocity);
+	}
+	if ()
+}*/
