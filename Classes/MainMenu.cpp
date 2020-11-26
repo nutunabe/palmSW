@@ -9,6 +9,8 @@ Scene* MainMenu::createScene() {
 
 	auto layer = MainMenu::create();
 
+    layer->setGlobalZOrder(4);
+
 	scene->addChild(layer);
 
 	return scene;
@@ -30,6 +32,7 @@ bool MainMenu::init() {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto backgroundSprite = Sprite::create("Background.png");
+    backgroundSprite->setContentSize(visibleSize);
     backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
     this->addChild(backgroundSprite);

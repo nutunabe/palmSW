@@ -1,13 +1,10 @@
 #include "GameScene.h"
-#include "MainMenu.h"
-#include "Player.h"
-#include "Leveling.h"
-#include "KeyListener.h"
 
 USING_NS_CC;
 
 Scene* GameScene::createScene() {
 	GameScene* gameScene = GameScene::create();
+	//gameScene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	gameScene->scheduleUpdate();
 	return gameScene;
 }
@@ -50,7 +47,8 @@ bool GameScene::init()
     else
     {
         float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
-        float y = origin.y + menuItem->getContentSize().height / 2;
+        float y = origin.y + visibleSize.height- menuItem->getContentSize().height / 2;
+		//menuItem->setGlobalZOrder(4);
         menuItem->setPosition(Vec2(x, y));
     }
 
@@ -63,12 +61,14 @@ bool GameScene::init()
     keyListener = KeyListener::create(this->_eventDispatcher);
    
 	// background
-	player = Player::create();
-	player->setPosition(Point((visibleSize.width / 2) + origin.x, 130));
-	this->addChild(player, 2);
-
 	level = Leveling::create();
 	this->addChild(level, 1);
+
+	player = Player::create();
+	player->setPosition(Point((visibleSize.width / 2) + origin.x, 120));
+	this->addChild(player, 2);
+
+	//this->addChild(level, 1);
     /////////////////////////////
     // 3. add your codes below...
 

@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Leveling.h"
 #include "KeyListener.h"
+#include "MainMenu.h"
 
 using namespace cocos2d;
 
@@ -16,7 +17,7 @@ public:
 	virtual bool init();
 
 	// a selector callback
-	void menuCloseCallback(Ref* pSender);
+	//void menuCloseCallback(Ref* pSender);
 
 	void goToMenu(Ref* Sender);
 
@@ -28,9 +29,11 @@ private:
 	Player* player;
 	Leveling* level;
 	KeyListener* keyListener;
+	//PhysicsWorld* sceneWorld;
 
 	void whatKey(bool* keyState);
 	void update(float dt);
+	//void setPhysicsWorld(PhysicsWorld* world) { sceneWorld = world; }
 };
 
 #endif

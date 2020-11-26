@@ -39,12 +39,10 @@ void Leveling::Init()
 		layer2->setAnchorPoint(Point(0, 0));
 		layer->setPosition(Point(0, 0));
 		layer2->setPosition(Point(layer->getContentSize().width, 0));
-		/*if (i != 1) {
-			auto spriteAction = RepeatForever::create(MoveBy::create(11 - i, Point(-this->visibleSize.width, 0)));
-			auto spriteAction2 = RepeatForever::create(MoveBy::create(11 - i, Point(-this->visibleSize.width, 0)));
-			layer->runAction(spriteAction);
-			layer2->runAction(spriteAction2);
-		}*/
+		if (i > 7) {
+			layer->setGlobalZOrder(1);
+			layer2->setGlobalZOrder(1);
+		}
 		this->addChild(layer);
 		background.pushBack(layer);
 		this->addChild(layer2);
@@ -54,10 +52,6 @@ void Leveling::Init()
 
 void Leveling::update(float dt)
 {
-	//char str[200] = "layer9";
-	//char str2[200] = "layer19";
-	//auto back = this->getChildByName(str);
-	//auto back2 = this->getChildByName(str2);
 	char str1[200] = { 0 };
 	char str12[200] = { 0 };
 	for (int i = 2; i < 10; i++) {
