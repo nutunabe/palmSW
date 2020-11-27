@@ -210,45 +210,51 @@ void Player::initPlayer()
 {
 	char str[200] = { 0 };
 
-	Vector<SpriteFrame*> idleFrames(4);
-	Vector<SpriteFrame*> readyFrames(4);
-	Vector<SpriteFrame*> runFrames(8);
-	Vector<SpriteFrame*> attackFrames(8);
+	spritecache = SpriteFrameCache::getInstance();
+	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");
 
-	auto spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("hero.plist");
-
-	//Animation Ready
-	for (int _i = 0; _i < 4; _i++)
-	{
-		sprintf(str, "ready%d.png", _i);
-		readyFrames.pushBack(spritecache->getSpriteFrameByName(str));
-	}
-	//Animation Run
-	for (int _i = 0; _i < 8; _i++) {
-		sprintf(str, "run%d.png", _i);
-		runFrames.pushBack(spritecache->getSpriteFrameByName(str));
-	}
-	//Animation Attack
-	for (int _i = 2; _i < 8; _i++) {
-		sprintf(str, "attack%d.png", _i);
-		attackFrames.pushBack(spritecache->getSpriteFrameByName(str));
-	}
-
-	auto readyAnimation = Animation::createWithSpriteFrames(readyFrames, 0.15f);
-	readyAnimate = Animate::create(readyAnimation);
+	// Animation Idle
+	idleAnimate = initAnimation("Idle", 0, 3, 0.15f);
+	idleAnimate->retain();
+	// Animation Ready
+	readyAnimate = initAnimation("Ready", 0, 3, 0.15f);
 	readyAnimate->retain();
-	auto runAnimation = Animation::createWithSpriteFrames(runFrames, 0.1f);
-	runAnimate = Animate::create(runAnimation);
+	// Animation Run
+	runAnimate = initAnimation("Run", 0, 7, 0.1f);
 	runAnimate->retain();
-	auto attackAnimation = Animation::createWithSpriteFrames(attackFrames, 0.075f);
-	attackAnimate = Animate::create(attackAnimation);
+	// Animation Attack
+	attackAnimate = initAnimation("Attack", 2, 7, 0.075f);
 	attackAnimate->retain();
+	// Animation Take Hit
+	takeHitAnimate = initAnimation("Take Hit", 0, 1, 0.1f);
+	takeHitAnimate->retain();
+	// Animation Jump
+	jumpAnimate = initAnimation("Jump", 0, 1, 0.1f);
+	jumpAnimate->retain();
+	// Animation Death
+	deathAnimate = initAnimation("Death", 0, 2, 0.1f);
+	deathAnimate->retain();
 
-	//this->runAction(RepeatForever::create(readyAnimate));
+	// Dead
+	Vector<SpriteFrame*> deadFrame;
+	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
+	auto deadAnimation = Animation::createWithSpriteFrames(deadFrame, 1.f);
+	deadAnimate = Animate::create(deadAnimation);
+	deadAnimate->retain();
 
 	setScaleY(3.0);
 	setScaleX(-3.0);
+}
+
+Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt) {
+	Vector<SpriteFrame*> frames;
+	char str[200] = { 0 };
+	for (int _i = initIndex; _i <= finIndex; _i++) {
+		sprintf(str, "%s-%d.png", name, _i);
+		frames.pushBack(spritecache->getSpriteFrameByName(str));
+	}
+	auto animation = Animation::createWithSpriteFrames(frames, dt);
+	return Animate::create(animation);
 }
 
 void Player::update()
@@ -279,9 +285,11 @@ void Player::update()
 		// . . .
 		break;
 	case State::isTakingHit:
+		takeHit();
 		// . . .
 		break;
 	case State::isDying:
+		die();
 		// . . .
 		break;
 	case State::isDead:
@@ -318,11 +326,17 @@ void Player::jump() {
 }
 
 void Player::takeHit() {
-	// . . .
+	runAction(Repeat::create(takeHitAnimate, 2));
+	if (takeHitAnimate->getCurrentFrameIndex() == 1) {
+		state = State::isReady;
+	}
 }
 
-void Player::Die() {
-	// . . .
+void Player::die() {
+	runAction(Repeat::create(deathAnimate, 1));
+	//if (deathAnimate->getCurrentFrameIndex() == 2) {
+	//	state = State::isDead;
+	//}
 }
 
 /*void Player::borderStuck() {

@@ -54,10 +54,6 @@ enum class State {
 
 class Player : public cocos2d::Sprite {
 public:
-	Animate* idleAnimate;
-	Animate* readyAnimate;
-	Animate* runAnimate;
-	Animate* attackAnimate;
 
 	State state = State::isReady;
 	int maxVelocity = 5;
@@ -67,6 +63,22 @@ public:
 	static Player* create(void);
 
 private:
+	Animate* idleAnimate;
+	Animate* readyAnimate;
+	Animate* runAnimate;
+	Animate* attackAnimate;
+	Animate* takeHitAnimate;
+	Animate* jumpAnimate;
+	Animate* deathAnimate;
+	Animate* deadAnimate;
+	//Animate* flyingAnimate;
+	//Animate* fallingAnimate;
+	SpriteFrameCache* spritecache;
+
+	bool keyState[256];
+	bool stateSwitched = false;
+
+	Animate* initAnimation(char* name, int initIndex, int finIndex, float dt);
 	void initPlayer();
 	void idle();
 	void ready();
@@ -74,7 +86,7 @@ private:
 	void attack();
 	void jump();
 	void takeHit();
-	void Die();
+	void die();
 	//void borderStuck();
 };
 

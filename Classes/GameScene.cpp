@@ -11,55 +11,55 @@ Scene* GameScene::createScene() {
 
 static void problemLoading(const char* filename)
 {
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in GameScene.cpp\n");
+	printf("Error while loading: %s\n", filename);
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in GameScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
 bool GameScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if (!Scene::init())
-    {
-        return false;
-    }
+	//////////////////////////////
+	// 1. super init first
+	if (!Scene::init())
+	{
+		return false;
+	}
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	/////////////////////////////
+	// 2. add a menu item with "X" image, which is clicked to quit the program
+	//    you may modify it.
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto menuItem = MenuItemImage::create(
-        "Menu Button.png",
-        "Menu Button Clicked.png",
-        CC_CALLBACK_1(GameScene::goToMenu, this));
+	// add a "close" icon to exit the progress. it's an autorelease object
+	auto menuItem = MenuItemImage::create(
+		"Menu Button.png",
+		"Menu Button Clicked.png",
+		CC_CALLBACK_1(GameScene::goToMenu, this));
 
-    if (menuItem == nullptr ||
-        menuItem->getContentSize().width <= 0 ||
-        menuItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
-        float y = origin.y + visibleSize.height- menuItem->getContentSize().height / 2;
+	if (menuItem == nullptr ||
+		menuItem->getContentSize().width <= 0 ||
+		menuItem->getContentSize().height <= 0)
+	{
+		problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
+		float y = origin.y + visibleSize.height - menuItem->getContentSize().height / 2;
 		//menuItem->setGlobalZOrder(4);
-        menuItem->setPosition(Vec2(x, y));
-    }
+		menuItem->setPosition(Vec2(x, y));
+	}
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(menuItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 3);
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(menuItem, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 3);
 
-    // key listener
-    keyListener = KeyListener::create(this->_eventDispatcher);
-   
+	// key listener
+	keyListener = KeyListener::create(this->_eventDispatcher);
+
 	// background
 	level = Leveling::create();
 	this->addChild(level, 1);
@@ -69,15 +69,37 @@ bool GameScene::init()
 	this->addChild(player, 2);
 
 	//this->addChild(level, 1);
-    /////////////////////////////
-    // 3. add your codes below...
+	/////////////////////////////
+	// 3. add your codes below...
 
-    return true;
+	return true;
 }
 
-void GameScene::goToMenu(Ref* Sender) 
+void GameScene::goToMenu(Ref* Sender)
 {
-    Director::getInstance()->replaceScene(MainMenu::createScene());
+	Director::getInstance()->replaceScene(MainMenu::createScene());
+}
+
+void GameScene::keyCheck() {
+	if (!keyListener->keyState[26] &&
+		!keyListener->keyState[27] &&
+		!keyListener->keyState[124] &&
+		!keyListener->keyState[127]) {
+		for (int _i = 0; _i < sizeof(keys) / sizeof(keys[0]); _i++) {
+			if (keyListener->keyPressed[keys[_i]]) {
+				player->stopAllActions();
+				level->stopMoving();
+				level->isMoving = false;
+				keyListener->keyPressed[keys[_i]] = false;
+			}
+			if (keyListener->keyReleased[keys[_i]]) {
+				player->stopAllActions();
+				level->stopMoving();
+				level->isMoving = false;
+				keyListener->keyReleased[keys[_i]] = false;
+			}
+		}
+	}
 }
 
 void GameScene::whatKey(bool* keyState) {
@@ -91,23 +113,16 @@ void GameScene::whatKey(bool* keyState) {
 	*	S			142
 	*	D			127
 	*	F			129
+	* SPACE			59
+	*	1			77
+	*	2			78
 	*/
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (player->state != State::isAttacking) {
-		if (keyListener->keyPressed) {
-			CCLOG("PRESSED");
-			player->stopAllActions();
-			keyListener->keyPressed = false;
-			level->stopMoving();
-			level->isMoving = false;
-		}
-		if (keyListener->keyReleased) {
-			CCLOG("RELEASED");
-			player->stopAllActions();
-			keyListener->keyReleased = false;
-			level->stopMoving();
-			level->isMoving = false;
-		}
+	if (player->state != State::isAttacking &&
+		player->state != State::isTakingHit &&
+		player->state != State::isDying &&
+		player->state != State::isDead) {
+		keyCheck();
 		if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
 			if (keyState[26] || keyState[124]) {		// left
 				level->setDirectionLeft();
@@ -152,6 +167,24 @@ void GameScene::whatKey(bool* keyState) {
 			player->stopAllActions();
 			player->velocity = 0;
 			player->state = State::isAttacking;
+		}
+	}
+	if (keyState[77]) {									// take hit
+		player->stopAllActions();
+		level->stopMoving();
+		level->isMoving = false;
+		player->velocity = 0;
+		player->state = State::isTakingHit;
+
+	}
+	if (keyState[78]) {									// die
+		if (player->state != State::isDying &&
+			player->state != State::isDead) {
+			player->stopAllActions();
+			level->stopMoving();
+			level->isMoving = false;
+			player->velocity = 0;
+			player->state = State::isDying;
 		}
 	}
 }
