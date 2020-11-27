@@ -80,26 +80,26 @@ void GameScene::goToMenu(Ref* Sender)
 	Director::getInstance()->replaceScene(MainMenu::createScene());
 }
 
-void GameScene::keyCheck() {
+void GameScene::keyCheck() {/*
 	if (!keyListener->keyState[26] &&
 		!keyListener->keyState[27] &&
 		!keyListener->keyState[124] &&
-		!keyListener->keyState[127]) {
-		for (int _i = 0; _i < sizeof(keys) / sizeof(keys[0]); _i++) {
-			if (keyListener->keyPressed[keys[_i]]) {
-				player->stopAllActions();
-				level->stopMoving();
-				level->isMoving = false;
-				keyListener->keyPressed[keys[_i]] = false;
-			}
-			if (keyListener->keyReleased[keys[_i]]) {
-				player->stopAllActions();
-				level->stopMoving();
-				level->isMoving = false;
-				keyListener->keyReleased[keys[_i]] = false;
-			}
+		!keyListener->keyState[127]) {*/
+	for (int _i = 0; _i < sizeof(keys) / sizeof(keys[0]); _i++) {
+		if (keyListener->keyPressed[keys[_i]]) {
+			player->stopAllActions();
+			level->stopMoving();
+			level->isMoving = false;
+			keyListener->keyPressed[keys[_i]] = false;
+		}
+		if (keyListener->keyReleased[keys[_i]]) {
+			player->stopAllActions();
+			level->stopMoving();
+			level->isMoving = false;
+			keyListener->keyReleased[keys[_i]] = false;
 		}
 	}
+	//}
 }
 
 void GameScene::whatKey(bool* keyState) {
@@ -117,74 +117,85 @@ void GameScene::whatKey(bool* keyState) {
 	*	1			77
 	*	2			78
 	*/
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (player->state != State::isAttacking &&
-		player->state != State::isTakingHit &&
-		player->state != State::isDying &&
-		player->state != State::isDead) {
-		keyCheck();
-		if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
-			if (keyState[26] || keyState[124]) {		// left
-				level->setDirectionLeft();
-				if (player->getPositionX() < visibleSize.width / 6) {
-					player->velocity = 0;
-					if (level->isMoving == false) {
-						level->parallax();
-						level->isMoving = true;
+	if (player->state != State::isDead) {
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		if (player->state != State::isAttacking &&
+			player->state != State::isTakingHit &&
+			player->state != State::isDying) {
+			keyCheck();
+			if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
+				if (keyState[26] || keyState[124]) {		// left
+					level->setDirectionLeft();
+					if (player->getPositionX() < visibleSize.width / 6) {
+						player->velocity = 0;
+						if (level->isMoving == false) {
+							level->parallax();
+							level->isMoving = true;
+						}
+					}
+					else {
+						player->velocity = -1 * player->maxVelocity;
+						player->setScaleX(abs(player->getScaleX()));
 					}
 				}
-				else {
-					player->velocity = -1 * player->maxVelocity;
-					player->setScaleX(abs(player->getScaleX()));
-				}
-			}
-			else if (keyState[27] || keyState[127]) {	// right
-				level->setDirectionRight();
-				if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
-					player->velocity = 0;
-					if (level->isMoving == false) {
-						level->parallax();
-						level->isMoving = true;
+				else if (keyState[27] || keyState[127]) {	// right
+					level->setDirectionRight();
+					if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
+						player->velocity = 0;
+						if (level->isMoving == false) {
+							level->parallax();
+							level->isMoving = true;
+						}
+					}
+					else {
+						player->velocity = player->maxVelocity;
+						player->setScaleX(abs(player->getScaleX()) * -1);
 					}
 				}
-				else {
-					player->velocity = player->maxVelocity;
-					player->setScaleX(abs(player->getScaleX()) * -1);
+				if (player->state != State::isJumping) {
+					player->state = State::isRunning;
 				}
 			}
-			player->state = State::isRunning;
+			if (!keyState[26] && !keyState[27] &&
+				!keyState[124] && !keyState[127]) {
+				player->velocity = 0;
+				if (player->state != State::isJumping) {
+					player->state = player->stillState;
+				}
+			}
 		}
-		if (!keyState[26] && !keyState[27] &&
-			!keyState[124] && !keyState[127]) {
-			player->velocity = 0;
-			player->state = State::isReady;
+		if (keyState[129]) {								// attack
+			if (player->state != State::isAttacking) {
+				level->stopMoving();
+				level->isMoving = false;
+				player->stopAllActions();
+				player->velocity = 0;
+				player->state = State::isAttacking;
+			}
 		}
-	}
-	if (keyState[129]) {								// attack
-		if (player->state != State::isAttacking) {
-			level->stopMoving();
-			level->isMoving = false;
-			player->stopAllActions();
-			player->velocity = 0;
-			player->state = State::isAttacking;
+		if (keyState[77]) {									// take hit
+			if (player->state != State::isTakingHit) {
+				player->stopAllActions();
+				level->stopMoving();
+				level->isMoving = false;
+				player->velocity = 0;
+				player->state = State::isTakingHit;
+			}
 		}
-	}
-	if (keyState[77]) {									// take hit
-		player->stopAllActions();
-		level->stopMoving();
-		level->isMoving = false;
-		player->velocity = 0;
-		player->state = State::isTakingHit;
-
-	}
-	if (keyState[78]) {									// die
-		if (player->state != State::isDying &&
-			player->state != State::isDead) {
-			player->stopAllActions();
-			level->stopMoving();
-			level->isMoving = false;
-			player->velocity = 0;
-			player->state = State::isDying;
+		if (keyState[78]) {									// die
+			if (player->state != State::isDying) {
+				player->stopAllActions();
+				level->stopMoving();
+				level->isMoving = false;
+				player->velocity = 0;
+				player->state = State::isDying;
+			}
+		}
+		if (keyState[59]) {
+			if (player->getPositionY() == 120) {
+				player->YV = 15;
+				player->state = State::isJumping;
+			}
 		}
 	}
 }

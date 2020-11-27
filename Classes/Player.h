@@ -45,8 +45,7 @@ enum class State {
 	isReady,
 	isRunning,
 	isAttacking,
-	isFlying,
-	isFalling,
+	isJumping,
 	isTakingHit,
 	isDying,
 	isDead
@@ -54,10 +53,12 @@ enum class State {
 
 class Player : public cocos2d::Sprite {
 public:
-
-	State state = State::isReady;
+	State stillState = State::isReady;
+	State state = stillState;
 	int maxVelocity = 5;
 	int velocity;
+
+	float YV = 0;
 
 	void update();
 	static Player* create(void);
@@ -79,6 +80,7 @@ private:
 	bool stateSwitched = false;
 
 	Animate* initAnimation(char* name, int initIndex, int finIndex, float dt);
+	Animate* initAnimation2(char* name, int initIndex, int finIndex, float dt);
 	void initPlayer();
 	void idle();
 	void ready();

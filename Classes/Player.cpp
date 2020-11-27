@@ -223,20 +223,30 @@ void Player::initPlayer()
 	runAnimate = initAnimation("Run", 0, 7, 0.1f);
 	runAnimate->retain();
 	// Animation Attack
-	attackAnimate = initAnimation("Attack", 2, 7, 0.075f);
+	attackAnimate = initAnimation2("Attack", 2, 7, 0.075f);
 	attackAnimate->retain();
 	// Animation Take Hit
-	takeHitAnimate = initAnimation("Take Hit", 0, 1, 0.1f);
+	takeHitAnimate = initAnimation2("Take Hit", 0, 1, 0.05f);
 	takeHitAnimate->retain();
 	// Animation Jump
-	jumpAnimate = initAnimation("Jump", 0, 1, 0.1f);
-	jumpAnimate->retain();
+	//jumpAnimate = initAnimation2("Jump", 0, 1, 0.1f);
+	//jumpAnimate->retain();
 	// Animation Death
-	deathAnimate = initAnimation("Death", 0, 2, 0.1f);
+	deathAnimate = initAnimation2("Death", 0, 2, 0.2f);
 	deathAnimate->retain();
+
+
+	// Animation Jump
+	Vector<SpriteFrame*> jumpFrame;
+	jumpFrame.pushBack(spritecache->getSpriteFrameByName("fly.png"));
+	jumpFrame.pushBack(spritecache->getSpriteFrameByName("fly.png"));
+	auto jumpAnimation = Animation::createWithSpriteFrames(jumpFrame, 1.f);
+	jumpAnimate = Animate::create(jumpAnimation);
+	jumpAnimate->retain();
 
 	// Dead
 	Vector<SpriteFrame*> deadFrame;
+	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
 	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
 	auto deadAnimation = Animation::createWithSpriteFrames(deadFrame, 1.f);
 	deadAnimate = Animate::create(deadAnimation);
@@ -257,11 +267,35 @@ Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt
 	return Animate::create(animation);
 }
 
+Animate* Player::initAnimation2(char* name, int initIndex, int finIndex, float dt) {
+	Vector<SpriteFrame*> frames;
+	char str[200] = { 0 };
+	for (int _i = initIndex; _i <= finIndex; _i++) {
+		sprintf(str, "%s-%d.png", name, _i);
+		frames.pushBack(spritecache->getSpriteFrameByName(str));
+	}
+	frames.pushBack(spritecache->getSpriteFrameByName(str));
+	auto animation = Animation::createWithSpriteFrames(frames, dt);
+	return Animate::create(animation);
+}
+
 void Player::update()
 {
+	YV -= 9.81 * 0.1;
+	setPositionY(getPositionY() + YV);
+	if (getPositionY() < 120) {
+		setPositionY(120);
+	}
+
+	setPositionX(getPositionX() + velocity);
+	//if (velocity == 0 && getPositionY() == 120) {
+	//	state = stillState;
+	//}
+
 	getTexture()->setAliasTexParameters();
-	switch (this->state) {
+	switch (state) {
 	case State::isIdle:
+		idle();
 		// . . .
 		break;
 	case State::isReady:
@@ -269,7 +303,6 @@ void Player::update()
 		// . . .
 		break;
 	case State::isRunning:
-		setPositionX(getPositionX() + velocity);
 		//borderStuck();
 		run();
 		// . . .
@@ -278,10 +311,8 @@ void Player::update()
 		attack();
 		// . . .
 		break;
-	case State::isFlying:
-		// . . .
-		break;
-	case State::isFalling:
+	case State::isJumping:
+		jump();
 		// . . .
 		break;
 	case State::isTakingHit:
@@ -293,6 +324,7 @@ void Player::update()
 		// . . .
 		break;
 	case State::isDead:
+		runAction(RepeatForever::create(deadAnimate));
 		// . . .
 		break;
 	default: break;
@@ -300,7 +332,7 @@ void Player::update()
 }
 
 void Player::idle() {
-	// . . .
+	runAction(RepeatForever::create(idleAnimate));
 }
 
 void Player::ready() {
@@ -316,27 +348,38 @@ void Player::attack() {
 	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
 	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
-	if (attackAnimate->getCurrentFrameIndex() == 5) {
-		state = State::isReady;
+	if (attackAnimate->getCurrentFrameIndex() == 6) {
+		state = stillState;
 	}
 }
 
 void Player::jump() {
+	runAction(RepeatForever::create(jumpAnimate));
+	if (getPositionY() == 120 && velocity != 0) {
+		state = State::isRunning;
+	}	
+	if (getPositionY() == 120 && velocity == 0) {
+		state = stillState;
+	}
 	// . . .
 }
 
 void Player::takeHit() {
-	runAction(Repeat::create(takeHitAnimate, 2));
-	if (takeHitAnimate->getCurrentFrameIndex() == 1) {
-		state = State::isReady;
+	runAction(Repeat::create(takeHitAnimate, 1));
+	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+		state = stillState;
 	}
 }
 
 void Player::die() {
-	runAction(Repeat::create(deathAnimate, 1));
-	//if (deathAnimate->getCurrentFrameIndex() == 2) {
-	//	state = State::isDead;
-	//}
+	runAction(Repeat::create(takeHitAnimate, 1));
+	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+		runAction(Repeat::create(deathAnimate, 1));
+		if (deathAnimate->getCurrentFrameIndex() == 3) {
+			stillState = State::isDead;
+			state = stillState;
+		}
+	}
 }
 
 /*void Player::borderStuck() {
