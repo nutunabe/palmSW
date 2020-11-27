@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>Death-3.png</key>
+            <key>Death-2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Jump-1.png</key>
+            <key>Jump-0.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -244,7 +244,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Jump-2.png</key>
+            <key>Jump-1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -708,7 +708,7 @@
             <key>size</key>
             <string>{124,482}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:bd70919f7270fe21e629e9ceb5cacf2a:75b343e6050da16677a9bb9c377c0fdf:e44e28a7f983377b8bb0c97d886e5bb7$</string>
+            <string>$TexturePacker:SmartUpdate:5108643b7bfde22cd05c3f1d57825cf2:75b343e6050da16677a9bb9c377c0fdf:e44e28a7f983377b8bb0c97d886e5bb7$</string>
             <key>textureFileName</key>
             <string>hero.png</string>
         </dict>
