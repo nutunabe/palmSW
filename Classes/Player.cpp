@@ -235,10 +235,8 @@ void Player::initPlayer()
 	deathAnimate = initAnimation2("Death", 0, 2, 0.2f);
 	deathAnimate->retain();
 
-
 	// Animation Jump
 	Vector<SpriteFrame*> jumpFrame;
-	jumpFrame.pushBack(spritecache->getSpriteFrameByName("fly.png"));
 	jumpFrame.pushBack(spritecache->getSpriteFrameByName("fly.png"));
 	auto jumpAnimation = Animation::createWithSpriteFrames(jumpFrame, 1.f);
 	jumpAnimate = Animate::create(jumpAnimation);
@@ -246,7 +244,6 @@ void Player::initPlayer()
 
 	// Dead
 	Vector<SpriteFrame*> deadFrame;
-	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
 	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
 	auto deadAnimation = Animation::createWithSpriteFrames(deadFrame, 1.f);
 	deadAnimate = Animate::create(deadAnimation);
@@ -357,7 +354,7 @@ void Player::jump() {
 	runAction(RepeatForever::create(jumpAnimate));
 	if (getPositionY() == 120 && velocity != 0) {
 		state = State::isRunning;
-	}	
+	}
 	if (getPositionY() == 120 && velocity == 0) {
 		state = stillState;
 	}
@@ -372,13 +369,11 @@ void Player::takeHit() {
 }
 
 void Player::die() {
-	runAction(Repeat::create(takeHitAnimate, 1));
-	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
-		runAction(Repeat::create(deathAnimate, 1));
-		if (deathAnimate->getCurrentFrameIndex() == 3) {
-			stillState = State::isDead;
-			state = stillState;
-		}
+	runAction(Repeat::create(deathAnimate, 1));
+	if (deathAnimate->getCurrentFrameIndex() == 3) {
+		stopAllActions();
+		stillState = State::isDead;
+		state = stillState;
 	}
 }
 

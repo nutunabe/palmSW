@@ -104,13 +104,13 @@ void GameScene::keyCheck() {/*
 
 void GameScene::whatKey(bool* keyState) {
 	/*
-	* arrow up		28
+	* arrow up		28-
 	* arrow left	26
-	* arrow down	29
+	* arrow down	29-
 	* arrow right	27
-	*	W			146
+	*	W			146-
 	*	A			124
-	*	S			142
+	*	S			142-
 	*	D			127
 	*	F			129
 	* SPACE			59
