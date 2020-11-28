@@ -117,11 +117,11 @@ void GameScene::whatKey(bool* keyState) {
 	*	1			77
 	*	2			78
 	*/
-	if (player->state != State::isDead) {
+	if (player->state != State::isDead &&
+		player->state != State::isDying) {
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		if (player->state != State::isAttacking &&
-			player->state != State::isTakingHit &&
-			player->state != State::isDying) {
+			player->state != State::isTakingHit) {
 			keyCheck();
 			if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
 				if (keyState[26] || keyState[124]) {		// left
@@ -191,7 +191,7 @@ void GameScene::whatKey(bool* keyState) {
 				player->state = State::isDying;
 			}
 		}
-		if (keyState[59]) {
+		if (keyState[59]) {									// jump
 			if (player->getPositionY() == 120) {
 				player->YV = 15;
 				player->state = State::isJumping;

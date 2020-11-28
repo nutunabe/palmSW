@@ -35,7 +35,7 @@ bool SplashScreen::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = Label::createWithTTF(u8"Здесь могла быть Ваша реклама", "fonts/Pixel Times.ttf", 30);
+	auto label = Label::createWithTTF("***splash screen***", "fonts/Pixel Times.ttf", 40);
 	if (label == nullptr)
 	{
 		problemLoading("'fonts/Pixel Times.ttf'");
@@ -50,20 +50,20 @@ bool SplashScreen::init()
 		this->addChild(label, 1);
 	}
 
-	auto label2 = Label::createWithTTF("***splash screen***", "fonts/Pixel Times.ttf", 30);
-	if (label2 == nullptr)
-	{
-		problemLoading("'fonts/Pixel Times.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label2->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label2->getContentSize().height));
+	//auto label2 = Label::createWithTTF("***splash screen***", "fonts/Pixel Times.ttf", 30);
+	//if (label2 == nullptr)
+	//{
+	//	problemLoading("'fonts/Pixel Times.ttf'");
+	//}
+	//else
+	//{
+	//	// position the label on the center of the screen
+	//	label2->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//		origin.y + visibleSize.height - label2->getContentSize().height));
 
-		// add the label as a child to this layer
-		this->addChild(label2, 1);
-	}
+	//	// add the label as a child to this layer
+	//	this->addChild(label2, 1);
+	//}
 
 	return true;
 }

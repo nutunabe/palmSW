@@ -45,6 +45,21 @@ bool MainMenu::init() {
     menu->setPosition(Point::ZERO);
     this->addChild(menu, 1);
 
+    auto label2 = Label::createWithTTF(u8"Бег стрелками и \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
+    if (label2 == nullptr)
+    {
+        problemLoading("'fonts/Pixel Times.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        label2->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + label2->getContentSize().height/* + visibleSize.height - label2->getContentSize().height*/));
+
+        // add the label as a child to this layer
+        this->addChild(label2, 0);
+    }
+
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
