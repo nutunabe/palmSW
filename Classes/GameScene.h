@@ -6,6 +6,7 @@
 #include "Leveling.h"
 #include "KeyListener.h"
 #include "MainMenu.h"
+#include "Platform.h"
 
 using namespace cocos2d;
 
@@ -25,10 +26,12 @@ public:
 	CREATE_FUNC(GameScene);
 
 	Sprite *mySprite;
+	int groundLevel = 50;
 private:
 	Player* player;
 	Leveling* level;
 	KeyListener* keyListener;
+	Platform* platform;
 	//PhysicsWorld* sceneWorld;
 
 	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };

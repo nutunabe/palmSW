@@ -9,17 +9,16 @@ USING_NS_CC;
 class Platform : public Sprite
 {
 public:
-	static Platform* create(void);
+	static Platform* create(int x, int y, int width, int height);
 	Platform();
-private:
 	Point coordinate;
 	Size size;
+private:
 	Size visibleSize;
 	Vec2 origin;
 
 
 	void Init();
-	//void update(float dt);
 };
 
 #endif // !__PLATFORM_H__

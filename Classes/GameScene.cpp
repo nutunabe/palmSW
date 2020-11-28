@@ -65,8 +65,13 @@ bool GameScene::init()
 	this->addChild(level, 1);
 
 	player = Player::create();
-	player->setPosition(Point((visibleSize.width / 2) + origin.x, 120));
+	player->minGroundY = groundLevel;
+	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY));
 	this->addChild(player, 2);
+
+	platform = Platform::create(200, 150, 100, 50);
+
+	this->addChild(platform, 4);
 
 	//this->addChild(level, 1);
 	/////////////////////////////
@@ -192,7 +197,7 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[59]) {									// jump
-			if (player->getPositionY() == 120) {
+			if (player->getPositionY() == player->minGroundY) {
 				player->YV = 15;
 				player->state = State::isJumping;
 			}
@@ -202,6 +207,16 @@ void GameScene::whatKey(bool* keyState) {
 
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
+
 	player->update();
+
+	if (player->getPositionX() > platform->coordinate.x&& player->getPositionX() < platform->coordinate.x + platform->size.width) {
+		if (player->getPositionY() > platform->coordinate.y) {
+			player->minGroundY = platform->coordinate.y;
+		}
+	}
+	else {
+		player->minGroundY = groundLevel;
+	}
 }
 

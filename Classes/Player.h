@@ -57,6 +57,7 @@ public:
 	State state = stillState;
 	int maxVelocity = 5;
 	int velocity;
+	int minGroundY;
 
 	float YV = 0;
 
