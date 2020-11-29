@@ -21,7 +21,7 @@ Platform::Platform() {
 }
 
 void Platform::Init() {
-	auto sprite = Sprite::create("block.png");
+	auto sprite = Sprite::create("platform.png");
 	sprite->setAnchorPoint(Point(0, 1));
 	sprite->setContentSize(size);
 	sprite->setPosition(coordinate);

@@ -31,7 +31,8 @@ private:
 	Player* player;
 	Leveling* level;
 	KeyListener* keyListener;
-	Platform* platform;
+	Platform* platforms[6];
+	Platform* activePlatform;
 	//PhysicsWorld* sceneWorld;
 
 	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };
@@ -40,6 +41,7 @@ private:
 	void keyCheck();
 	void whatKey(bool* keyState);
 	void update(float dt);
+	void checkActivePlatform();
 	//void setPhysicsWorld(PhysicsWorld* world) { sceneWorld = world; }
 };
 

@@ -8,7 +8,7 @@ Player* Player::create()
 	Player* player = new Player();
 	if (player->init())
 	{
-		player->setAnchorPoint(Point(0.5, 0));
+		player->setAnchorPoint(Point(0.5, 0.05));
 		player->autorelease();
 		player->initPlayer();
 		return player;

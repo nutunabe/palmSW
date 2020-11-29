@@ -67,11 +67,18 @@ bool GameScene::init()
 	player = Player::create();
 	player->minGroundY = groundLevel;
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY));
-	this->addChild(player, 2);
+	this->addChild(player, 4);
 
-	platform = Platform::create(200, 150, 100, 50);
+	platforms[0] = Platform::create(200, 150, 200, 50);
+	platforms[1] = Platform::create(800, 150, 200, 50);
+	platforms[2] = Platform::create(450, 200, 200, 50);
+	platforms[3] = Platform::create(200, 260, 200, 50);
+	platforms[4] = Platform::create(550, 300, 200, 50);
+	platforms[5] = Platform::create(650, 400, 200, 50);
 
-	this->addChild(platform, 4);
+	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
+		this->addChild(platforms[i], 2);
+	}
 
 	//this->addChild(level, 1);
 	/////////////////////////////
@@ -205,18 +212,32 @@ void GameScene::whatKey(bool* keyState) {
 	}
 }
 
+void GameScene::checkActivePlatform() {
+	int maxY = -1;
+	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
+		if (player->getPositionX() > platforms[i]->coordinate.x && player->getPositionX() < platforms[i]->coordinate.x + platforms[i]->size.width) {
+			if (player->getPositionY() >= platforms[i]->coordinate.y) {
+				if (platforms[i]->coordinate.y > maxY) {
+					maxY = platforms[i]->coordinate.y;
+					activePlatform = platforms[i];
+				}
+			}
+		}
+	}
+
+	if (maxY == -1) {
+		player->minGroundY = groundLevel;
+	}
+	else {
+		player->minGroundY = activePlatform->coordinate.y;
+	}
+}
+
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 
 	player->update();
 
-	if (player->getPositionX() > platform->coordinate.x&& player->getPositionX() < platform->coordinate.x + platform->size.width) {
-		if (player->getPositionY() > platform->coordinate.y) {
-			player->minGroundY = platform->coordinate.y;
-		}
-	}
-	else {
-		player->minGroundY = groundLevel;
-	}
+	checkActivePlatform();
 }
 
