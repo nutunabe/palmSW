@@ -35,7 +35,7 @@ bool SplashScreen::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = Label::createWithTTF("***splash screen***", "fonts/Pixel Times.ttf", 40);
+	auto label = Label::createWithTTF("***splash screen***", "fonts/Pixel Times.ttf", 50);
 	if (label == nullptr)
 	{
 		problemLoading("'fonts/Pixel Times.ttf'");

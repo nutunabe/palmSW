@@ -1,28 +1,27 @@
-#include "Player.h"
+#include "Enemy.h"
 #include "Windows.h"
 
 USING_NS_CC;
 
-Player* Player::create()
-{
-	Player* player = new Player();
-	if (player->init())
-	{
-		player->setAnchorPoint(Point(0.5, 0.05));
-		player->autorelease();
-		player->initPlayer();
-		return player;
+Enemy* Enemy::create(char* name, float health, float damage) {
+	Enemy* enemy = new Enemy();
+	if (enemy->init()) {
+		enemy->setAnchorPoint(Point(0.5, 0.05));
+		enemy->autorelease();
+		enemy->initEnemy(name, health, damage);
+		return enemy;
 	}
-	CC_SAFE_DELETE(player);
+	CC_SAFE_DELETE(enemy);
 	return NULL;
 }
 
-void Player::initPlayer()
-{
+void Enemy::initEnemy(char* name, float health, float damage) {
 	char str[200] = { 0 };
 
+	sprintf(str, "res/characters/%s.plist", name);
+
 	spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");
+	spritecache->addSpriteFramesWithFile(str);
 
 	// Animation Idle
 	idleAnimate = initAnimation("Idle", 0, 3, 0.15f);
@@ -61,10 +60,10 @@ void Player::initPlayer()
 	deadAnimate->retain();
 
 	setScaleY(3.0);
-	setScaleX(-3.0);
+	setScaleX(3.0);
 }
 
-Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt) {
+Animate* Enemy::initAnimation(char* name, int initIndex, int finIndex, float dt) {
 	Vector<SpriteFrame*> frames;
 	char str[200] = { 0 };
 	for (int _i = initIndex; _i <= finIndex; _i++) {
@@ -75,7 +74,7 @@ Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt
 	return Animate::create(animation);
 }
 
-Animate* Player::initAnimation2(char* name, int initIndex, int finIndex, float dt) {
+Animate* Enemy::initAnimation2(char* name, int initIndex, int finIndex, float dt) {
 	Vector<SpriteFrame*> frames;
 	char str[200] = { 0 };
 	for (int _i = initIndex; _i <= finIndex; _i++) {
@@ -87,7 +86,7 @@ Animate* Player::initAnimation2(char* name, int initIndex, int finIndex, float d
 	return Animate::create(animation);
 }
 
-void Player::update()
+void Enemy::update()
 {
 	velocityY -= 9.81 * 0.1;
 	setPositionY(getPositionY() + velocityY);
@@ -140,19 +139,19 @@ void Player::update()
 	}
 }
 
-void Player::idle() {
+void Enemy::idle() {
 	runAction(RepeatForever::create(idleAnimate));
 }
 
-void Player::ready() {
+void Enemy::ready() {
 	runAction(RepeatForever::create(readyAnimate));
 }
 
-void Player::run() {
+void Enemy::run() {
 	runAction(RepeatForever::create(runAnimate));
 }
 
-void Player::attack() {
+void Enemy::attack() {
 	//char str[100];
 	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
 	//CCLOG(str);
@@ -162,7 +161,7 @@ void Player::attack() {
 	}
 }
 
-void Player::jump() {
+void Enemy::jump() {
 	runAction(RepeatForever::create(jumpAnimate));
 	if (getPositionY() == minGroundY && velocityX != 0) {
 		state = State::isRunning;
@@ -173,14 +172,14 @@ void Player::jump() {
 	// . . .
 }
 
-void Player::takeHit() {
+void Enemy::takeHit() {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
 		state = stillState;
 	}
 }
 
-void Player::die() {
+void Enemy::die() {
 	runAction(Repeat::create(deathAnimate, 1));
 	if (deathAnimate->getCurrentFrameIndex() == 3) {
 		stopAllActions();
