@@ -67,6 +67,7 @@ list(APPEND GAME_SOURCE
      Classes/Leveling.cpp
      Classes/Platform.cpp
      Classes/Enemy.cpp
+     Classes/Goblin.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -79,6 +80,7 @@ list(APPEND GAME_HEADER
      Classes/Leveling.h
      Classes/Platform.h
      Classes/Enemy.h
+     Classes/Goblin.h
      )
 
 if(ANDROID)
