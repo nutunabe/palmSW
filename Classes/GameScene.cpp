@@ -142,28 +142,28 @@ void GameScene::whatKey(bool* keyState) {
 				if (keyState[26] || keyState[124]) {		// left
 					level->setDirectionLeft();
 					if (player->getPositionX() < visibleSize.width / 6) {
-						player->velocity = 0;
+						player->velocityX = 0;
 						if (level->isMoving == false) {
 							level->parallax();
 							level->isMoving = true;
 						}
 					}
 					else {
-						player->velocity = -1 * player->maxVelocity;
+						player->velocityX = -1 * player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()));
 					}
 				}
 				else if (keyState[27] || keyState[127]) {	// right
 					level->setDirectionRight();
 					if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
-						player->velocity = 0;
+						player->velocityX = 0;
 						if (level->isMoving == false) {
 							level->parallax();
 							level->isMoving = true;
 						}
 					}
 					else {
-						player->velocity = player->maxVelocity;
+						player->velocityX = player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()) * -1);
 					}
 				}
@@ -173,7 +173,7 @@ void GameScene::whatKey(bool* keyState) {
 			}
 			if (!keyState[26] && !keyState[27] &&
 				!keyState[124] && !keyState[127]) {
-				player->velocity = 0;
+				player->velocityX = 0;
 				if (player->state != State::isJumping) {
 					player->state = player->stillState;
 				}
@@ -184,7 +184,7 @@ void GameScene::whatKey(bool* keyState) {
 				level->stopMoving();
 				level->isMoving = false;
 				player->stopAllActions();
-				player->velocity = 0;
+				player->velocityX = 0;
 				player->state = State::isAttacking;
 			}
 		}
@@ -193,7 +193,7 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->isMoving = false;
-				player->velocity = 0;
+				player->velocityX = 0;
 				player->state = State::isTakingHit;
 			}
 		}
@@ -202,13 +202,13 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->isMoving = false;
-				player->velocity = 0;
+				player->velocityX = 0;
 				player->state = State::isDying;
 			}
 		}
 		if (keyState[59]) {									// jump
 			if (player->getPositionY() == player->minGroundY) {
-				player->YV = 15;
+				player->velocityY = 15;
 				player->state = State::isJumping;
 			}
 		}

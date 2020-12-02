@@ -1,8 +1,7 @@
-#ifndef __PLAYER__
-#define __PLAYER__
+#ifndef __ENEMY_H__
+#define __ENEMY_H__
 
 #include "cocos2d.h"
-
 USING_NS_CC;
 
 enum class State {
@@ -16,7 +15,7 @@ enum class State {
 	isDead
 };
 
-class Player : public cocos2d::Sprite {
+class Enemy : public cocos2d::Sprite {
 public:
 	State stillState = State::isReady;
 	State state = stillState;
@@ -26,7 +25,7 @@ public:
 	int minGroundY;
 
 	void update();
-	static Player* create(void);
+	static Enemy* create(char* name, float health, float damage);
 
 private:
 	Animate* idleAnimate;
@@ -46,7 +45,7 @@ private:
 
 	Animate* initAnimation(char* name, int initIndex, int finIndex, float dt);
 	Animate* initAnimation2(char* name, int initIndex, int finIndex, float dt);
-	void initPlayer();
+	void initEnemy(char* name, float health, float damage);
 	void idle();
 	void ready();
 	void run();

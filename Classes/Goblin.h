@@ -1,5 +1,5 @@
-#ifndef __PLAYER__
-#define __PLAYER__
+#ifndef __GOBLIN__
+#define __GOBLIN__
 
 #include "cocos2d.h"
 
@@ -7,18 +7,16 @@ USING_NS_CC;
 
 enum class State {
 	isIdle,
-	isReady,
 	isRunning,
 	isAttacking,
-	isJumping,
 	isTakingHit,
 	isDying,
 	isDead
 };
 
-class Player : public cocos2d::Sprite {
+class Goblin : public cocos2d::Sprite {
 public:
-	State stillState = State::isReady;
+	State stillState = State::isIdle;
 	State state = stillState;
 	float velocityMax = 5;
 	float velocityX;
@@ -26,15 +24,13 @@ public:
 	int minGroundY;
 
 	void update();
-	static Player* create(void);
+	static Goblin* create(void);
 
 private:
 	Animate* idleAnimate;
-	Animate* readyAnimate;
 	Animate* runAnimate;
 	Animate* attackAnimate;
 	Animate* takeHitAnimate;
-	Animate* jumpAnimate;
 	Animate* deathAnimate;
 	Animate* deadAnimate;
 	//Animate* flyingAnimate;
@@ -46,12 +42,10 @@ private:
 
 	Animate* initAnimation(char* name, int initIndex, int finIndex, float dt);
 	Animate* initAnimation2(char* name, int initIndex, int finIndex, float dt);
-	void initPlayer();
+	void initGoblin();
 	void idle();
-	void ready();
 	void run();
 	void attack();
-	void jump();
 	void takeHit();
 	void die();
 	//void borderStuck();
