@@ -13,6 +13,9 @@ public:
     static HUD* create();
     ui::LoadingBar* healthBar;
     void getHit(int damage, Player* player);
+    int count = 0;
+    void update();
+    Label* counter;
 private:
     void Init();
     int health = 100;

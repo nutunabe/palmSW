@@ -83,6 +83,9 @@ bool GameScene::init()
 	hud = HUD::create();
 	this->addChild(hud, 5);
 
+	coin = Coin::create(750, 150, 40, 20);
+	this->addChild(coin, 2);
+
 	//this->addChild(level, 1);
 	/////////////////////////////
 	// 3. add your codes below...
@@ -237,11 +240,28 @@ void GameScene::checkActivePlatform() {
 	}
 }
 
+void GameScene::checkTakeCoin() {
+	if (coin->exist == true&&
+		player->getPositionX() + player->getContentSize().width / 2 >= coin->coordinate.x &&
+		player->getPositionX() - player->getContentSize().width / 2 <= coin->coordinate.x &&
+		player->getPositionY() + player->getContentSize().height + 70 >= coin->coordinate.y &&
+		player->getPositionY() - player->getContentSize().height <= coin->coordinate.y 
+		)
+	{
+		coin->exist = false;
+		hud->count += 1;
+		hud->update();
+		removeChild(coin, false);
+	}
+}
+
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 
 	player->update();
 
 	checkActivePlatform();
+	
+	checkTakeCoin();
 }
 

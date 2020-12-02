@@ -69,6 +69,7 @@ list(APPEND GAME_SOURCE
      Classes/HUD.cpp
      Classes/Enemy.cpp
      Classes/Goblin.cpp
+     Classes/Coin.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -83,6 +84,7 @@ list(APPEND GAME_HEADER
      Classes/HUD.h
      Classes/Enemy.h
      Classes/Goblin.h
+     Classes/Coin.h
      )
 
 if(ANDROID)
