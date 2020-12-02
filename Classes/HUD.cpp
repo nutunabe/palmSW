@@ -1,5 +1,4 @@
 #include "HUD.h"
-#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
@@ -17,10 +16,21 @@ void HUD::Init() {
 	hBBackground->setPosition(Point(20, 750));
 	this->addChild(hBBackground);
 
-	auto healthBar = ui::LoadingBar::create("block.png");
+	healthBar = ui::LoadingBar::create("block.png");
 	healthBar->setAnchorPoint(Point(0, 1));
 	healthBar->setPosition(Point(20, 750));
 	healthBar->setDirection(ui::LoadingBar::Direction::LEFT);
-	healthBar->setPercent(80);
+	healthBar->setPercent(health);
 	this->addChild(healthBar);
+}
+
+void HUD::getHit(int damage, Player* player) {
+	if (health <= 0) {
+		player->stillState = State::isDying;
+		player->state = player->stillState;
+	}
+	else {
+		health -= damage;
+		healthBar->setPercent(health);
+	}
 }

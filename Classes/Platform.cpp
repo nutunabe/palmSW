@@ -25,6 +25,6 @@ void Platform::Init() {
 	sprite->setAnchorPoint(Point(0, 1));
 	sprite->setContentSize(size);
 	sprite->setPosition(coordinate);
-
+	
 	this->addChild(sprite);
 }

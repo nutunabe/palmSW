@@ -195,6 +195,7 @@ void GameScene::whatKey(bool* keyState) {
 				level->isMoving = false;
 				player->velocityX = 0;
 				player->state = State::isTakingHit;
+				hud->getHit(10, player);
 			}
 		}
 		if (keyState[78]) {									// die
