@@ -7,6 +7,7 @@
 #include "KeyListener.h"
 #include "MainMenu.h"
 #include "Platform.h"
+#include "HUD.h"
 
 using namespace cocos2d;
 
@@ -33,6 +34,7 @@ private:
 	KeyListener* keyListener;
 	Platform* platforms[6];
 	Platform* activePlatform;
+	HUD* hud;
 	//PhysicsWorld* sceneWorld;
 
 	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };

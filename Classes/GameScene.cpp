@@ -80,6 +80,9 @@ bool GameScene::init()
 		this->addChild(platforms[i], 2);
 	}
 
+	hud = HUD::create();
+	this->addChild(hud, 5);
+
 	//this->addChild(level, 1);
 	/////////////////////////////
 	// 3. add your codes below...
