@@ -9,6 +9,9 @@ class HUD : public ProgressTimer
 {
 public:
     static HUD* create();
+    int count = 0;
+    void update();
+    Label* counter;
 private:
     ProgressTimer healthBar;
     void Init();

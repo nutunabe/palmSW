@@ -8,6 +8,7 @@
 #include "MainMenu.h"
 #include "Platform.h"
 #include "HUD.h"
+#include "Coin.h"
 
 using namespace cocos2d;
 
@@ -34,6 +35,7 @@ private:
 	KeyListener* keyListener;
 	Platform* platforms[6];
 	Platform* activePlatform;
+	Coin* coin;
 	HUD* hud;
 	//PhysicsWorld* sceneWorld;
 
@@ -44,6 +46,7 @@ private:
 	void whatKey(bool* keyState);
 	void update(float dt);
 	void checkActivePlatform();
+	void checkTakeCoin();
 	//void setPhysicsWorld(PhysicsWorld* world) { sceneWorld = world; }
 };
 
