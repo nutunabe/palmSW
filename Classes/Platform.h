@@ -13,10 +13,14 @@ public:
 	Platform();
 	Point coordinate;
 	Size size;
+	bool direction = 1;
+	void parallax();
+	void setDirectionRight();
+	void setDirectionLeft();
+
 private:
 	Size visibleSize;
 	Vec2 origin;
-
 
 	void Init();
 };

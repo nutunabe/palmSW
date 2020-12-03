@@ -108,12 +108,18 @@ void GameScene::keyCheck() {/*
 			player->stopAllActions();
 			level->stopMoving();
 			level->isMoving = false;
+			for (auto plat : platforms) {
+				plat->stopAllActions();
+			}
 			keyListener->keyPressed[keys[_i]] = false;
 		}
 		if (keyListener->keyReleased[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
 			level->isMoving = false;
+			for (auto plat : platforms) {
+				plat->stopAllActions();
+			}
 			keyListener->keyReleased[keys[_i]] = false;
 		}
 	}
@@ -147,6 +153,10 @@ void GameScene::whatKey(bool* keyState) {
 					if (player->getPositionX() < visibleSize.width / 6) {
 						player->velocityX = 0;
 						if (level->isMoving == false) {
+							for (auto plat : platforms) {
+								plat->setDirectionLeft();
+								plat->parallax();
+							}
 							level->parallax();
 							level->isMoving = true;
 						}
@@ -162,6 +172,10 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = 0;
 						if (level->isMoving == false) {
 							level->parallax();
+							for (auto plat : platforms) {
+								plat->setDirectionRight();
+								plat->parallax();
+							}
 							level->isMoving = true;
 						}
 					}
@@ -186,6 +200,9 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isAttacking) {
 				level->stopMoving();
 				level->isMoving = false;
+				for (auto plat : platforms) {
+					plat->stopAllActions();
+				}
 				player->stopAllActions();
 				player->velocityX = 0;
 				player->state = State::isAttacking;
@@ -196,6 +213,9 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->isMoving = false;
+				for (auto plat : platforms) {
+					plat->stopAllActions();
+				}
 				player->velocityX = 0;
 				player->state = State::isTakingHit;
 				hud->getHit(10, player);
@@ -205,6 +225,9 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isDying) {
 				player->stopAllActions();
 				level->stopMoving();
+				for (auto plat : platforms) {
+					plat->stopAllActions();
+				}
 				level->isMoving = false;
 				player->velocityX = 0;
 				player->state = State::isDying;
@@ -222,10 +245,10 @@ void GameScene::whatKey(bool* keyState) {
 void GameScene::checkActivePlatform() {
 	int maxY = -1;
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
-		if (player->getPositionX() > platforms[i]->coordinate.x && player->getPositionX() < platforms[i]->coordinate.x + platforms[i]->size.width) {
-			if (player->getPositionY() >= platforms[i]->coordinate.y) {
-				if (platforms[i]->coordinate.y > maxY) {
-					maxY = platforms[i]->coordinate.y;
+		if (player->getPositionX() > platforms[i]->getPositionX() && player->getPositionX() < platforms[i]->getPositionX() + platforms[i]->size.width) {
+			if (player->getPositionY() >= platforms[i]->getPositionY()) {
+				if (platforms[i]->getPositionY() > maxY) {
+					maxY = platforms[i]->getPositionY();
 					activePlatform = platforms[i];
 				}
 			}
@@ -236,7 +259,7 @@ void GameScene::checkActivePlatform() {
 		player->minGroundY = groundLevel;
 	}
 	else {
-		player->minGroundY = activePlatform->coordinate.y;
+		player->minGroundY = activePlatform->getPositionY();
 	}
 }
 
