@@ -76,13 +76,6 @@ Animate* Goblin::initAnimation2(char* name, int initIndex, int finIndex, float d
 
 void Goblin::update()
 {
-	velocityY -= 9.81 * 0.1;
-	setPositionY(getPositionY() + velocityY);
-	if (getPositionY() < minGroundY) {
-		setPositionY(minGroundY);
-		velocityY = 0;
-	}
-
 	setPositionX(getPositionX() + velocityX);
 	//if (velocity == 0 && getPositionY() == 120) {
 	//	state = stillState;
@@ -90,28 +83,28 @@ void Goblin::update()
 
 	getTexture()->setAliasTexParameters();
 	switch (state) {
-	case State::isIdle:
+	case gState::isIdle:
 		idle();
 		// . . .
 		break;
-	case State::isRunning:
+	case gState::isRunning:
 		//borderStuck();
 		run();
 		// . . .
 		break;
-	case State::isAttacking:
+	case gState::isAttacking:
 		attack();
 		// . . .
 		break;
-	case State::isTakingHit:
+	case gState::isTakingHit:
 		takeHit();
 		// . . .
 		break;
-	case State::isDying:
+	case gState::isDying:
 		die();
 		// . . .
 		break;
-	case State::isDead:
+	case gState::isDead:
 		runAction(RepeatForever::create(deadAnimate));
 		// . . .
 		break;
@@ -133,7 +126,7 @@ void Goblin::attack() {
 	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 6) {
-		state = stillState;
+		stopAllActions();
 	}
 }
 
@@ -148,7 +141,7 @@ void Goblin::die() {
 	runAction(Repeat::create(deathAnimate, 1));
 	if (deathAnimate->getCurrentFrameIndex() == 3) {
 		stopAllActions();
-		stillState = State::isDead;
+		stillState = gState::isDead;
 		state = stillState;
 	}
 }

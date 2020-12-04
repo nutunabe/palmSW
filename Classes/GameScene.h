@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include "Goblin.h"
+#include "EnemyLogic.h"
 #include "Leveling.h"
 #include "KeyListener.h"
 #include "MainMenu.h"
@@ -31,12 +33,14 @@ public:
 	int groundLevel = 50;
 private:
 	Player* player;
+	Goblin* goblin;
 	Leveling* level;
 	KeyListener* keyListener;
 	Platform* platforms[6];
 	Platform* activePlatform;
 	Coin* coin;
 	HUD* hud;
+	EnemyLogic* enemyLogic;
 	//PhysicsWorld* sceneWorld;
 
 	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };

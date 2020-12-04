@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-enum class State {
+enum class gState {
 	isIdle,
 	isRunning,
 	isAttacking,
@@ -16,9 +16,9 @@ enum class State {
 
 class Goblin : public cocos2d::Sprite {
 public:
-	State stillState = State::isIdle;
-	State state = stillState;
-	float velocityMax = 5;
+	gState stillState = gState::isIdle;
+	gState state = stillState;
+	float velocityMax = 1;
 	float velocityX;
 	float velocityY = 0;
 	int minGroundY;

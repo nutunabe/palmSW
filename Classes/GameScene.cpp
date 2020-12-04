@@ -69,6 +69,13 @@ bool GameScene::init()
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY));
 	this->addChild(player, 4);
 
+	goblin = Goblin::create();
+	goblin->minGroundY = groundLevel;
+	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY));
+	this->addChild(goblin, 3);
+
+	enemyLogic = new EnemyLogic(goblin, player);
+
 	platforms[0] = Platform::create(200, 150, 200, 50);
 	platforms[1] = Platform::create(800, 150, 200, 50);
 	platforms[2] = Platform::create(450, 200, 200, 50);
@@ -281,7 +288,10 @@ void GameScene::checkTakeCoin() {
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 
+	enemyLogic->chasePlayer();
+
 	player->update();
+	goblin->update();
 
 	checkActivePlatform();
 	
