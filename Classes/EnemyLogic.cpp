@@ -1,8 +1,9 @@
 #include "EnemyLogic.h"
 
-EnemyLogic::EnemyLogic(Goblin* goblin, Player* player) {
+EnemyLogic::EnemyLogic(Goblin* goblin, Player* player, float groundLvl) {
 	this->player = player;
 	this->goblin = goblin;
+	this->ground = groundLvl;
 }
 
 void EnemyLogic::chasePlayer() {
@@ -24,12 +25,12 @@ void EnemyLogic::chasePlayer() {
 				}
 				goblin->state = gState::isRunning;
 			}
-			if (player->state == State::isDead) {
+			if (player->state == State::isDead || player->getPositionY() > ground) {
 				goblin->velocityX = 0;
 				goblin->state = goblin->stillState;
 			}
 		}
-		if (goblin->getPositionX() < player->getPositionX() + 40 && goblin->getPositionX() > player->getPositionX() - 40) {								// attack
+		if (goblin->getPositionX() < player->getPositionX() + 40 && goblin->getPositionX() > player->getPositionX() - 40 && player->getPositionY() == ground) {								// attack
 			if (goblin->state != gState::isAttacking) {
 				goblin->stopAllActions();
 				goblin->velocityX = 0;

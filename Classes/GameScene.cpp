@@ -74,7 +74,7 @@ bool GameScene::init()
 	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY));
 	this->addChild(goblin, 3);
 
-	enemyLogic = new EnemyLogic(goblin, player);
+	enemyLogic = new EnemyLogic(goblin, player, groundLevel);
 
 	platforms[0] = Platform::create(200, 150, 200, 50);
 	platforms[1] = Platform::create(800, 150, 200, 50);

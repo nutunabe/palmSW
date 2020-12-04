@@ -4,7 +4,8 @@
 class EnemyLogic
 {
 public:
-	EnemyLogic(Goblin* goblin, Player* player);
+	EnemyLogic(Goblin* goblin, Player* player, float groundLvl);
+	float ground;
 	bool switched = false;
 	bool switchedd = false;
 	void chasePlayer();

@@ -126,7 +126,8 @@ void Goblin::attack() {
 	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 6) {
-		stopAllActions();
+		stopAllActions(); 
+		attackAnimate->update(0);
 	}
 }
 
