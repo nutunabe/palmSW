@@ -25,12 +25,12 @@ void EnemyLogic::chasePlayer() {
 				}
 				goblin->state = gState::isRunning;
 			}
-			if (player->state == State::isDead || player->getPositionY() > ground) {
+			if (player->state == State::isDead || player->minGroundY > ground) {
 				goblin->velocityX = 0;
 				goblin->state = goblin->stillState;
 			}
 		}
-		if (goblin->getPositionX() < player->getPositionX() + 40 && goblin->getPositionX() > player->getPositionX() - 40 && player->getPositionY() == ground) {								// attack
+		if (goblin->getPositionX() < player->getPositionX() + 40 && goblin->getPositionX() > player->getPositionX() - 40 && player->minGroundY == ground) {								// attack
 			if (goblin->state != gState::isAttacking) {
 				goblin->stopAllActions();
 				goblin->velocityX = 0;
