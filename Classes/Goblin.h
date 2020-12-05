@@ -27,15 +27,15 @@ public:
 	static Goblin* create(void);
 
 private:
-	Animate* idleAnimate;
-	Animate* runAnimate;
-	Animate* attackAnimate;
-	Animate* takeHitAnimate;
-	Animate* deathAnimate;
-	Animate* deadAnimate;
+	Animate* gidleAnimate;
+	Animate* grunAnimate;
+	Animate* gattackAnimate;
+	Animate* gtakeHitAnimate;
+	Animate* gdeathAnimate;
+	Animate* gdeadAnimate;
 	//Animate* flyingAnimate;
 	//Animate* fallingAnimate;
-	SpriteFrameCache* spritecache;
+	SpriteFrameCache* gspritecache;
 
 	bool keyState[256];
 	bool stateSwitched = false;

@@ -8,7 +8,7 @@ Goblin* Goblin::create()
 	Goblin* goblin = new Goblin();
 	if (goblin->init())
 	{
-		goblin->setAnchorPoint(Point(0.5, 0.05));
+		goblin->setAnchorPoint(Point(0.5, 0));
 		goblin->autorelease();
 		goblin->initGoblin();
 		return goblin;
@@ -21,34 +21,36 @@ void Goblin::initGoblin()
 {
 	char str[200] = { 0 };
 
-	spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("res/characters/goblin.plist");
+	gspritecache = SpriteFrameCache::getInstance();
+	gspritecache->addSpriteFramesWithFile("res/characters/goblin.plist");
 
 	// Animation Idle
-	idleAnimate = initAnimation("Idle", 0, 3, 0.15f);
-	idleAnimate->retain();
+	gidleAnimate = initAnimation("Idle", 0, 3, 0.15f);
+	gidleAnimate->retain();
 	// Animation Run
-	runAnimate = initAnimation("Run", 0, 7, 0.1f);
-	runAnimate->retain();
+	grunAnimate = initAnimation("Run", 0, 7, 0.1f);
+	grunAnimate->retain();
 	// Animation Attack
-	attackAnimate = initAnimation2("Attack", 0, 7, 0.075f);
-	attackAnimate->retain();
+	gattackAnimate = initAnimation2("Attack", 0, 7, 0.075f);
+	gattackAnimate->retain();
 	// Animation Take Hit
-	takeHitAnimate = initAnimation2("Take Hit", 0, 3, 0.05f);
-	takeHitAnimate->retain();
+	gtakeHitAnimate = initAnimation2("Take Hit", 0, 3, 0.05f);
+	gtakeHitAnimate->retain();
 	// Animation Death
-	deathAnimate = initAnimation2("Death", 0, 3, 0.2f);
-	deathAnimate->retain();
+	gdeathAnimate = initAnimation2("Death", 0, 3, 0.2f);
+	gdeathAnimate->retain();
 
 	// Dead
 	Vector<SpriteFrame*> deadFrame;
-	deadFrame.pushBack(spritecache->getSpriteFrameByName("Death-3.png"));
+	deadFrame.pushBack(gspritecache->getSpriteFrameByName("Death-3.png"));
 	auto deadAnimation = Animation::createWithSpriteFrames(deadFrame, 1.f);
-	deadAnimate = Animate::create(deadAnimation);
-	deadAnimate->retain();
+	gdeadAnimate = Animate::create(deadAnimation);
+	gdeadAnimate->retain();
 
 	setScaleY(3.0);
 	setScaleX(3.0);
+
+	gspritecache->destroyInstance();
 }
 
 Animate* Goblin::initAnimation(char* name, int initIndex, int finIndex, float dt) {
@@ -56,7 +58,7 @@ Animate* Goblin::initAnimation(char* name, int initIndex, int finIndex, float dt
 	char str[200] = { 0 };
 	for (int _i = initIndex; _i <= finIndex; _i++) {
 		sprintf(str, "%s-%d.png", name, _i);
-		frames.pushBack(spritecache->getSpriteFrameByName(str));
+		frames.pushBack(gspritecache->getSpriteFrameByName(str));
 	}
 	auto animation = Animation::createWithSpriteFrames(frames, dt);
 	return Animate::create(animation);
@@ -67,9 +69,9 @@ Animate* Goblin::initAnimation2(char* name, int initIndex, int finIndex, float d
 	char str[200] = { 0 };
 	for (int _i = initIndex; _i <= finIndex; _i++) {
 		sprintf(str, "%s-%d.png", name, _i);
-		frames.pushBack(spritecache->getSpriteFrameByName(str));
+		frames.pushBack(gspritecache->getSpriteFrameByName(str));
 	}
-	frames.pushBack(spritecache->getSpriteFrameByName(str));
+	frames.pushBack(gspritecache->getSpriteFrameByName(str));
 	auto animation = Animation::createWithSpriteFrames(frames, dt);
 	return Animate::create(animation);
 }
@@ -105,7 +107,7 @@ void Goblin::update()
 		// . . .
 		break;
 	case gState::isDead:
-		runAction(RepeatForever::create(deadAnimate));
+		runAction(RepeatForever::create(gdeadAnimate));
 		// . . .
 		break;
 	default: break;
@@ -113,34 +115,34 @@ void Goblin::update()
 }
 
 void Goblin::idle() {
-	runAction(RepeatForever::create(idleAnimate));
+	runAction(RepeatForever::create(gidleAnimate));
 }
 
 void Goblin::run() {
-	runAction(RepeatForever::create(runAnimate));
+	runAction(RepeatForever::create(grunAnimate));
 }
 
 void Goblin::attack() {
 	//char str[100];
 	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
 	//CCLOG(str);
-	runAction(Repeat::create(attackAnimate, 1));
-	if (attackAnimate->getCurrentFrameIndex() == 6) {
+	runAction(Repeat::create(gattackAnimate, 1));
+	if (gattackAnimate->getCurrentFrameIndex() == 8) {
 		stopAllActions(); 
-		attackAnimate->update(0);
+		gattackAnimate->update(0);
 	}
 }
 
 void Goblin::takeHit() {
-	runAction(Repeat::create(takeHitAnimate, 1));
-	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+	runAction(Repeat::create(gtakeHitAnimate, 1));
+	if (gtakeHitAnimate->getCurrentFrameIndex() == 2) {
 		state = stillState;
 	}
 }
 
 void Goblin::die() {
-	runAction(Repeat::create(deathAnimate, 1));
-	if (deathAnimate->getCurrentFrameIndex() == 3) {
+	runAction(Repeat::create(gdeathAnimate, 1));
+	if (gdeathAnimate->getCurrentFrameIndex() == 3) {
 		stopAllActions();
 		stillState = gState::isDead;
 		state = stillState;

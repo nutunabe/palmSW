@@ -62,6 +62,8 @@ void Player::initPlayer()
 
 	setScaleY(3.0);
 	setScaleX(-3.0);
+
+	spritecache->destroyInstance();
 }
 
 Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt) {

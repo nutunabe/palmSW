@@ -16,12 +16,12 @@ void EnemyLogic::chasePlayer() {
 					goblin->stopAllActions();
 				}
 				if (goblin->getPositionX() < player->getPositionX() - 40) {		// left
-					goblin->velocityX = goblin->velocityMax;
-					goblin->setScaleX(abs(goblin->getScaleX()) * -1);
+					goblin->velocityX =goblin->velocityMax;
+					goblin->setScaleX(abs(goblin->getScaleX()));
 				}
 				else if (goblin->getPositionX() > player->getPositionX() + 40) {	// right
 					goblin->velocityX = -1 * goblin->velocityMax;
-					goblin->setScaleX(abs(goblin->getScaleX()));
+					goblin->setScaleX(abs(goblin->getScaleX()) * -1);
 				}
 				goblin->state = gState::isRunning;
 			}

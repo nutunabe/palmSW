@@ -70,7 +70,7 @@ bool GameScene::init()
 	this->addChild(player, 4);
 
 	goblin = Goblin::create();
-	goblin->minGroundY = groundLevel;
+	goblin->minGroundY = groundLevel-10;
 	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY));
 	this->addChild(goblin, 3);
 
