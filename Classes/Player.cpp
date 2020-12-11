@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Windows.h"
+#include "DeathScreen.h"
 
 USING_NS_CC;
 
@@ -188,6 +189,8 @@ void Player::die() {
 		stopAllActions();
 		stillState = State::isDead;
 		state = stillState;
+		auto scene = DeathScreen::createScene();
+		Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene));
 	}
 }
 
