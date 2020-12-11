@@ -5,6 +5,7 @@ USING_NS_CC;
 Scene* GameScene::createScene() {
 	GameScene* gameScene = GameScene::create();
 	//gameScene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//gameScene->init();
 	gameScene->scheduleUpdate();
 	return gameScene;
 }
@@ -298,3 +299,32 @@ void GameScene::update(float dt) {
 	checkTakeCoin();
 }
 
+/*void GameScene::pause(Ref* Sender) {
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	if (Director::getInstance()->isPaused()) {
+		Director::getInstance()->resume();
+	}
+	else {
+		Director::getInstance()->pause();
+		auto menuItem = MenuItemImage::create(
+			"Menu Button.png",
+			"Menu Button Clicked.png",
+			CC_CALLBACK_1(GameScene::goToMenu, this));
+		if (menuItem == nullptr ||
+			menuItem->getContentSize().width <= 0 ||
+			menuItem->getContentSize().height <= 0)
+		{
+			problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+		}
+		else
+		{
+			float x = origin.x + visibleSize.width / 2 - menuItem->getContentSize().width / 2;
+			float y = origin.y + visibleSize.height / 2 - menuItem->getContentSize().height / 2;
+			menuItem->setPosition(Vec2(x, y));
+		}
+		auto menu = Menu::create(menuItem, NULL);
+		menu->setPosition(Vec2::ZERO);
+		this->addChild(menu, 3);
+	}
+}*/

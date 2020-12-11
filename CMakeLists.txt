@@ -71,6 +71,7 @@ list(APPEND GAME_SOURCE
      Classes/Goblin.cpp
      Classes/Coin.cpp
      Classes/EnemyLogic.cpp
+     Classes/GSPause.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -87,6 +88,7 @@ list(APPEND GAME_HEADER
      Classes/Goblin.h
      Classes/Coin.h
      Classes/EnemyLogic.h
+     Classes/GSPause.h
      )
 
 if(ANDROID)

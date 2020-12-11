@@ -1,6 +1,4 @@
 #include "MainMenu.h"
-#include "GameScene.h"
-#include <ui/CocosGUI.h>
 
 USING_NS_CC;
 
@@ -8,6 +6,7 @@ Scene* MainMenu::createScene() {
 	auto scene = Scene::create();
 
 	auto layer = MainMenu::create();
+
 
     layer->setGlobalZOrder(4);
 
@@ -28,8 +27,9 @@ bool MainMenu::init() {
 		return false;
 	}
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+
 
     auto backgroundSprite = Sprite::create("Background.png");
     backgroundSprite->setContentSize(visibleSize);
@@ -37,51 +37,7 @@ bool MainMenu::init() {
 
     this->addChild(backgroundSprite);
 
-
-    auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
-    playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-    auto menu = Menu::create(playItem, NULL);
-    menu->setPosition(Point::ZERO);
-    this->addChild(menu, 1);
-
-    auto label2 = Label::createWithTTF(u8"Бег стрелками и \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
-    if (label2 == nullptr)
-    {
-        problemLoading("'fonts/Pixel Times.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label2->setPosition(Vec2(origin.x + visibleSize.width / 2,
-            origin.y + label2->getContentSize().height/* + visibleSize.height - label2->getContentSize().height*/));
-
-        // add the label as a child to this layer
-        this->addChild(label2, 0);
-    }
-
-    auto closeItem = MenuItemImage::create(
-        "CloseNormal.png",
-        "CloseSelected.png",
-        CC_CALLBACK_1(MainMenu::menuCloseCallback, this));
-
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-        float y = origin.y + closeItem->getContentSize().height / 2;
-        closeItem->setPosition(Vec2(x, y));
-    }
-
-    menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 2);
-
+    showMainMenu();
 
     return true;
 }
@@ -105,4 +61,146 @@ void MainMenu::menuCloseCallback(Ref* sender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
+}
+void MainMenu::showSettings( Ref* sender ) {
+    this->removeChildByName("menu", true);
+
+    auto musicLabel = Label::createWithTTF("Music:", "fonts/Pixel Times.ttf", 24);
+    musicLabel->setName("music");
+    musicLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 2));
+    this->addChild(musicLabel, 2);
+
+    //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
+    auto backLabel = Label::createWithTTF("Back", "fonts/Pixel Times.ttf", 24);
+    auto backItem = MenuItemLabel::create(backLabel, CC_CALLBACK_1(MainMenu::showMenu, this));
+    backItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    auto menu = Menu::create(backItem, NULL);
+    menu->setName("menu");
+    menu->setPosition(Point::ZERO);
+    this->addChild(menu, 2);
+
+    auto slider = ui::Slider::create();
+    slider->setName("musicSlider");
+    slider->loadBarTexture("Slider_Back.png"); // как будет выглядеть Slider
+    slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
+    slider->loadProgressBarTexture("Slider_PressBar.png");
+
+    slider->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            std::cout << "slider moved" << std::endl;
+            break;
+        default:
+            break;
+        }
+        });
+
+    slider->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 2));
+    this->addChild(slider, 4);
+
+    auto label2 = Label::createWithTTF(u8" \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
+    if (label2 == nullptr)
+    {
+        problemLoading("'fonts/Pixel Times.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        label2->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + label2->getContentSize().height/* + visibleSize.height - label2->getContentSize().height*/));
+
+        label2->setName("keyboard");
+        // add the label as a child to this layer
+        this->addChild(label2, 0);
+    }
+}
+
+void MainMenu::showMenu(Ref* sender) {
+    this->removeChildByName("menu", true);
+    this->removeChildByName("musicSlider", true);
+    this->removeChildByName("music", true);
+    this->removeChildByName("keyboard", true);
+
+    //auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
+    auto playLabel = Label::createWithTTF("Play", "fonts/Pixel Times.ttf", 24);
+    auto playItem = MenuItemLabel::create(playLabel, CC_CALLBACK_1(MainMenu::GoToGameScene, this));
+    playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + playItem->getContentSize().height * 2));
+
+    //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
+    auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+    auto settingsItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(MainMenu::showSettings, this));
+    settingsItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    auto menu = Menu::create(playItem, settingsItem, NULL);
+    menu->setName("menu");
+    menu->setPosition(Point::ZERO);
+    this->addChild(menu, 2);
+
+    auto closeItem = MenuItemImage::create(
+        "CloseNormal.png",
+        "CloseSelected.png",
+        CC_CALLBACK_1(MainMenu::menuCloseCallback, this)
+    );
+
+    if (closeItem == nullptr ||
+        closeItem->getContentSize().width <= 0 ||
+        closeItem->getContentSize().height <= 0)
+    {
+        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
+        float y = origin.y + closeItem->getContentSize().height / 2;
+        closeItem->setPosition(Vec2(x, y));
+    }
+
+    menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 2);
+
+}
+
+void MainMenu::showMainMenu() {
+    //auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
+    auto playLabel = Label::createWithTTF("Play", "fonts/Pixel Times.ttf", 24);
+    auto playItem = MenuItemLabel::create(playLabel, CC_CALLBACK_1(MainMenu::GoToGameScene, this));
+    playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + playItem->getContentSize().height * 2));
+
+    //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
+    auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+    auto settingsItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(MainMenu::showSettings, this));
+    settingsItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    auto menu = Menu::create(playItem, settingsItem, NULL);
+    menu->setName("menu");
+    menu->setPosition(Point::ZERO);
+    this->addChild(menu, 2);
+
+    auto closeItem = MenuItemImage::create(
+        "CloseNormal.png",
+        "CloseSelected.png",
+        CC_CALLBACK_1(MainMenu::menuCloseCallback, this)
+    );
+
+    if (closeItem == nullptr ||
+        closeItem->getContentSize().width <= 0 ||
+        closeItem->getContentSize().height <= 0)
+    {
+        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
+        float y = origin.y + closeItem->getContentSize().height / 2;
+        closeItem->setPosition(Vec2(x, y));
+    }
+
+    menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 2);
 }

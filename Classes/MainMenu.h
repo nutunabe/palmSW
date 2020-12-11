@@ -7,6 +7,8 @@ class MainMenu
 #define __MainMenu__
 
 #include "cocos2d.h"
+#include "GameScene.h"
+#include <ui/CocosGUI.h>
 
 using namespace cocos2d;
 
@@ -18,12 +20,21 @@ private:
 
 	void menuCloseCallback( Ref *sender );
 
+	void showSettings( Ref *sender);
+
+	void showMenu(Ref *sender);
+
+	void showMainMenu();
 public:
 	static Scene* createScene();
 	
+
 	virtual bool init();
 
 	CREATE_FUNC(MainMenu);
+
+	Size visibleSize;
+	Vec2 origin;
 };
 
 

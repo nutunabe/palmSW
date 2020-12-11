@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "HUD.h"
 #include "Coin.h"
+#include "GSPause.h"
 
 using namespace cocos2d;
 
@@ -25,6 +26,8 @@ public:
 	//void menuCloseCallback(Ref* pSender);
 
 	void goToMenu(Ref* Sender);
+
+	void pause(Ref* Sender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
