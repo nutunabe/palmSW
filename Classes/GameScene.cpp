@@ -116,18 +116,18 @@ void GameScene::keyCheck() {/*
 			player->stopAllActions();
 			level->stopMoving();
 			level->isMoving = false;
-			for (auto plat : platforms) {
+			/*for (auto plat : platforms) {
 				plat->stopAllActions();
-			}
+			}*/
 			keyListener->keyPressed[keys[_i]] = false;
 		}
 		if (keyListener->keyReleased[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
 			level->isMoving = false;
-			for (auto plat : platforms) {
+			/*for (auto plat : platforms) {
 				plat->stopAllActions();
-			}
+			}*/
 			keyListener->keyReleased[keys[_i]] = false;
 		}
 	}
@@ -157,8 +157,8 @@ void GameScene::whatKey(bool* keyState) {
 			keyCheck();
 			if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
 				if (keyState[26] || keyState[124]) {		// left
-					level->setDirectionLeft();
-					if (player->getPositionX() < visibleSize.width / 6) {
+					//level->setDirectionLeft();
+					/*if (player->getPositionX() < visibleSize.width / 6) {
 						player->velocityX = 0;
 						if (level->isMoving == false) {
 							for (auto plat : platforms) {
@@ -172,10 +172,12 @@ void GameScene::whatKey(bool* keyState) {
 					else {
 						player->velocityX = -1 * player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()));
-					}
+					}*/
+					player->velocityX = -1 * player->velocityMax;
+					player->setScaleX(abs(player->getScaleX()));
 				}
 				else if (keyState[27] || keyState[127]) {	// right
-					level->setDirectionRight();
+					/*level->setDirectionRight();
 					if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
 						player->velocityX = 0;
 						if (level->isMoving == false) {
@@ -190,7 +192,9 @@ void GameScene::whatKey(bool* keyState) {
 					else {
 						player->velocityX = player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()) * -1);
-					}
+					}*/
+					player->velocityX = player->velocityMax;
+					player->setScaleX(abs(player->getScaleX()) * -1);
 				}
 				if (player->state != State::isJumping) {
 					player->state = State::isRunning;
@@ -208,9 +212,9 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isAttacking) {
 				level->stopMoving();
 				level->isMoving = false;
-				for (auto plat : platforms) {
+				/*for (auto plat : platforms) {
 					plat->stopAllActions();
-				}
+				}*/
 				player->stopAllActions();
 				player->velocityX = 0;
 				player->state = State::isAttacking;
@@ -221,9 +225,9 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->isMoving = false;
-				for (auto plat : platforms) {
+				/*for (auto plat : platforms) {
 					plat->stopAllActions();
-				}
+				}*/
 				player->velocityX = 0;
 				player->state = State::isTakingHit;
 				hud->getHit(10, player);
@@ -233,9 +237,9 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isDying) {
 				player->stopAllActions();
 				level->stopMoving();
-				for (auto plat : platforms) {
+				/*for (auto plat : platforms) {
 					plat->stopAllActions();
-				}
+				}*/
 				level->isMoving = false;
 				player->velocityX = 0;
 				player->state = State::isDying;
