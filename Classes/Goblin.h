@@ -1,6 +1,7 @@
 #ifndef __GOBLIN__
 #define __GOBLIN__
 
+#include "ui/CocosGUI.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -26,6 +27,7 @@ public:
 	void update();
 	static Goblin* create(void);
 
+
 private:
 	Animate* gidleAnimate;
 	Animate* grunAnimate;
@@ -49,6 +51,9 @@ private:
 	void takeHit();
 	void die();
 	//void borderStuck();
+	int health = 50;
+	ui::LoadingBar* hpgoblin;
+
 };
 
 #endif

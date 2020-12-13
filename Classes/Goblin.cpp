@@ -51,6 +51,20 @@ void Goblin::initGoblin()
 	setScaleX(3.0);
 
 	gspritecache->destroyInstance();
+
+	auto hBBackground = Sprite::create("block2.png");
+	hBBackground->setAnchorPoint(Point(0.5, 1));
+	hBBackground->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
+	hBBackground->setScale(0.1);
+	this->addChild(hBBackground);
+
+	hpgoblin = ui::LoadingBar::create("block.png");
+	hpgoblin->setAnchorPoint(Point(0.5, 1));
+	hpgoblin->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
+	hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	hpgoblin->setPercent(health);
+	hpgoblin->setScale(0.1);
+	this->addChild(hpgoblin);
 }
 
 Animate* Goblin::initAnimation(char* name, int initIndex, int finIndex, float dt) {

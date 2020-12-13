@@ -44,6 +44,7 @@ private:
 	Coin* coin;
 	HUD* hud;
 	EnemyLogic* enemyLogic;
+
 	//PhysicsWorld* sceneWorld;
 
 	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };
