@@ -141,6 +141,9 @@ void Player::update()
 		break;
 	default: break;
 	}
+
+	auto cam = Camera::getDefaultCamera();
+	cam->setPositionX(this->getPositionX());
 }
 
 void Player::idle() {
