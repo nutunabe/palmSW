@@ -36,7 +36,7 @@ public:
 	int groundLevel = 50;
 private:
 	Player* player;
-	Goblin* goblin;
+	Vector<Goblin*> goblins;
 	Leveling* level;
 	KeyListener* keyListener;
 	Platform* platforms[6];

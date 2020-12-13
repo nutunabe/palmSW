@@ -4,14 +4,14 @@
 class EnemyLogic
 {
 public:
-	EnemyLogic(Goblin* goblin, Player* player, float groundLvl);
+	EnemyLogic(Vector<Goblin*> goblin, Player* player, float groundLvl);
 	float ground;
 	bool switched = false;
 	bool switchedd = false;
 	void chasePlayer();
 	void attackPlayer();
 private:
-	Goblin* goblin; 
+	Vector<Goblin*> goblins; 
 	Player* player;
 };
 

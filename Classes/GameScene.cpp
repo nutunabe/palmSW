@@ -70,15 +70,16 @@ bool GameScene::init()
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY));
 	this->addChild(player, 4);
 
-	goblin = Goblin::create();
-	goblin->minGroundY = groundLevel-10;
-	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY - 150));
-	this->addChild(goblin, 3);
+	for (int i = 0; i < 2; i++) {
+		auto goblin = Goblin::create();
+		goblin->minGroundY = groundLevel - 10;
+		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 50) + origin.x, goblin->minGroundY - 150));
+		this->addChild(goblin, 3);
+		goblins.pushBack(goblin);
+	}
 
-	/*char str[200] = { 0 };
-	sprintf*/
 
-	enemyLogic = new EnemyLogic(goblin, player, groundLevel);
+	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
 
 	platforms[0] = Platform::create(200, 150, 200, 50);
 	platforms[1] = Platform::create(800, 150, 200, 50);
@@ -299,7 +300,9 @@ void GameScene::update(float dt) {
 	enemyLogic->chasePlayer();
 
 	player->update();
-	goblin->update();
+	for (auto goblin : goblins) {
+		goblin->update();
+	}
 
 	checkActivePlatform();
 	
