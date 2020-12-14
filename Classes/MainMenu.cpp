@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,8 @@ static void problemLoading(const char* filename)
 
 bool MainMenu::init() {
 	
+    AudioEngine::play2d("res/sounds/bgsound.mp3", true, 0.5f);
+
 	if ( !Layer::init()) {
 		return false;
 	}
@@ -46,6 +49,7 @@ void MainMenu::GoToGameScene(Ref* sender)
 {
     Director::getInstance()->replaceScene(GameScene::createScene());
 
+    AudioEngine::stopAll();
     /*auto scene = GameScene::createScene();
 
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));*/

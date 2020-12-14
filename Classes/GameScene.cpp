@@ -73,7 +73,7 @@ bool GameScene::init()
 	for (int i = 0; i < 2; i++) {
 		auto goblin = Goblin::create();
 		goblin->minGroundY = groundLevel - 10;
-		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 50) + origin.x, goblin->minGroundY - 150));
+		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 100) + origin.x, goblin->minGroundY - 150));
 		this->addChild(goblin, 3);
 		goblins.pushBack(goblin);
 	}
@@ -213,15 +213,19 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[129]) {								// attack
-			if (player->state != State::isAttacking) {
-				level->stopMoving();
-				level->isMoving = false;
-				/*for (auto plat : platforms) {
-					plat->stopAllActions();
-				}*/
-				player->stopAllActions();
-				player->velocityX = 0;
-				player->state = State::isAttacking;
+			if(hud->stamina >= 5){
+				if (player->state != State::isAttacking) {
+					level->stopMoving();
+					level->isMoving = false;
+					/*for (auto plat : platforms) {
+						plat->stopAllActions();
+					}*/
+					player->stopAllActions();
+					player->velocityX = 0;
+					player->state = State::isAttacking;
+					hud->stamina -= 5;
+					hud->staminaBar->setPercent(hud->stamina);
+				}
 			}
 		}
 		if (keyState[77]) {									// take hit
@@ -249,10 +253,14 @@ void GameScene::whatKey(bool* keyState) {
 				player->state = State::isDying;
 			}
 		}
-		if (keyState[59]) {									// jump
-			if (player->getPositionY() == player->minGroundY) {
-				player->velocityY = 15;
-				player->state = State::isJumping;
+		if (keyState[59]) {								   // jump
+			if (hud->stamina >= 10) {
+				if (player->getPositionY() == player->minGroundY) {
+					player->velocityY = 15;
+					player->state = State::isJumping;
+					hud->stamina -= 10;
+					hud->staminaBar->setPercent(hud->stamina);
+				}
 			}
 		}
 	}
@@ -303,6 +311,8 @@ void GameScene::update(float dt) {
 	for (auto goblin : goblins) {
 		goblin->update();
 	}
+
+	hud->update();
 
 	checkActivePlatform();
 	
