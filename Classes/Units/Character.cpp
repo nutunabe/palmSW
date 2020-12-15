@@ -4,6 +4,10 @@ int Character::getHealth() {
 	return health;
 }
 
+void Character::setHealth(int hp) {
+	health += hp;
+}
+
 int Character::getStamina() {
 	return stamina;
 }

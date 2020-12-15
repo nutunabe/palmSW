@@ -17,7 +17,7 @@ private:
 	void run();
 	void attack();
 	void jump();
-	void takeHit();
+	void takeHit(int damage);
 	void die();
 };
 

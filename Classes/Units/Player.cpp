@@ -165,7 +165,7 @@ void Player::jump() {
 	// . . .
 }
 
-void Player::takeHit() {
+void Player::takeHit(int damage) {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
 		state = stillState;

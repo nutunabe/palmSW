@@ -14,6 +14,7 @@ public:
 	int minGroundY;
 
 	int getHealth();
+	void setHealth(int hp);
 	int getStamina();
 	int getDamage();
 	int getDamageRange();
