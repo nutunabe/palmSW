@@ -89,8 +89,38 @@ void GameScene::initEnvironment() {
 	platforms[5] = Platform::create(650, 400, 200, 50);
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
 		this->addChild(platforms[i], 2);
+
+		Color4F white(1, 1, 1, 1);
+		Color4F red(.7, 0, 0, 1);
+		Color4F green(0, .7, 0, 1);
+		Color4F yellow(.7, .7, 0, 1);
+
+		auto platformNode = DrawNode::create();
+		int xi = platforms[i]->getLeft();
+		int yi = platforms[i]->getTop();
+		int xd = platforms[i]->getRight();
+		int yd = platforms[i]->getBottom();
+		platformNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+		platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
+		this->addChild(platformNode, 40);
 	}
 
+	char str[200] = { 0 };
+	sprintf(str, "right %f", platforms[0]->getRight());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "left %f", platforms[0]->getLeft());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "top %f", platforms[0]->getTop());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "bottom %f", platforms[0]->getBottom());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "width %f", platforms[0]->size.width);
+	CCLOG(str);
+	memset(str, 0, sizeof str);
 	// . . .
 }
 
