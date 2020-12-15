@@ -1,7 +1,7 @@
 #ifndef __HUD_H__
 #define __HUD_H__
 
-#include<cocos2d.h>
+#include <cocos2d.h>
 #include "ui/CocosGUI.h"
 #include "Player.h"
 

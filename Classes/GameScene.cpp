@@ -54,9 +54,13 @@ bool GameScene::init()
 	}
 
 	// create menu, it's an autorelease object
+	hud = HUD::create();
+
 	auto menu = Menu::create(menuItem, NULL);
 	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 3);
+	hud->addChild(menu);
+
+	this->addChild(hud, 5);
 
 	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
@@ -91,9 +95,6 @@ bool GameScene::init()
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
 		this->addChild(platforms[i], 2);
 	}
-
-	hud = HUD::create();
-	this->addChild(hud, 5);
 
 	coin = Coin::create(750, 150, 40, 20);
 	this->addChild(coin, 2);
@@ -312,6 +313,7 @@ void GameScene::update(float dt) {
 		goblin->update();
 	}
 
+	hud->setPositionX(player->getPositionX() - 500);
 	hud->update();
 
 	checkActivePlatform();
