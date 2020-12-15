@@ -54,19 +54,19 @@ bool GameScene::init()
 	}
 
 	// create menu, it's an autorelease object
+	hud = HUD::create();
+
 	auto menu = Menu::create(menuItem, NULL);
 	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 3);
+	hud->addChild(menu);
+
+	this->addChild(hud, 5);
 
 	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
 	initEnvironment();
 	initCharacters();
-
-
-	hud = HUD::create();
-	this->addChild(hud, 5);
 
 	coin = Coin::create(750, 150, 40, 20);
 	this->addChild(coin, 2);
@@ -243,15 +243,19 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[129]) {								// attack
-			if (player->state != State::isAttacking) {
-				level->stopMoving();
-				level->isMoving = false;
-				/*for (auto plat : platforms) {
-					plat->stopAllActions();
-				}*/
-				player->stopAllActions();
-				player->velocityX = 0;
-				player->state = State::isAttacking;
+			if(hud->stamina >= 5){
+				if (player->state != State::isAttacking) {
+					level->stopMoving();
+					level->isMoving = false;
+					/*for (auto plat : platforms) {
+						plat->stopAllActions();
+					}*/
+					player->stopAllActions();
+					player->velocityX = 0;
+					player->state = State::isAttacking;
+					hud->stamina -= 5;
+					hud->staminaBar->setPercent(hud->stamina);
+				}
 			}
 		}
 		if (keyState[77]) {									// take hit
@@ -279,10 +283,14 @@ void GameScene::whatKey(bool* keyState) {
 				player->state = State::isDying;
 			}
 		}
-		if (keyState[59]) {									// jump
-			if (player->getBottom() == player->minGroundY) {
-				player->velocityY = 15;
-				player->state = State::isJumping;
+		if (keyState[59]) {								   // jump
+			if (hud->stamina >= 10) {
+				if (player->getBottom() == player->minGroundY) {
+					player->velocityY = 15;
+					player->state = State::isJumping;
+					hud->stamina -= 10;
+					hud->staminaBar->setPercent(hud->stamina);
+				}
 			}
 		}
 	}
@@ -336,6 +344,9 @@ void GameScene::update(float dt) {
 	for (auto goblin : goblins) {
 		goblin->update();
 	}
+
+	hud->setPositionX(player->getPositionX() - 500);
+	hud->update();
 
 	checkActivePlatform();
 
