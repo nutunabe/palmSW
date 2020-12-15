@@ -17,13 +17,11 @@ public:
 	void setDirectionRight();
 	void setDirectionLeft();
 	
-	bool isMoving = false;
+	bool flag = false;
 private:
 	//std::string levelString;
 	Size visibleSize;
 	Vec2 origin;
-	Vector<Sprite*> background;
-	Vector<Sprite*> background2;
 	bool direction = 1;
 
 	void update(float dt);

@@ -65,6 +65,8 @@ bool GameScene::init()
 	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
+
+
 	initEnvironment();
 	initCharacters();
 
@@ -149,7 +151,7 @@ void GameScene::keyCheck() {/*
 		if (keyListener->keyPressed[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
-			level->isMoving = false;
+			level->flag = false;
 			/*for (auto plat : platforms) {
 				plat->stopAllActions();
 			}*/
@@ -158,7 +160,7 @@ void GameScene::keyCheck() {/*
 		if (keyListener->keyReleased[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
-			level->isMoving = false;
+			level->flag = false;
 			/*for (auto plat : platforms) {
 				plat->stopAllActions();
 			}*/
@@ -207,8 +209,12 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = -1 * player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()));
 					}*/
+					level->setDirectionLeft();
+					level->parallax();
+					level->flag = true;
 					player->velocityX = -1 * player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()));
+					
 				}
 				else if (keyState[27] || keyState[127]) {	// right
 					/*level->setDirectionRight();
@@ -227,6 +233,9 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()) * -1);
 					}*/
+					level->setDirectionRight();
+					level->parallax();
+					level->flag = true;
 					player->velocityX = player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()) * -1);
 				}
@@ -246,7 +255,7 @@ void GameScene::whatKey(bool* keyState) {
 			if(hud->stamina >= 5){
 				if (player->state != State::isAttacking) {
 					level->stopMoving();
-					level->isMoving = false;
+					level->flag = false;
 					/*for (auto plat : platforms) {
 						plat->stopAllActions();
 					}*/
@@ -262,7 +271,7 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isTakingHit) {
 				player->stopAllActions();
 				level->stopMoving();
-				level->isMoving = false;
+				level->flag = false;
 				/*for (auto plat : platforms) {
 					plat->stopAllActions();
 				}*/
@@ -275,10 +284,10 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isDying) {
 				player->stopAllActions();
 				level->stopMoving();
+				level->flag = false;
 				/*for (auto plat : platforms) {
 					plat->stopAllActions();
 				}*/
-				level->isMoving = false;
 				player->velocityX = 0;
 				player->state = State::isDying;
 			}
@@ -339,6 +348,9 @@ void GameScene::update(float dt) {
 
 	playerNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	auto cam = Camera::getDefaultCamera();
+	cam->setPositionX(player->getPositionX());
+	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 	player->update();
 
 	for (auto goblin : goblins) {
