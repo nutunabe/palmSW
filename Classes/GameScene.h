@@ -2,8 +2,8 @@
 #define __GAMESCENE_H__
 
 #include "cocos2d.h"
-#include "Player.h"
-#include "Goblin.h"
+#include "Units/Player.h"
+#include "Units/Enemies/Goblin.h"
 #include "EnemyLogic.h"
 #include "Leveling.h"
 #include "KeyListener.h"
@@ -32,7 +32,7 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
 
-	Sprite *mySprite;
+	Sprite* mySprite;
 	int groundLevel = 50;
 private:
 	Player* player;
@@ -44,6 +44,10 @@ private:
 	Coin* coin;
 	HUD* hud;
 	EnemyLogic* enemyLogic;
+	Size visibleSize;
+	Vec2 origin;
+	DrawNode* playerNode;
+	DrawNode* groundNode;
 
 	//PhysicsWorld* sceneWorld;
 
@@ -56,6 +60,9 @@ private:
 	void checkActivePlatform();
 	void checkTakeCoin();
 	//void setPhysicsWorld(PhysicsWorld* world) { sceneWorld = world; }
+	void initCharacters();
+	void initEnemies();
+	void initEnvironment();
 };
 
 #endif

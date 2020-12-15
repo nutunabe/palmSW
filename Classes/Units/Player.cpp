@@ -9,7 +9,7 @@ Player* Player::create()
 	Player* player = new Player();
 	if (player->init())
 	{
-		player->setAnchorPoint(Point(0.5, 0.05));
+		player->setAnchorPoint(Point(0.5f, 0.5f));
 		player->autorelease();
 		player->initPlayer();
 		return player;
@@ -20,31 +20,42 @@ Player* Player::create()
 
 void Player::initPlayer()
 {
-	char str[200] = { 0 };
+	scale = 3.0;
+	width = 48 * scale;
+	height = 48 * scale;
+	paddingTop = -6 * scale;
+	paddingBottom = -3 * scale;
+	paddingLeft = 0 * scale;
+	paddingRight = -1 * scale;
+
+	stillState = State::isReady;
+	state = stillState;
+	health = 100;
+	stamina = 100;
+	damage = 10;
+	damageRange = width;
+	velocityMax = 5;
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");
 
 	// Animation Idle
-	idleAnimate = initAnimation("Idle", 0, 3, 0.15f);
+	idleAnimate = initAnimation("Idle", 4, 0.15f);
 	idleAnimate->retain();
 	// Animation Ready
-	readyAnimate = initAnimation("Ready", 0, 3, 0.15f);
+	readyAnimate = initAnimation("Ready", 4, 0.15f);
 	readyAnimate->retain();
 	// Animation Run
-	runAnimate = initAnimation("Run", 0, 7, 0.1f);
+	runAnimate = initAnimation("Run", 8, 0.1f);
 	runAnimate->retain();
 	// Animation Attack
-	attackAnimate = initAnimation2("Attack", 2, 7, 0.075f);
+	attackAnimate = initAnimation("Attack", 8, 0.075f, "");
 	attackAnimate->retain();
 	// Animation Take Hit
-	takeHitAnimate = initAnimation2("Take Hit", 0, 1, 0.05f);
+	takeHitAnimate = initAnimation("Take Hit", 2, 0.05f, "");
 	takeHitAnimate->retain();
-	// Animation Jump
-	//jumpAnimate = initAnimation2("Jump", 0, 1, 0.1f);
-	//jumpAnimate->retain();
 	// Animation Death
-	deathAnimate = initAnimation2("Death", 0, 2, 0.2f);
+	deathAnimate = initAnimation("Death", 3, 0.2f, "");
 	deathAnimate->retain();
 
 	// Animation Jump
@@ -53,7 +64,6 @@ void Player::initPlayer()
 	auto jumpAnimation = Animation::createWithSpriteFrames(jumpFrame, 1.f);
 	jumpAnimate = Animate::create(jumpAnimation);
 	jumpAnimate->retain();
-
 	// Dead
 	Vector<SpriteFrame*> deadFrame;
 	deadFrame.pushBack(spritecache->getSpriteFrameByName("dead.png"));
@@ -61,41 +71,17 @@ void Player::initPlayer()
 	deadAnimate = Animate::create(deadAnimation);
 	deadAnimate->retain();
 
-	setScaleY(3.0);
-	setScaleX(-3.0);
-
+	setScaleY(scale);
+	setScaleX(-1 * scale);
 	spritecache->destroyInstance();
-}
-
-Animate* Player::initAnimation(char* name, int initIndex, int finIndex, float dt) {
-	Vector<SpriteFrame*> frames;
-	char str[200] = { 0 };
-	for (int _i = initIndex; _i <= finIndex; _i++) {
-		sprintf(str, "%s-%d.png", name, _i);
-		frames.pushBack(spritecache->getSpriteFrameByName(str));
-	}
-	auto animation = Animation::createWithSpriteFrames(frames, dt);
-	return Animate::create(animation);
-}
-
-Animate* Player::initAnimation2(char* name, int initIndex, int finIndex, float dt) {
-	Vector<SpriteFrame*> frames;
-	char str[200] = { 0 };
-	for (int _i = initIndex; _i <= finIndex; _i++) {
-		sprintf(str, "%s-%d.png", name, _i);
-		frames.pushBack(spritecache->getSpriteFrameByName(str));
-	}
-	frames.pushBack(spritecache->getSpriteFrameByName(str));
-	auto animation = Animation::createWithSpriteFrames(frames, dt);
-	return Animate::create(animation);
 }
 
 void Player::update()
 {
 	velocityY -= 9.81 * 0.1;
-	setPositionY(getPositionY() + velocityY);
-	if (getPositionY() < minGroundY) {
-		setPositionY(minGroundY);
+	//setPositionY(getPositionY() + velocityY);
+	if (getBottom() < minGroundY) {
+		setPositionY(minGroundY - getBottom());
 		velocityY = 0;
 	}
 

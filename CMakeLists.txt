@@ -62,17 +62,19 @@ list(APPEND GAME_SOURCE
      Classes/SplashScreen.cpp
      Classes/MainMenu.cpp
      Classes/GameScene.cpp
-     Classes/Player.cpp
      Classes/KeyListener.cpp
      Classes/Leveling.cpp
      Classes/Platform.cpp
      Classes/HUD.cpp
      Classes/Enemy.cpp
-     Classes/Goblin.cpp
      Classes/Coin.cpp
      Classes/EnemyLogic.cpp
      Classes/GSPause.cpp
      Classes/DeathScreen.cpp
+     Classes/Units/Character.cpp
+     Classes/Units/SpriteUnit.cpp
+     Classes/Units/Player.cpp
+     Classes/Units/Enemies/Goblin.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -80,17 +82,20 @@ list(APPEND GAME_HEADER
      Classes/SplashScreen.h
      Classes/MainMenu.h
      Classes/GameScene.h
-     Classes/Player.h
      Classes/KeyListener.h
      Classes/Leveling.h
      Classes/Platform.h
      Classes/HUD.h
      Classes/Enemy.h
-     Classes/Goblin.h
      Classes/Coin.h
      Classes/EnemyLogic.h
      Classes/GSPause.h
      Classes/DeathScreen.h
+     Classes/Units/States.h
+     Classes/Units/Character.h
+     Classes/Units/SpriteUnit.h
+     Classes/Units/Player.h
+     Classes/Units/Enemies/Goblin.h
      )
 
 if(ANDROID)

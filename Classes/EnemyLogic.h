@@ -1,5 +1,5 @@
-#include "Goblin.h"
-#include "Player.h"
+#include "Units/Enemies/Goblin.h"
+#include "Units/Player.h"
 
 class EnemyLogic
 {

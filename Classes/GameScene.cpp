@@ -26,8 +26,8 @@ bool GameScene::init()
 		return false;
 	}
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -61,36 +61,9 @@ bool GameScene::init()
 	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
-	// background
-	level = Leveling::create();
-	this->addChild(level, 1);
+	initEnvironment();
+	initCharacters();
 
-	player = Player::create();
-	player->minGroundY = groundLevel;
-	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY));
-	this->addChild(player, 4);
-
-	for (int i = 0; i < 2; i++) {
-		auto goblin = Goblin::create();
-		goblin->minGroundY = groundLevel - 10;
-		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 50) + origin.x, goblin->minGroundY - 150));
-		this->addChild(goblin, 3);
-		goblins.pushBack(goblin);
-	}
-
-
-	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
-
-	platforms[0] = Platform::create(200, 150, 200, 50);
-	platforms[1] = Platform::create(800, 150, 200, 50);
-	platforms[2] = Platform::create(450, 200, 200, 50);
-	platforms[3] = Platform::create(200, 260, 200, 50);
-	platforms[4] = Platform::create(550, 300, 200, 50);
-	platforms[5] = Platform::create(650, 400, 200, 50);
-
-	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
-		this->addChild(platforms[i], 2);
-	}
 
 	hud = HUD::create();
 	this->addChild(hud, 5);
@@ -98,11 +71,68 @@ bool GameScene::init()
 	coin = Coin::create(750, 150, 40, 20);
 	this->addChild(coin, 2);
 
-	//this->addChild(level, 1);
-	/////////////////////////////
-	// 3. add your codes below...
-
 	return true;
+}
+
+void GameScene::initEnvironment() {
+	// background
+	level = Leveling::create();
+	this->addChild(level, 1);
+
+	platforms[0] = Platform::create(200, 150, 200, 50);
+	platforms[1] = Platform::create(800, 150, 200, 50);
+	platforms[2] = Platform::create(450, 200, 200, 50);
+	platforms[3] = Platform::create(200, 260, 200, 50);
+	platforms[4] = Platform::create(550, 300, 200, 50);
+	platforms[5] = Platform::create(650, 400, 200, 50);
+	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
+		this->addChild(platforms[i], 2);
+	}
+
+	// . . .
+}
+
+void GameScene::initCharacters() {
+	player = Player::create();
+	player->minGroundY = groundLevel;
+	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY - player->getBottom()));
+	this->addChild(player, 4);
+	//=========================================//
+	Color4F white(1, 1, 1, 1);
+	Color4F red(.7, 0, 0, 1);
+	Color4F green(0, .7, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+	groundNode = DrawNode::create();
+	groundNode->drawLine(Point(0.f, groundLevel), Point(visibleSize.width, groundLevel), green);
+	this->addChild(groundNode, 1);
+	playerNode = DrawNode::create();
+	int xi = player->getLeft();
+	int yi = player->getTop();
+	int xd = player->getRight();
+	int yd = player->getBottom();
+	playerNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	playerNode->drawDot(player->getPosition(), 3.f, red);
+	this->addChild(playerNode, 4);
+	//=========================================//
+	initEnemies();
+}
+
+void GameScene::initEnemies() {
+	for (int i = 0; i < 2; i++) {
+		auto goblin = Goblin::create();
+		goblin->minGroundY = groundLevel;
+		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 50) + origin.x, goblin->minGroundY - goblin->getBottom()));
+		this->addChild(goblin, 3);
+		goblins.pushBack(goblin);
+
+		Color4F red(.7, 0, 0, 1);
+		Color4F yellow(.7, .7, 0, 1);
+		auto goblinNode = DrawNode::create();
+		goblinNode->drawRect(Point(goblin->getLeft(), goblin->getTop()), Point(goblin->getRight(), goblin->getBottom()), yellow);
+		goblinNode->drawDot(goblin->getPosition(), 3.f, red);
+		this->addChild(goblinNode, 3);
+	}
+	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -177,7 +207,7 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = -1 * player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()));
 					}*/
-					player->velocityX = -1 * player->velocityMax;
+					player->velocityX = -1 * player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()));
 				}
 				else if (keyState[27] || keyState[127]) {	// right
@@ -197,7 +227,7 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()) * -1);
 					}*/
-					player->velocityX = player->velocityMax;
+					player->velocityX = player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()) * -1);
 				}
 				if (player->state != State::isJumping) {
@@ -250,7 +280,7 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[59]) {									// jump
-			if (player->getPositionY() == player->minGroundY) {
+			if (player->getBottom() == player->minGroundY) {
 				player->velocityY = 15;
 				player->state = State::isJumping;
 			}
@@ -280,11 +310,11 @@ void GameScene::checkActivePlatform() {
 }
 
 void GameScene::checkTakeCoin() {
-	if (coin->exist == true&&
+	if (coin->exist == true &&
 		player->getPositionX() + player->getContentSize().width / 2 >= coin->coordinate.x &&
 		player->getPositionX() - player->getContentSize().width / 2 <= coin->coordinate.x &&
 		player->getPositionY() + player->getContentSize().height + 70 >= coin->coordinate.y &&
-		player->getPositionY() - player->getContentSize().height <= coin->coordinate.y 
+		player->getPositionY() - player->getContentSize().height <= coin->coordinate.y
 		)
 	{
 		coin->exist = false;
@@ -297,15 +327,18 @@ void GameScene::checkTakeCoin() {
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 
-	enemyLogic->chasePlayer();
+	//enemyLogic->chasePlayer();
 
+	playerNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	player->update();
+
 	for (auto goblin : goblins) {
 		goblin->update();
 	}
 
 	checkActivePlatform();
-	
+
 	checkTakeCoin();
 }
 
