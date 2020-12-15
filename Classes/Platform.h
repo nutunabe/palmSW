@@ -1,12 +1,11 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
-#include<cocos2d.h>
+#include "Units/SpriteUnit.h"
 
 USING_NS_CC;
 
-#pragma once
-class Platform : public Sprite
+class Platform : public SpriteUnit
 {
 public:
 	static Platform* create(int x, int y, int width, int height);
@@ -25,4 +24,4 @@ private:
 	void Init();
 };
 
-#endif // !__PLATFORM_H__
+#endif

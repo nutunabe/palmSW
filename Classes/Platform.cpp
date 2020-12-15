@@ -4,14 +4,23 @@ USING_NS_CC;
 
 Platform* Platform::create(int x, int y, int width, int height) {
 	Platform* platform = new Platform();
+	if (platform->initWithFile("platform.png")) {
+		platform->setPositionX(x);
+		platform->setPositionY(y);
+		platform->size.width = width;
+		platform->size.height = height;
+		platform->Init();
 
+		platform->scale = 1.0;
+		platform->width = 200;
+		platform->height = 50;
+		platform->paddingTop = 0 * platform->scale;
+		platform->paddingBottom = 0 * platform->scale;
+		platform->paddingLeft = 0 * platform->scale;
+		platform->paddingRight = 0 * platform->scale;
+	}
 	//platform->coordinate.x = x;
 	//platform->coordinate.y = y;
-	platform->setPositionX(x);
-	platform->setPositionY(y);
-	platform->size.width = width;
-	platform->size.height = height;
-	platform->Init();
 
 	return platform;
 }
@@ -22,12 +31,12 @@ Platform::Platform() {
 }
 
 void Platform::Init() {
-	auto sprite = Sprite::create("platform.png");
-	sprite->setAnchorPoint(Point(0, 1));
-	sprite->setContentSize(size);
+	//auto sprite = Sprite::create("platform.png");
+	//sprite->setAnchorPoint(Point(0, 1));
+	//sprite->setContentSize(size);
 	//sprite->setPosition(coordinate);
 	
-	this->addChild(sprite);
+	//this->addChild(sprite);
 }
 
 void Platform::parallax() {
