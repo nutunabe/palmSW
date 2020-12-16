@@ -68,7 +68,19 @@ bool GameScene::init()
 	initEnvironment();
 	initCharacters();
 
-	coin = Coin::create(750, 150, 40, 20);
+	coin = Coin::create(650, 350, 40, 20);
+	Color4F white(1, 1, 1, 1);
+	Color4F red(.7, 0, 0, 1);
+	Color4F green(0, .7, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+	auto CoinNode = DrawNode::create();
+	int xi = coin->getLeft();
+	int yi = coin->getTop();
+	int xd = coin->getRight();
+	int yd = coin->getBottom();
+	CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	CoinNode->drawDot(coin->getPosition(), 3.f, red);
+	this->addChild(CoinNode, 4);
 	this->addChild(coin, 2);
 
 	return true;
