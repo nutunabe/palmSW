@@ -378,8 +378,8 @@ void GameScene::update(float dt) {
 
 	playerNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
-	auto cam = Camera::getDefaultCamera();
-	cam->setPositionX(player->getPositionX());
+	/*auto cam = Camera::getDefaultCamera();
+	cam->setPositionX(player->getPositionX());*/
 	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 	player->update();
 
