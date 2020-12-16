@@ -11,26 +11,27 @@ HUD* HUD::create() {
 }
 
 void HUD::Init() {
-	auto hBBackground = Sprite::create("block2.png");
+
+	auto hBBackground = Sprite::create("res/hud/hb_bg.png");
 	hBBackground->setAnchorPoint(Point(0, 1));
 	hBBackground->setPosition(Point(20, 750));
 	this->addChild(hBBackground);
 
-	healthBar = ui::LoadingBar::create("block.png");
+	healthBar = ui::LoadingBar::create("res/hud/hb_h.png");
 	healthBar->setAnchorPoint(Point(0, 1));
-	healthBar->setPosition(Point(20, 750));
+	healthBar->setPosition(Point(76, 742));
 	healthBar->setDirection(ui::LoadingBar::Direction::LEFT);
 	healthBar->setPercent(health);
 	this->addChild(healthBar);
 
-	auto hBBackground1 = Sprite::create("block2.png");
+	auto hBBackground1 = Sprite::create("res/hud/hb_h_bg.png");
 	hBBackground1->setAnchorPoint(Point(0, 1));
-	hBBackground1->setPosition(Point(20, 700));
+	hBBackground1->setPosition(Point(76, 742));
 	this->addChild(hBBackground1);
 
-	staminaBar = ui::LoadingBar::create("stamina.png");
+	staminaBar = ui::LoadingBar::create("res/hud/hb_s.png");
 	staminaBar->setAnchorPoint(Point(0, 1));
-	staminaBar->setPosition(Point(20, 700));
+	staminaBar->setPosition(Point(72, 706));
 	staminaBar->setDirection(ui::LoadingBar::Direction::LEFT);
 	staminaBar->setPercent(stamina);
 	this->addChild(staminaBar);
