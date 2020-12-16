@@ -8,7 +8,6 @@ Leveling* Leveling::create()
 
 	level->Init();
 	//level->scheduleUpdate();
-
 	return level;
 }
 
@@ -18,7 +17,7 @@ Leveling::Leveling()
 	origin = Director::getInstance()->getVisibleOrigin();
 }
 
-void Leveling::Init() 
+void Leveling::Init()
 {
 	char str[200] = { 0 };
 	char str1[200] = { 0 };
@@ -44,9 +43,7 @@ void Leveling::Init()
 			layer2->setGlobalZOrder(1);
 		}
 		this->addChild(layer);
-		background.pushBack(layer);
 		this->addChild(layer2);
-		background2.pushBack(layer2);
 	}
 }
 
@@ -75,36 +72,38 @@ void Leveling::update(float dt)
 	}
 }
 
-void Leveling::parallax() 
+void Leveling::parallax()
 {
 	//if(Player::state == State::isRunning)
 	char str1[200] = { 0 };
 	char str11[200] = { 0 };
-	if (direction == 1) {
-		for (int i = 2; i < 10; i++) {
-			sprintf(str1, "layer%d", i);
-			sprintf(str11, "layer1%d", i);
-			auto back1 = this->getChildByName(str1);
-			auto back11 = this->getChildByName(str11);
-			auto spriteAction = RepeatForever::create(MoveBy::create(7 - i / 2, Point(-this->visibleSize.width, 0)));
-			auto spriteAction2 = RepeatForever::create(MoveBy::create(7 - i / 2, Point(-this->visibleSize.width, 0)));
-			back1->runAction(spriteAction);
-			back11->runAction(spriteAction2);
+	if (flag != true) {
+		if (direction == 1) {
+			for (int i = 2; i < 10; i++) {
+				sprintf(str1, "layer%d", i);
+				sprintf(str11, "layer1%d", i);
+				auto back1 = this->getChildByName(str1);
+				auto back11 = this->getChildByName(str11);
+				auto spriteAction = RepeatForever::create(MoveBy::create(7 - i / 2, Point(-this->visibleSize.width, 0)));
+				auto spriteAction2 = RepeatForever::create(MoveBy::create(7 - i / 2, Point(-this->visibleSize.width, 0)));
+				back1->runAction(spriteAction);
+				back11->runAction(spriteAction2);
+			}
+			this->scheduleUpdate();
 		}
-		this->scheduleUpdate();
-	}
-	else {
-		for (int i = 2; i < 10; i++) {
-			sprintf(str1, "layer%d", i);
-			sprintf(str11, "layer1%d", i);
-			auto back1 = this->getChildByName(str1);
-			auto back11 = this->getChildByName(str11);
-			auto spriteAction = RepeatForever::create(MoveBy::create(7 - i / 2, Point(this->visibleSize.width, 0)));
-			auto spriteAction2 = RepeatForever::create(MoveBy::create(7 - i / 2, Point(this->visibleSize.width, 0)));
-			back1->runAction(spriteAction);
-			back11->runAction(spriteAction2);
+		else {
+			for (int i = 2; i < 10; i++) {
+				sprintf(str1, "layer%d", i);
+				sprintf(str11, "layer1%d", i);
+				auto back1 = this->getChildByName(str1);
+				auto back11 = this->getChildByName(str11);
+				auto spriteAction = RepeatForever::create(MoveBy::create(7 - i / 2, Point(this->visibleSize.width, 0)));
+				auto spriteAction2 = RepeatForever::create(MoveBy::create(7 - i / 2, Point(this->visibleSize.width, 0)));
+				back1->runAction(spriteAction);
+				back11->runAction(spriteAction2);
+			}
+			this->scheduleUpdate();
 		}
-		this->scheduleUpdate();
 	}
 }
 void Leveling::stopMoving()

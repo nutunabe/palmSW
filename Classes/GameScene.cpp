@@ -65,6 +65,8 @@ bool GameScene::init()
 	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
+
+
 	initEnvironment();
 	initCharacters();
 
@@ -99,8 +101,38 @@ void GameScene::initEnvironment() {
 	platforms[5] = Platform::create(650, 400, 200, 50);
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
 		this->addChild(platforms[i], 2);
+
+		Color4F white(1, 1, 1, 1);
+		Color4F red(.7, 0, 0, 1);
+		Color4F green(0, .7, 0, 1);
+		Color4F yellow(.7, .7, 0, 1);
+
+		auto platformNode = DrawNode::create();
+		int xi = platforms[i]->getLeft();
+		int yi = platforms[i]->getTop();
+		int xd = platforms[i]->getRight();
+		int yd = platforms[i]->getBottom();
+		platformNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+		platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
+		this->addChild(platformNode, 40);
 	}
 
+	char str[200] = { 0 };
+	sprintf(str, "right %f", platforms[0]->getRight());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "left %f", platforms[0]->getLeft());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "top %f", platforms[0]->getTop());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "bottom %f", platforms[0]->getBottom());
+	CCLOG(str);
+	memset(str, 0, sizeof str);
+	sprintf(str, "width %f", platforms[0]->size.width);
+	CCLOG(str);
+	memset(str, 0, sizeof str);
 	// . . .
 }
 
@@ -161,7 +193,7 @@ void GameScene::keyCheck() {/*
 		if (keyListener->keyPressed[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
-			level->isMoving = false;
+			level->flag = false;
 			/*for (auto plat : platforms) {
 				plat->stopAllActions();
 			}*/
@@ -170,7 +202,7 @@ void GameScene::keyCheck() {/*
 		if (keyListener->keyReleased[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
-			level->isMoving = false;
+			level->flag = false;
 			/*for (auto plat : platforms) {
 				plat->stopAllActions();
 			}*/
@@ -219,8 +251,12 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = -1 * player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()));
 					}*/
+					level->setDirectionLeft();
+					level->parallax();
+					level->flag = true;
 					player->velocityX = -1 * player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()));
+					
 				}
 				else if (keyState[27] || keyState[127]) {	// right
 					/*level->setDirectionRight();
@@ -239,6 +275,9 @@ void GameScene::whatKey(bool* keyState) {
 						player->velocityX = player->velocityMax;
 						player->setScaleX(abs(player->getScaleX()) * -1);
 					}*/
+					level->setDirectionRight();
+					level->parallax();
+					level->flag = true;
 					player->velocityX = player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()) * -1);
 				}
@@ -258,7 +297,7 @@ void GameScene::whatKey(bool* keyState) {
 			if(hud->stamina >= 5){
 				if (player->state != State::isAttacking) {
 					level->stopMoving();
-					level->isMoving = false;
+					level->flag = false;
 					/*for (auto plat : platforms) {
 						plat->stopAllActions();
 					}*/
@@ -274,7 +313,7 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isTakingHit) {
 				player->stopAllActions();
 				level->stopMoving();
-				level->isMoving = false;
+				level->flag = false;
 				/*for (auto plat : platforms) {
 					plat->stopAllActions();
 				}*/
@@ -287,10 +326,10 @@ void GameScene::whatKey(bool* keyState) {
 			if (player->state != State::isDying) {
 				player->stopAllActions();
 				level->stopMoving();
+				level->flag = false;
 				/*for (auto plat : platforms) {
 					plat->stopAllActions();
 				}*/
-				level->isMoving = false;
 				player->velocityX = 0;
 				player->state = State::isDying;
 			}
@@ -351,6 +390,9 @@ void GameScene::update(float dt) {
 
 	playerNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	/*auto cam = Camera::getDefaultCamera();
+	cam->setPositionX(player->getPositionX());*/
+	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 	player->update();
 
 	for (auto goblin : goblins) {
