@@ -27,7 +27,7 @@ bool DeathScreen::init() {
 
 	//this->scheduleOnce(CC_SCHEDULE_SELECTOR(DeathScreen::GoToMainMenu), 2);
 
-	auto backgroundSprite = Sprite::create("lya1.png");
+	auto backgroundSprite = Sprite::create("death_screen.jpg");
 	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
 	this->addChild(backgroundSprite);
