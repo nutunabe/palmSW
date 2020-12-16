@@ -35,6 +35,7 @@ public:
 	Sprite* mySprite;
 	int groundLevel = 50;
 private:
+	Vector<Coin*> coins;
 	Player* player;
 	Vector<Goblin*> goblins;
 	Leveling* level;

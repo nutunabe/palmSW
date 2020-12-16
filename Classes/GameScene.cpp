@@ -69,21 +69,25 @@ bool GameScene::init()
 
 	initEnvironment();
 	initCharacters();
+	for (int i = 0; i <= 5; i++) {
+		auto coin = Coin::create(900 + i * 50, 185, 35, 35);
+		this->addChild(coin, 2);
+		coins.pushBack(coin);
 
-	coin = Coin::create(650, 350, 40, 20);
-	Color4F white(1, 1, 1, 1);
-	Color4F red(.7, 0, 0, 1);
-	Color4F green(0, .7, 0, 1);
-	Color4F yellow(.7, .7, 0, 1);
-	auto CoinNode = DrawNode::create();
-	int xi = coin->getLeft();
-	int yi = coin->getTop();
-	int xd = coin->getRight();
-	int yd = coin->getBottom();
-	CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-	CoinNode->drawDot(coin->getPosition(), 3.f, red);
-	this->addChild(CoinNode, 4);
-	this->addChild(coin, 2);
+		Color4F white(1, 1, 1, 1);
+		Color4F red(.7, 0, 0, 1);
+		Color4F green(0, .7, 0, 1);
+		Color4F yellow(.7, .7, 0, 1);
+
+		auto CoinNode = DrawNode::create();
+		int xi = coin->getLeft();
+		int yi = coin->getTop();
+		int xd = coin->getRight();
+		int yd = coin->getBottom();
+		CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+		CoinNode->drawDot(coin->getPosition(), 3.f, red);
+		this->addChild(CoinNode, 50);
+	}
 
 	return true;
 }
@@ -369,17 +373,19 @@ void GameScene::checkActivePlatform() {
 }
 
 void GameScene::checkTakeCoin() {
-	if (coin->exist == true &&
-		player->getPositionX() + player->getContentSize().width / 2 >= coin->coordinate.x &&
-		player->getPositionX() - player->getContentSize().width / 2 <= coin->coordinate.x &&
-		player->getPositionY() + player->getContentSize().height + 70 >= coin->coordinate.y &&
-		player->getPositionY() - player->getContentSize().height <= coin->coordinate.y
-		)
-	{
-		coin->exist = false;
-		hud->count += 1;
-		hud->update();
-		removeChild(coin, false);
+	for (auto coin : coins) {
+		if (coin->exist == true &&
+			player->getRight() >= coin->getPositionX() &&
+			player->getLeft() <= coin->getPositionX() &&
+			player->getTop() >= coin->getPositionY() &&
+			player->getBottom() <= coin->getPositionY()
+			)
+		{
+			coin->exist = false;
+			hud->count += 1;
+			hud->update();
+			removeChild(coin, false);
+		}
 	}
 }
 

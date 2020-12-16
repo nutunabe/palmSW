@@ -1,7 +1,7 @@
 #ifndef __COIN_H__
 #define __COIN_H__
 
-#include <Units/SpriteUnit.h>
+#include "Units/SpriteUnit.h"
 
 USING_NS_CC;
 
