@@ -8,6 +8,7 @@ class MainMenu
 
 #include "cocos2d.h"
 #include "GameScene.h"
+#include "AudioEngine.h"
 #include <ui/CocosGUI.h>
 
 using namespace cocos2d;
@@ -25,6 +26,14 @@ private:
 	void showMenu(Ref *sender);
 
 	void showMainMenu();
+
+	void sliderEvent(Ref* sender, ui::Slider::EventType type);
+	
+	float musicVolume = 0.5f;
+
+	int musicID;
+
+	ui::Slider* slider;
 public:
 	static Scene* createScene();
 	
@@ -32,6 +41,7 @@ public:
 	virtual bool init();
 
 	CREATE_FUNC(MainMenu);
+
 
 	Size visibleSize;
 	Vec2 origin;

@@ -1,5 +1,5 @@
 #include "MainMenu.h"
-#include "AudioEngine.h"
+
 
 USING_NS_CC;
 
@@ -24,7 +24,8 @@ static void problemLoading(const char* filename)
 
 bool MainMenu::init() {
 	
-    AudioEngine::play2d("res/sounds/bgsound.mp3", true, 0.5f);
+    musicID = AudioEngine::play2d("res/sounds/bgsound.mp3", true, musicVolume);
+    //soundEngine
 
 	if ( !Layer::init()) {
 		return false;
@@ -84,26 +85,18 @@ void MainMenu::showSettings( Ref* sender ) {
     menu->setPosition(Point::ZERO);
     this->addChild(menu, 2);
 
-    auto slider = ui::Slider::create();
+    slider = ui::Slider::create();
+    slider->setTouchEnabled(true);
     slider->setName("musicSlider");
     slider->loadBarTexture("Slider_Back.png"); // как будет выглядеть Slider
     slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider->loadProgressBarTexture("Slider_PressBar.png");
 
-    slider->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-        switch (type)
-        {
-        case ui::Widget::TouchEventType::BEGAN:
-            break;
-        case ui::Widget::TouchEventType::ENDED:
-            std::cout << "slider moved" << std::endl;
-            break;
-        default:
-            break;
-        }
-        });
+    slider->setPercent(musicVolume * 100);
 
     slider->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 2));
+
+    slider->addEventListener(CC_CALLBACK_2(MainMenu::sliderEvent, this));
     this->addChild(slider, 4);
 
     auto label2 = Label::createWithTTF(u8" \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
@@ -128,6 +121,9 @@ void MainMenu::showMenu(Ref* sender) {
     this->removeChildByName("musicSlider", true);
     this->removeChildByName("music", true);
     this->removeChildByName("keyboard", true);
+
+    CCLOG("%d", slider->getPercent());
+    //AudioEngine::setVolume(musicID, float(musicVolume));
 
     //auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
     auto playLabel = Label::createWithTTF("Play", "fonts/Pixel Times.ttf", 24);
@@ -207,4 +203,18 @@ void MainMenu::showMainMenu() {
     menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 2);
+}
+
+
+void MainMenu::sliderEvent(Ref* sender, ui::Slider::EventType type)
+{
+    if (type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
+    {
+        auto slider = dynamic_cast<ui::Slider*>(sender);
+        int temp = slider->getPercent();
+        float dt = temp;
+        musicVolume = dt / 100;
+        AudioEngine::setVolume(musicID, musicVolume);
+        //CCLOG(">>> LineOptionIndex: %f", musicVolume);
+    }
 }
