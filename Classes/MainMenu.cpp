@@ -33,8 +33,8 @@ bool MainMenu::init() {
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 
-
-    auto backgroundSprite = Sprite::create("Background.png");
+    
+    auto backgroundSprite = Sprite::create("main_menu_background.png");
     backgroundSprite->setContentSize(visibleSize);
     backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
