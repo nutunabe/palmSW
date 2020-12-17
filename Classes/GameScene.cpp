@@ -88,6 +88,26 @@ bool GameScene::init()
 		CoinNode->drawDot(coin->getPosition(), 3.f, red);
 		this->addChild(CoinNode, 50);
 	}
+	
+	int k;
+
+	k = rand() % 5000 + 2000;
+
+	shop = Shop::create(k, 200, 280, 280);
+	this->addChild(shop, 1);
+	Color4F white(1, 1, 1, 1);
+	Color4F red(.7, 0, 0, 1);
+	Color4F green(0, .7, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+
+	auto ShopNode = DrawNode::create();
+	int xi = shop->getLeft();
+	int yi = shop->getTop();
+	int xd = shop->getRight();
+	int yd = shop->getBottom();
+	ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	ShopNode->drawDot(shop->getPosition(), 3.f, red);
+	this->addChild(ShopNode, 50);
 
 	return true;
 }

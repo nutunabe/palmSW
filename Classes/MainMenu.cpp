@@ -50,7 +50,7 @@ void MainMenu::GoToGameScene(Ref* sender)
 {
     Director::getInstance()->replaceScene(GameScene::createScene());
 
-    //AudioEngine::stopAll();
+    AudioEngine::stopAll();
     /*auto scene = GameScene::createScene();
 
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));*/

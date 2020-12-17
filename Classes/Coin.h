@@ -10,7 +10,6 @@ class Coin : public SpriteUnit
 {
 public:
 	static Coin* create(int x, int y, int width, int height);
-	Point coordinate;
 	Size size;
 	bool exist = false;
 private:
