@@ -7,7 +7,7 @@ ___
 [Вкусные блинчики](#Blinchiki);  
 [Пицца по-домашнему](#Pizza);  
 ___
-[a relative link](GUIDE.md)
+[ГУИДЕ](GUIDE.md)
 ___
 ## <a name="Blinchiki"></a> ВКУСНЫЕ БЛИНЧИКИ  
 
