@@ -56,7 +56,6 @@ endif()
 
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
-     Classes/json.hpp
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
      Classes/SplashScreen.cpp

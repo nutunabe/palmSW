@@ -23,8 +23,19 @@ static void problemLoading(const char* filename)
 }
 
 bool MainMenu::init() {
-	
+    std::ifstream ifs("../Resources/Data.json");
+    rapidjson::IStreamWrapper isw(ifs);
+
+    doc.ParseStream(isw);
+    assert(doc.IsObject());
+    assert(doc.HasMember("musicVolume"));
+    assert(doc["musicVolume"].IsFloat());
+    //rapidjson::Value& hello = d["musicVolume"];
+    CCLOG("hello = %f", doc["musicVolume"].GetFloat());
+    musicVolume = doc["musicVolume"].GetFloat();
+
     musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
+
     //soundEngine
 
 	if ( !Layer::init()) {
@@ -214,7 +225,21 @@ void MainMenu::sliderEvent(Ref* sender, ui::Slider::EventType type)
         int temp = slider->getPercent();
         float dt = temp;
         musicVolume = dt / 100;
-        AudioEngine::setVolume(musicID, musicVolume);
+        //std::ofstream ifs("../Resources/Data.json");
+        //rapidjson::IStreamWrapper isw(ifs);
+
+        //doc.Parse("../Resources/Data.json");
+        //assert(doc.IsObject());
+        //assert(doc.HasMember("musicVolume"));
+        //assert(doc["musicVolume"].IsFloat());
+        doc["musicVolume"].SetFloat(musicVolume);
+        AudioEngine::setVolume(musicID, doc["musicVolume"].GetFloat());
+
+        std::ofstream ofs("../Resources/Data.json");
+        rapidjson::OStreamWrapper osw(ofs);
+
+        rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+        doc.Accept(writer);
         //CCLOG(">>> LineOptionIndex: %f", musicVolume);
     }
 }

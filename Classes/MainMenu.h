@@ -10,6 +10,13 @@ class MainMenu
 #include "GameScene.h"
 #include "AudioEngine.h"
 #include <ui/CocosGUI.h>
+#include "include/rapidjson/document.h"
+#include "include/rapidjson/error/en.h"
+#include <include/rapidjson/istreamwrapper.h>
+#include <include/rapidjson/ostreamwrapper.h>
+#include "include/rapidjson/writer.h"
+#include <iostream>
+#include <fstream>
 
 using namespace cocos2d;
 
@@ -29,11 +36,13 @@ private:
 
 	void sliderEvent(Ref* sender, ui::Slider::EventType type);
 	
-	float musicVolume = 0.5f;
+	float musicVolume;
 
 	int musicID;
 
 	ui::Slider* slider;
+
+	rapidjson::Document doc;
 public:
 	static Scene* createScene();
 	
