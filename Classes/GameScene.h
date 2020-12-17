@@ -14,7 +14,7 @@
 #include "GSPause.h"
 #include "Shop.h"
 
-using namespace cocos2d;
+USING_NS_CC;
 
 class GameScene : public cocos2d::Scene
 {
@@ -31,6 +31,8 @@ public:
 
 	Sprite* mySprite;
 	int groundLevel = 65;
+	int levelLeftEdge = 0;
+	int levelRightEdge = 6000;
 private:
 	Vector<Coin*> coins;
 	Player* player;

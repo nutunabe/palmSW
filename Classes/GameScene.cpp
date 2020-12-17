@@ -66,9 +66,8 @@ bool GameScene::init()
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
 
-
-	initEnvironment();
 	initCharacters();
+	initEnvironment();
 	for (int i = 0; i <= 5; i++) {
 		auto coin = Coin::create(900 + i * 50, 185, 35, 35);
 		this->addChild(coin, 2);
@@ -116,6 +115,7 @@ void GameScene::initEnvironment() {
 	// background
 	level = Leveling::create();
 	this->addChild(level, 1);
+	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 
 	platforms[0] = Platform::create(200, 125, 200, 50);
 	platforms[1] = Platform::create(800, 125, 200, 50);
@@ -259,51 +259,72 @@ void GameScene::whatKey(bool* keyState) {
 			keyCheck();
 			if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
 				if (keyState[26] || keyState[124]) {		// left
-					//level->setDirectionLeft();
-					/*if (player->getPositionX() < visibleSize.width / 6) {
-						player->velocityX = 0;
-						if (level->isMoving == false) {
-							for (auto plat : platforms) {
-								plat->setDirectionLeft();
-								plat->parallax();
-							}
-							level->parallax();
-							level->isMoving = true;
+					if (player->getPositionX() <= levelLeftEdge + visibleSize.width / 2 || player->getPositionX() >= levelRightEdge - visibleSize.width / 2) {
+						level->stopMoving();
+						level->flag = false;
+						if (player->getPositionX() <= levelLeftEdge + visibleSize.width / 2) {
+							auto cam = Camera::getDefaultCamera();
+							cam->setPositionX(levelLeftEdge + visibleSize.width / 2);
+							hud->setPositionX(levelLeftEdge - origin.x);
+						}
+						if (player->getPositionX() >= levelRightEdge - visibleSize.width / 2) {
+							auto cam = Camera::getDefaultCamera();
+							cam->setPositionX(levelRightEdge - visibleSize.width / 2);
+							hud->setPositionX(levelRightEdge - origin.x - visibleSize.width);
 						}
 					}
 					else {
-						player->velocityX = -1 * player->velocityMax;
-						player->setScaleX(abs(player->getScaleX()));
-					}*/
-					level->setDirectionLeft();
-					level->parallax();
-					level->flag = true;
-					player->velocityX = -1 * player->getVelocityMax();
+						level->setDirectionLeft();
+						level->parallax();
+						level->flag = true;
+						auto cam = Camera::getDefaultCamera();
+						cam->setPositionX(player->getPositionX());
+						level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
+						hud->setPositionX(player->getPositionX() - origin.x - visibleSize.width / 2);
+					}
+
 					player->setScaleX(abs(player->getScaleX()));
 
+					if (player->getLeft() <= levelLeftEdge) {
+						player->velocityX = 0;
+					}
+					else {
+						player->velocityX = -1 * player->getVelocityMax();
+					}
 				}
 				else if (keyState[27] || keyState[127]) {	// right
-					/*level->setDirectionRight();
-					if (player->getPositionX() > visibleSize.width - visibleSize.width / 6) {
-						player->velocityX = 0;
-						if (level->isMoving == false) {
-							level->parallax();
-							for (auto plat : platforms) {
-								plat->setDirectionRight();
-								plat->parallax();
-							}
-							level->isMoving = true;
+					if (player->getPositionX() <= levelLeftEdge + visibleSize.width / 2 || player->getPositionX() >= levelRightEdge - visibleSize.width / 2) {
+						level->stopMoving();
+						level->flag = false;
+						if (player->getPositionX() <= levelLeftEdge + visibleSize.width / 2) {
+							auto cam = Camera::getDefaultCamera();
+							cam->setPositionX(levelLeftEdge + visibleSize.width / 2);
+							hud->setPositionX(levelLeftEdge - origin.x);
+						}
+						if (player->getPositionX() >= levelRightEdge - visibleSize.width / 2) {
+							auto cam = Camera::getDefaultCamera();
+							cam->setPositionX(levelRightEdge - visibleSize.width / 2);
+							hud->setPositionX(levelRightEdge - origin.x - visibleSize.width);
 						}
 					}
 					else {
-						player->velocityX = player->velocityMax;
-						player->setScaleX(abs(player->getScaleX()) * -1);
-					}*/
-					level->setDirectionRight();
-					level->parallax();
-					level->flag = true;
-					player->velocityX = player->getVelocityMax();
+						level->setDirectionRight();
+						level->parallax();
+						level->flag = true;
+						auto cam = Camera::getDefaultCamera();
+						cam->setPositionX(player->getPositionX());
+						level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
+						hud->setPositionX(player->getPositionX() - origin.x - visibleSize.width / 2);
+					}
+
 					player->setScaleX(abs(player->getScaleX()) * -1);
+
+					if (player->getRight() >= levelRightEdge) {
+						player->velocityX = 0;
+					}
+					else {
+						player->velocityX = player->getVelocityMax();
+					}
 				}
 				if (player->state != State::isJumping) {
 					player->state = State::isRunning;
@@ -423,14 +444,14 @@ void GameScene::update(float dt) {
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	/*auto cam = Camera::getDefaultCamera();
 	cam->setPositionX(player->getPositionX());*/
-	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
+	//level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 	player->update();
 
 	for (auto goblin : goblins) {
 		goblin->update();
 	}
 
-	hud->setPositionX(player->getPositionX() - 500);
+	//hud->setPositionX(player->getPositionX() - 500);
 	hud->update();
 
 	checkActivePlatform();
