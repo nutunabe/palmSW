@@ -30,7 +30,7 @@ public:
 	CREATE_FUNC(GameScene);
 
 	Sprite* mySprite;
-	int groundLevel = 50;
+	int groundLevel = 65;
 private:
 	Vector<Coin*> coins;
 	Player* player;
