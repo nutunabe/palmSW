@@ -24,7 +24,7 @@ static void problemLoading(const char* filename)
 
 bool MainMenu::init() {
 	
-    musicID = AudioEngine::play2d("res/sounds/bgsound.mp3", true, musicVolume);
+    musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
     //soundEngine
 
 	if ( !Layer::init()) {
@@ -50,7 +50,7 @@ void MainMenu::GoToGameScene(Ref* sender)
 {
     Director::getInstance()->replaceScene(GameScene::createScene());
 
-    AudioEngine::stopAll();
+    //AudioEngine::stopAll();
     /*auto scene = GameScene::createScene();
 
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));*/
