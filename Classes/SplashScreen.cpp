@@ -44,7 +44,7 @@ bool SplashScreen::init()
 	{
 		// position the label on the center of the screen
 		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height / 2 - label->getContentSize().height));
+			origin.y + visibleSize.height / 2));
 
 		// add the label as a child to this layer
 		this->addChild(label, 1);

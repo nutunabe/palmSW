@@ -22,10 +22,10 @@ void Goblin::initGoblin()
 	scale = 2.5;
 	width = 45 * scale;
 	height = 45 * scale;
-	paddingTop = -8 * scale;
-	paddingBottom = -10 * scale;
-	paddingLeft = 0 * scale;
-	paddingRight = 0 * scale;
+	paddingTop = -13 * scale;
+	paddingBottom = -4 * scale;
+	paddingLeft = 6 * scale;
+	paddingRight = -6 * scale;
 
 	stillState = State::isIdle;
 	state = stillState;

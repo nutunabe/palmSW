@@ -12,6 +12,7 @@
 #include "HUD.h"
 #include "Coin.h"
 #include "GSPause.h"
+#include "Shop.h"
 
 using namespace cocos2d;
 
@@ -22,18 +23,14 @@ public:
 
 	virtual bool init();
 
-	// a selector callback
-	//void menuCloseCallback(Ref* pSender);
-
 	void goToMenu(Ref* Sender);
 
 	void pause(Ref* Sender);
 
-	// implement the "static create()" method manually
 	CREATE_FUNC(GameScene);
 
 	Sprite* mySprite;
-	int groundLevel = 50;
+	int groundLevel = 65;
 private:
 	Vector<Coin*> coins;
 	Player* player;
@@ -42,17 +39,13 @@ private:
 	KeyListener* keyListener;
 	Platform* platforms[6];
 	Platform* activePlatform;
-	Coin* coin;
+	Shop* shop;
 	HUD* hud;
 	EnemyLogic* enemyLogic;
 	Size visibleSize;
 	Vec2 origin;
 	DrawNode* playerNode;
 	DrawNode* groundNode;
-
-	//PhysicsWorld* sceneWorld;
-
-	//int keys[12] = { 28,26,29,27,146,124,142,127,129,59,77,78 };
 	int keys[8] = { 26,27,124,127,129,59,77,78 };
 
 	void keyCheck();
@@ -60,7 +53,6 @@ private:
 	void update(float dt);
 	void checkActivePlatform();
 	void checkTakeCoin();
-	//void setPhysicsWorld(PhysicsWorld* world) { sceneWorld = world; }
 	void initCharacters();
 	void initEnemies();
 	void initEnvironment();

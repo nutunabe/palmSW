@@ -89,6 +89,26 @@ bool GameScene::init()
 		this->addChild(CoinNode, 50);
 	}
 
+	int k;
+
+	k = rand() % 5000 + 2000;
+
+	shop = Shop::create(k, 200, 280, 280);
+	this->addChild(shop, 1);
+	Color4F white(1, 1, 1, 1);
+	Color4F red(.7, 0, 0, 1);
+	Color4F green(0, .7, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+
+	auto ShopNode = DrawNode::create();
+	int xi = shop->getLeft();
+	int yi = shop->getTop();
+	int xd = shop->getRight();
+	int yd = shop->getBottom();
+	ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	ShopNode->drawDot(shop->getPosition(), 3.f, red);
+	this->addChild(ShopNode, 50);
+
 	return true;
 }
 
@@ -97,12 +117,12 @@ void GameScene::initEnvironment() {
 	level = Leveling::create();
 	this->addChild(level, 1);
 
-	platforms[0] = Platform::create(200, 150, 200, 50);
-	platforms[1] = Platform::create(800, 150, 200, 50);
-	platforms[2] = Platform::create(450, 200, 200, 50);
-	platforms[3] = Platform::create(200, 260, 200, 50);
-	platforms[4] = Platform::create(550, 300, 200, 50);
-	platforms[5] = Platform::create(650, 400, 200, 50);
+	platforms[0] = Platform::create(200, 125, 200, 50);
+	platforms[1] = Platform::create(800, 125, 200, 50);
+	platforms[2] = Platform::create(450, 175, 200, 50);
+	platforms[3] = Platform::create(200, 235, 200, 50);
+	platforms[4] = Platform::create(550, 275, 200, 50);
+	platforms[5] = Platform::create(650, 375, 200, 50);
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
 		this->addChild(platforms[i], 2);
 
@@ -169,7 +189,7 @@ void GameScene::initEnemies() {
 	for (int i = 0; i < 2; i++) {
 		auto goblin = Goblin::create();
 		goblin->minGroundY = groundLevel;
-		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 50) + origin.x, goblin->minGroundY - goblin->getBottom()));
+		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 150) + origin.x, goblin->minGroundY - goblin->getBottom()));
 		this->addChild(goblin, 3);
 		goblins.pushBack(goblin);
 
@@ -260,7 +280,7 @@ void GameScene::whatKey(bool* keyState) {
 					level->flag = true;
 					player->velocityX = -1 * player->getVelocityMax();
 					player->setScaleX(abs(player->getScaleX()));
-					
+
 				}
 				else if (keyState[27] || keyState[127]) {	// right
 					/*level->setDirectionRight();
@@ -298,7 +318,7 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[129]) {								// attack
-			if(hud->stamina >= 5){
+			if (hud->stamina >= 5) {
 				if (player->state != State::isAttacking) {
 					level->stopMoving();
 					level->flag = false;
@@ -340,6 +360,11 @@ void GameScene::whatKey(bool* keyState) {
 		}
 		if (keyState[59]) {								   // jump
 			if (hud->stamina >= 10) {
+				//char str[200] = { 0 };
+				//sprintf(str, "%f\n%d", player->getBottom(), player->minGroundY);
+				//CCLOG(str);
+				//memset(str, 0, sizeof str);
+
 				if (player->getBottom() == player->minGroundY) {
 					player->velocityY = 15;
 					player->state = State::isJumping;
@@ -354,10 +379,10 @@ void GameScene::whatKey(bool* keyState) {
 void GameScene::checkActivePlatform() {
 	int maxY = -1;
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
-		if (player->getPositionX() > platforms[i]->getPositionX() && player->getPositionX() < platforms[i]->getPositionX() + platforms[i]->size.width) {
-			if (player->getPositionY() >= platforms[i]->getPositionY()) {
-				if (platforms[i]->getPositionY() > maxY) {
-					maxY = platforms[i]->getPositionY();
+		if (player->getRight() - player->getWidth() / 4 > platforms[i]->getLeft() && player->getLeft() + player->getWidth() / 4 < platforms[i]->getRight()) {
+			if (player->getBottom() >= platforms[i]->getTop()) {
+				if (platforms[i]->getTop() > maxY) {
+					maxY = platforms[i]->getTop();
 					activePlatform = platforms[i];
 				}
 			}
@@ -368,7 +393,7 @@ void GameScene::checkActivePlatform() {
 		player->minGroundY = groundLevel;
 	}
 	else {
-		player->minGroundY = activePlatform->getPositionY();
+		player->minGroundY = activePlatform->getTop();
 	}
 }
 
@@ -394,7 +419,7 @@ void GameScene::update(float dt) {
 
 	//enemyLogic->chasePlayer();
 
-	playerNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	/*auto cam = Camera::getDefaultCamera();
 	cam->setPositionX(player->getPositionX());*/

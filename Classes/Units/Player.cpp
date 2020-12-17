@@ -23,10 +23,10 @@ void Player::initPlayer()
 	scale = 3.0;
 	width = 48 * scale;
 	height = 48 * scale;
-	paddingTop = -6 * scale;
-	paddingBottom = -3 * scale;
-	paddingLeft = 0 * scale;
-	paddingRight = -1 * scale;
+	paddingTop = -11 * scale;
+	paddingBottom = 2 * scale;
+	paddingLeft = 8 * scale;
+	paddingRight = -8 * scale;
 
 	stillState = State::isReady;
 	state = stillState;
@@ -35,6 +35,8 @@ void Player::initPlayer()
 	damage = 10;
 	damageRange = width;
 	velocityMax = 5;
+	velocityX = 0;
+	velocityY = 0;
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");
@@ -79,16 +81,14 @@ void Player::initPlayer()
 void Player::update()
 {
 	velocityY -= 9.81 * 0.1;
-	//setPositionY(getPositionY() + velocityY);
+	setPositionY(getPositionY() + velocityY);
+
 	if (getBottom() < minGroundY) {
-		setPositionY(minGroundY - getBottom());
+		setPositionY(minGroundY + height / 2 - paddingBottom);
 		velocityY = 0;
 	}
 
 	setPositionX(getPositionX() + velocityX);
-	//if (velocity == 0 && getPositionY() == 120) {
-	//	state = stillState;
-	//}
 
 	getTexture()->setAliasTexParameters();
 	switch (state) {
@@ -156,10 +156,10 @@ void Player::attack() {
 
 void Player::jump() {
 	runAction(RepeatForever::create(jumpAnimate));
-	if (getPositionY() == minGroundY && velocityX != 0) {
+	if (getBottom() == minGroundY && velocityX != 0) {
 		state = State::isRunning;
 	}
-	if (getPositionY() == minGroundY && velocityX == 0) {
+	if (getBottom() == minGroundY && velocityX == 0) {
 		state = stillState;
 	}
 	// . . .

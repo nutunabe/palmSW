@@ -34,7 +34,8 @@ bool MainMenu::init() {
     CCLOG("hello = %f", doc["musicVolume"].GetFloat());
     musicVolume = doc["musicVolume"].GetFloat();
 
-    musicID = AudioEngine::play2d("res/sounds/bgsound.mp3", true, musicVolume);
+    musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
+
     //soundEngine
 
 	if ( !Layer::init()) {

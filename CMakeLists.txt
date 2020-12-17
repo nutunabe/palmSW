@@ -74,6 +74,7 @@ list(APPEND GAME_SOURCE
      Classes/Units/SpriteUnit.cpp
      Classes/Units/Player.cpp
      Classes/Units/Enemies/Goblin.cpp
+     Classes/Shop.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -95,6 +96,7 @@ list(APPEND GAME_HEADER
      Classes/Units/SpriteUnit.h
      Classes/Units/Player.h
      Classes/Units/Enemies/Goblin.h
+     Classes/Shop.h
      )
 
 if(ANDROID)

@@ -22,10 +22,10 @@ void Coin::Init() {
 	scale = 1.5;
 	width = size.width;
 	height = size.height;
-	paddingTop = 0 * scale;
-	paddingBottom = 0 * scale;
-	paddingLeft = 0 * scale;
-	paddingRight = 0 * scale;
+	paddingTop = -3 * scale;
+	paddingBottom = 3 * scale;
+	paddingLeft = 4 * scale;
+	paddingRight = -4 * scale;
 
 	exist = true;
 
