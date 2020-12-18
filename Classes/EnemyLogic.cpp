@@ -53,6 +53,7 @@ void EnemyLogic::attackPlayer() {
 			goblin->stopAllActions();
 			goblin->velocityX = 0;
 			goblin->state = State::isAttacking;
+			player->takeDamage(goblin->getDamage());
 		}
 	}
 }

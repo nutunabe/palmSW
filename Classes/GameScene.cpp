@@ -4,8 +4,6 @@ USING_NS_CC;
 
 Scene* GameScene::createScene() {
 	GameScene* gameScene = GameScene::create();
-	//gameScene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	//gameScene->init();
 	gameScene->scheduleUpdate();
 	return gameScene;
 }
@@ -16,11 +14,8 @@ static void problemLoading(const char* filename)
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in GameScene.cpp\n");
 }
 
-// on "init" you need to initialize your instance
 bool GameScene::init()
 {
-	//////////////////////////////
-	// 1. super init first
 	if (!Scene::init())
 	{
 		return false;
@@ -29,11 +24,6 @@ bool GameScene::init()
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
 	auto menuItem = MenuItemImage::create(
 		"Menu Button.png",
 		"Menu Button Clicked.png",
@@ -49,22 +39,17 @@ bool GameScene::init()
 	{
 		float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
 		float y = origin.y + visibleSize.height - menuItem->getContentSize().height / 2;
-		//menuItem->setGlobalZOrder(4);
 		menuItem->setPosition(Vec2(x, y));
 	}
 
-	// create menu, it's an autorelease object
-	hud = HUD::create();
-
 	auto menu = Menu::create(menuItem, NULL);
 	menu->setPosition(Vec2::ZERO);
-	hud->addChild(menu);
 
+	hud = HUD::create();
+	hud->addChild(menu);
 	this->addChild(hud, 5);
 
-	// key listener
 	keyListener = KeyListener::create(this->_eventDispatcher);
-
 
 	initCharacters();
 	initEnvironment();
@@ -72,12 +57,11 @@ bool GameScene::init()
 		auto coin = Coin::create(900 + i * 50, 185, 35, 35);
 		this->addChild(coin, 2);
 		coins.pushBack(coin);
-
+		//=========================================//
 		Color4F white(1, 1, 1, 1);
 		Color4F red(.7, 0, 0, 1);
 		Color4F green(0, .7, 0, 1);
 		Color4F yellow(.7, .7, 0, 1);
-
 		auto CoinNode = DrawNode::create();
 		int xi = coin->getLeft();
 		int yi = coin->getTop();
@@ -86,19 +70,18 @@ bool GameScene::init()
 		CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
 		CoinNode->drawDot(coin->getPosition(), 3.f, red);
 		this->addChild(CoinNode, 50);
+		//=========================================//
 	}
 
 	int k;
-
 	k = rand() % 5000 + 2000;
-
 	shop = Shop::create(k, 200, 280, 280);
 	this->addChild(shop, 1);
+	//=========================================//
 	Color4F white(1, 1, 1, 1);
 	Color4F red(.7, 0, 0, 1);
 	Color4F green(0, .7, 0, 1);
 	Color4F yellow(.7, .7, 0, 1);
-
 	auto ShopNode = DrawNode::create();
 	int xi = shop->getLeft();
 	int yi = shop->getTop();
@@ -107,6 +90,7 @@ bool GameScene::init()
 	ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
 	ShopNode->drawDot(shop->getPosition(), 3.f, red);
 	this->addChild(ShopNode, 50);
+	//=========================================//
 
 	return true;
 }
@@ -126,11 +110,11 @@ void GameScene::initEnvironment() {
 	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
 		this->addChild(platforms[i], 2);
 
+		//=========================================//
 		Color4F white(1, 1, 1, 1);
 		Color4F red(.7, 0, 0, 1);
 		Color4F green(0, .7, 0, 1);
 		Color4F yellow(.7, .7, 0, 1);
-
 		auto platformNode = DrawNode::create();
 		int xi = platforms[i]->getLeft();
 		int yi = platforms[i]->getTop();
@@ -139,24 +123,8 @@ void GameScene::initEnvironment() {
 		platformNode->drawRect(Point(xi, yi), Point(xd, yd), white);
 		platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
 		this->addChild(platformNode, 40);
+		//=========================================//
 	}
-
-	char str[200] = { 0 };
-	sprintf(str, "right %f", platforms[0]->getRight());
-	CCLOG(str);
-	memset(str, 0, sizeof str);
-	sprintf(str, "left %f", platforms[0]->getLeft());
-	CCLOG(str);
-	memset(str, 0, sizeof str);
-	sprintf(str, "top %f", platforms[0]->getTop());
-	CCLOG(str);
-	memset(str, 0, sizeof str);
-	sprintf(str, "bottom %f", platforms[0]->getBottom());
-	CCLOG(str);
-	memset(str, 0, sizeof str);
-	sprintf(str, "width %f", platforms[0]->size.width);
-	CCLOG(str);
-	memset(str, 0, sizeof str);
 	// . . .
 }
 
@@ -192,13 +160,14 @@ void GameScene::initEnemies() {
 		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 150) + origin.x, goblin->minGroundY - goblin->getBottom()));
 		this->addChild(goblin, 3);
 		goblins.pushBack(goblin);
-
+		//=========================================//
 		Color4F red(.7, 0, 0, 1);
 		Color4F yellow(.7, .7, 0, 1);
 		auto goblinNode = DrawNode::create();
 		goblinNode->drawRect(Point(goblin->getLeft(), goblin->getTop()), Point(goblin->getRight(), goblin->getBottom()), yellow);
 		goblinNode->drawDot(goblin->getPosition(), 3.f, red);
 		this->addChild(goblinNode, 3);
+		//=========================================//
 	}
 	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
 }
@@ -208,43 +177,28 @@ void GameScene::goToMenu(Ref* Sender)
 	Director::getInstance()->replaceScene(MainMenu::createScene());
 }
 
-void GameScene::keyCheck() {/*
-	if (!keyListener->keyState[26] &&
-		!keyListener->keyState[27] &&
-		!keyListener->keyState[124] &&
-		!keyListener->keyState[127]) {*/
+void GameScene::keyCheck() {
 	for (int _i = 0; _i < sizeof(keys) / sizeof(keys[0]); _i++) {
 		if (keyListener->keyPressed[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
 			level->flag = false;
-			/*for (auto plat : platforms) {
-				plat->stopAllActions();
-			}*/
 			keyListener->keyPressed[keys[_i]] = false;
 		}
 		if (keyListener->keyReleased[keys[_i]]) {
 			player->stopAllActions();
 			level->stopMoving();
 			level->flag = false;
-			/*for (auto plat : platforms) {
-				plat->stopAllActions();
-			}*/
 			keyListener->keyReleased[keys[_i]] = false;
 		}
 	}
-	//}
 }
 
 void GameScene::whatKey(bool* keyState) {
 	/*
-	* arrow up		28-
 	* arrow left	26
-	* arrow down	29-
 	* arrow right	27
-	*	W			146-
 	*	A			124
-	*	S			142-
 	*	D			127
 	*	F			129
 	* SPACE			59
@@ -343,9 +297,6 @@ void GameScene::whatKey(bool* keyState) {
 				if (player->state != State::isAttacking) {
 					level->stopMoving();
 					level->flag = false;
-					/*for (auto plat : platforms) {
-						plat->stopAllActions();
-					}*/
 					player->stopAllActions();
 					player->velocityX = 0;
 					player->state = State::isAttacking;
@@ -359,9 +310,6 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->flag = false;
-				/*for (auto plat : platforms) {
-					plat->stopAllActions();
-				}*/
 				player->velocityX = 0;
 				player->state = State::isTakingHit;
 				hud->getHit(10, player);
@@ -372,20 +320,12 @@ void GameScene::whatKey(bool* keyState) {
 				player->stopAllActions();
 				level->stopMoving();
 				level->flag = false;
-				/*for (auto plat : platforms) {
-					plat->stopAllActions();
-				}*/
 				player->velocityX = 0;
 				player->state = State::isDying;
 			}
 		}
 		if (keyState[59]) {								   // jump
 			if (hud->stamina >= 10) {
-				//char str[200] = { 0 };
-				//sprintf(str, "%f\n%d", player->getBottom(), player->minGroundY);
-				//CCLOG(str);
-				//memset(str, 0, sizeof str);
-
 				if (player->getBottom() == player->minGroundY) {
 					player->velocityY = 15;
 					player->state = State::isJumping;
@@ -437,26 +377,18 @@ void GameScene::checkTakeCoin() {
 
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
-
 	enemyLogic->chasePlayer();
-
-	playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
-	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
-	/*auto cam = Camera::getDefaultCamera();
-	cam->setPositionX(player->getPositionX());*/
-	//level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 	player->update();
-
 	for (auto goblin : goblins) {
 		goblin->update();
 	}
-
-	//hud->setPositionX(player->getPositionX() - 500);
 	hud->update();
 
 	checkActivePlatform();
-
 	checkTakeCoin();
+
+	playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
+	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 }
 
 /*void GameScene::pause(Ref* Sender) {
