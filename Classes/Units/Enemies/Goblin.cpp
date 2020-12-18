@@ -85,9 +85,6 @@ void Goblin::initGoblin()
 void Goblin::update()
 {
 	setPositionX(getPositionX() + velocityX);
-	//if (velocity == 0 && getPositionY() == 120) {
-	//	state = stillState;
-	//}
 
 	getTexture()->setAliasTexParameters();
 	switch (state) {
@@ -96,7 +93,6 @@ void Goblin::update()
 		// . . .
 		break;
 	case State::isRunning:
-		//borderStuck();
 		run();
 		// . . .
 		break;
@@ -129,9 +125,6 @@ void Goblin::run() {
 }
 
 void Goblin::attack() {
-	//char str[100];
-	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
-	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 8) {
 		stopAllActions();
@@ -154,11 +147,3 @@ void Goblin::die() {
 		state = stillState;
 	}
 }
-
-/*void Player::borderStuck() {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (getPositionX() < visibleSize.width - visibleSize.width / 6) {
-		setPositionX(getPositionX() + velocity);
-	}
-	if ()
-}*/
