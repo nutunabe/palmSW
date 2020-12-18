@@ -32,11 +32,9 @@ void Player::initPlayer()
 	state = stillState;
 	health = 100;
 	stamina = 100;
-	damage = 10;
+	damage = 20;
 	damageRange = width;
 	velocityMax = 5;
-	velocityX = 0;
-	velocityY = 0;
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");

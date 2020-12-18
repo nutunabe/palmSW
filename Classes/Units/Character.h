@@ -18,6 +18,7 @@ public:
 	int getStamina();
 	int getDamage();
 	int getDamageRange();
+	void takeDamage(int damage);
 	int getVelocityMax();
 
 protected:

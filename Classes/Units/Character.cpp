@@ -20,6 +20,10 @@ int Character::getDamageRange() {
 	return damageRange;
 }
 
+void Character::takeDamage(int damage) {
+	health -= damage;
+}
+
 int Character::getVelocityMax() {
 	return velocityMax;
 }

@@ -8,6 +8,7 @@ Goblin* Goblin::create()
 	Goblin* goblin = new Goblin();
 	if (goblin->init())
 	{
+		srand(time(nullptr));
 		goblin->setAnchorPoint(Point(0.5f, 0.5f));
 		goblin->autorelease();
 		goblin->initGoblin();
@@ -19,6 +20,7 @@ Goblin* Goblin::create()
 
 void Goblin::initGoblin()
 {
+	randFactor = rand() % 100 + 200;
 	scale = 2.5;
 	width = 45 * scale;
 	height = 45 * scale;
@@ -29,9 +31,9 @@ void Goblin::initGoblin()
 
 	stillState = State::isIdle;
 	state = stillState;
-	health = 100;
+	health = 80;
 	stamina = 100;
-	damage = 10;
+	damage = 7;
 	damageRange = width;
 	velocityMax = 2;
 

@@ -438,7 +438,7 @@ void GameScene::checkTakeCoin() {
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 
-	//enemyLogic->chasePlayer();
+	enemyLogic->chasePlayer();
 
 	playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);

@@ -1,9 +1,5 @@
 #include "SpriteUnit.h"
 
-void SpriteUnit::update() {
-	// . . .
-}
-
 Animate* SpriteUnit::initAnimation(char* name, int size, float dt) {
 	Vector<SpriteFrame*> frames;
 	char str[200] = { 0 };

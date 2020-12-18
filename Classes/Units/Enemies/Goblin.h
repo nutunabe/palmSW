@@ -8,19 +8,19 @@
 class Goblin : public SpriteUnit, public Character
 {
 public:
+	int randFactor;
 	static Goblin* create(void);
 	void update();
 
 private:
+	ui::LoadingBar* hpgoblin;
+
 	void initGoblin();
 	void idle();
 	void run();
 	void attack();
 	void takeHit();
 	void die();
-	int health = 50;
-	ui::LoadingBar* hpgoblin;
-
 };
 
 #endif

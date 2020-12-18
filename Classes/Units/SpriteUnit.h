@@ -14,8 +14,6 @@ public:
 	float getLeft();
 	float getRight();
 
-	void update();
-
 protected:
 	SpriteFrameCache* spritecache;
 	Animate* idleAnimate;
