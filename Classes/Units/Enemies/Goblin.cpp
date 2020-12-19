@@ -20,7 +20,6 @@ Goblin* Goblin::create()
 
 void Goblin::initGoblin()
 {
-	randFactor = rand() % 100 + 200;
 	scale = 2.5;
 	width = 45 * scale;
 	height = 45 * scale;
@@ -76,7 +75,7 @@ void Goblin::initGoblin()
 	hpgoblin = ui::LoadingBar::create("block.png");
 	hpgoblin->setAnchorPoint(Point(0.5, 1));
 	hpgoblin->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
-	hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
 	hpgoblin->setPercent(health);
 	hpgoblin->setScale(0.1);
 	this->addChild(hpgoblin);
@@ -84,10 +83,13 @@ void Goblin::initGoblin()
 
 void Goblin::update()
 {
+	if (getScaleX() > 0) {
+		hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	}
+	else {
+		hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
+	}
 	setPositionX(getPositionX() + velocityX);
-	//if (velocity == 0 && getPositionY() == 120) {
-	//	state = stillState;
-	//}
 
 	getTexture()->setAliasTexParameters();
 	switch (state) {
@@ -96,7 +98,6 @@ void Goblin::update()
 		// . . .
 		break;
 	case State::isRunning:
-		//borderStuck();
 		run();
 		// . . .
 		break;
@@ -129,9 +130,6 @@ void Goblin::run() {
 }
 
 void Goblin::attack() {
-	//char str[100];
-	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
-	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 8) {
 		stopAllActions();
@@ -154,11 +152,3 @@ void Goblin::die() {
 		state = stillState;
 	}
 }
-
-/*void Player::borderStuck() {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (getPositionX() < visibleSize.width - visibleSize.width / 6) {
-		setPositionX(getPositionX() + velocity);
-	}
-	if ()
-}*/

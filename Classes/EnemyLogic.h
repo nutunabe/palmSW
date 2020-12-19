@@ -13,5 +13,7 @@ public:
 private:
 	Vector<Goblin*> goblins; 
 	Player* player;
+	clock_t start;
+	clock_t end;
 };
 

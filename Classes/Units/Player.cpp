@@ -99,7 +99,6 @@ void Player::update()
 		// . . .
 		break;
 	case State::isRunning:
-		//borderStuck();
 		run();
 		// . . .
 		break;
@@ -125,9 +124,6 @@ void Player::update()
 		break;
 	default: break;
 	}
-
-	/*auto cam = Camera::getDefaultCamera();
-	cam->setPositionX(this->getPositionX());*/
 }
 
 void Player::idle() {
@@ -143,9 +139,6 @@ void Player::run() {
 }
 
 void Player::attack() {
-	//char str[100];
-	//sprintf(str, "%d", attackAnimate->getCurrentFrameIndex());
-	//CCLOG(str);
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 6) {
 		state = stillState;
@@ -180,11 +173,3 @@ void Player::die() {
 		Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene));
 	}
 }
-
-/*void Player::borderStuck() {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	if (getPositionX() < visibleSize.width - visibleSize.width / 6) {
-		setPositionX(getPositionX() + velocity);
-	}
-	if ()
-}*/
