@@ -20,7 +20,6 @@ Goblin* Goblin::create()
 
 void Goblin::initGoblin()
 {
-	randFactor = rand() % 100 + 200;
 	scale = 2.5;
 	width = 45 * scale;
 	height = 45 * scale;
@@ -76,7 +75,7 @@ void Goblin::initGoblin()
 	hpgoblin = ui::LoadingBar::create("block.png");
 	hpgoblin->setAnchorPoint(Point(0.5, 1));
 	hpgoblin->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
-	hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
 	hpgoblin->setPercent(health);
 	hpgoblin->setScale(0.1);
 	this->addChild(hpgoblin);
@@ -84,6 +83,12 @@ void Goblin::initGoblin()
 
 void Goblin::update()
 {
+	if (getScaleX() > 0) {
+		hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	}
+	else {
+		hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
+	}
 	setPositionX(getPositionX() + velocityX);
 
 	getTexture()->setAliasTexParameters();

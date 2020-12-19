@@ -8,15 +8,8 @@ EnemyLogic::EnemyLogic(Vector<Goblin*> goblin, Player* player, float groundLvl) 
 
 void EnemyLogic::chasePlayer() {
 	for (auto goblin : goblins) {
-		//clock_t start, end;
-		//start = clock();
-		//end = start + goblin->randFactor;
-		//while (clock() < end) {
-		//	// do nothing . . .
-		//}
 		if (goblin->state != State::isDead &&
 			goblin->state != State::isDying) {
-			Size visibleSize = Director::getInstance()->getVisibleSize();
 			if (goblin->state != State::isTakingHit) {
 				if (goblin->getPositionX() > player->getRight() || goblin->getPositionX() < player->getLeft()) {
 					if (goblin->state == State::isAttacking) {
@@ -40,7 +33,7 @@ void EnemyLogic::chasePlayer() {
 					goblin->state = goblin->stillState;
 				}
 			}
-			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == ground) {								// attack
+			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == ground) {
 				attackPlayer();
 			}
 		}
@@ -53,7 +46,20 @@ void EnemyLogic::attackPlayer() {
 			goblin->stopAllActions();
 			goblin->velocityX = 0;
 			goblin->state = State::isAttacking;
-			player->takeDamage(goblin->getDamage());
+			//if (true/*start == NULL || clock() >= end*/) {
+			//	start = clock();
+			//	end = start + 500;
+			//	if (player->state != State::isDead &&
+			//		player->state != State::isDying) {
+			//		if (player->state != State::isAttacking &&
+			//			player->state != State::isTakingHit) {
+			//			player->stopAllActions();
+			//			player->velocityX = 0;
+			//			player->state = State::isTakingHit;
+			//			player->takeDamage(goblin->getDamage());
+			//		}
+			//	}
+			//}
 		}
 	}
 }

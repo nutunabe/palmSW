@@ -49,7 +49,11 @@ private:
 	DrawNode* playerNode;
 	DrawNode* groundNode;
 	int keys[8] = { 26,27,124,127,129,59,77,78 };
+	bool keyState[256];
+	bool keyReleased[256];
+	bool keyPressed[256];
 
+	void listenKeyboard();
 	void keyCheck();
 	void whatKey(bool* keyState);
 	void update(float dt);

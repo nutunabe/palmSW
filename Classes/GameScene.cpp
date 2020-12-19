@@ -5,6 +5,7 @@ USING_NS_CC;
 Scene* GameScene::createScene() {
 	GameScene* gameScene = GameScene::create();
 	gameScene->scheduleUpdate();
+	//gameScene->listenKeyboard();
 	return gameScene;
 }
 
@@ -154,21 +155,19 @@ void GameScene::initCharacters() {
 }
 
 void GameScene::initEnemies() {
-	for (int i = 0; i < 2; i++) {
-		auto goblin = Goblin::create();
-		goblin->minGroundY = groundLevel;
-		goblin->setPosition(Point((visibleSize.width * 0.7 + i * 150) + origin.x, goblin->minGroundY - goblin->getBottom()));
-		this->addChild(goblin, 3);
-		goblins.pushBack(goblin);
-		//=========================================//
-		Color4F red(.7, 0, 0, 1);
-		Color4F yellow(.7, .7, 0, 1);
-		auto goblinNode = DrawNode::create();
-		goblinNode->drawRect(Point(goblin->getLeft(), goblin->getTop()), Point(goblin->getRight(), goblin->getBottom()), yellow);
-		goblinNode->drawDot(goblin->getPosition(), 3.f, red);
-		this->addChild(goblinNode, 3);
-		//=========================================//
-	}
+	auto goblin = Goblin::create();
+	goblin->minGroundY = groundLevel;
+	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY - goblin->getBottom()));
+	this->addChild(goblin, 3);
+	goblins.pushBack(goblin);
+	//=========================================//
+	//Color4F red(.7, 0, 0, 1);
+	//Color4F yellow(.7, .7, 0, 1);
+	//auto goblinNode = DrawNode::create();
+	//goblinNode->drawRect(Point(goblin->getLeft(), goblin->getTop()), Point(goblin->getRight(), goblin->getBottom()), yellow);
+	//goblinNode->drawDot(goblin->getPosition(), 3.f, red);
+	//this->addChild(goblinNode, 3);
+	//=========================================//
 	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
 }
 
@@ -192,6 +191,20 @@ void GameScene::keyCheck() {
 			keyListener->keyReleased[keys[_i]] = false;
 		}
 	}
+	//for (int _i = 0; _i < sizeof(keys) / sizeof(keys[0]); _i++) {
+	//	if (keyPressed[keys[_i]]) {
+	//		player->stopAllActions();
+	//		level->stopMoving();
+	//		level->flag = false;
+	//		keyPressed[keys[_i]] = false;
+	//	}
+	//	if (keyReleased[keys[_i]]) {
+	//		player->stopAllActions();
+	//		level->stopMoving();
+	//		level->flag = false;
+	//		keyReleased[keys[_i]] = false;
+	//	}
+	//}
 }
 
 void GameScene::whatKey(bool* keyState) {
@@ -211,7 +224,10 @@ void GameScene::whatKey(bool* keyState) {
 		if (player->state != State::isAttacking &&
 			player->state != State::isTakingHit) {
 			keyCheck();
-			if (keyState[26] || keyState[124] || keyState[27] || keyState[127]) {
+			if ((keyState[26] || keyState[124] || keyState[27] || keyState[127])) {
+
+				//player->setPositionX(player->getPositionX() + player->velocityX);
+
 				if (keyState[26] || keyState[124]) {		// left
 					if (player->getPositionX() <= levelLeftEdge + visibleSize.width / 2 || player->getPositionX() >= levelRightEdge - visibleSize.width / 2) {
 						level->stopMoving();
@@ -282,6 +298,7 @@ void GameScene::whatKey(bool* keyState) {
 				}
 				if (player->state != State::isJumping) {
 					player->state = State::isRunning;
+					//player->update();
 				}
 			}
 			if (!keyState[26] && !keyState[27] &&
@@ -361,8 +378,8 @@ void GameScene::checkActivePlatform() {
 void GameScene::checkTakeCoin() {
 	for (auto coin : coins) {
 		if (coin->exist == true &&
-			player->getRight() >= coin->getPositionX() &&
-			player->getLeft() <= coin->getPositionX() &&
+			player->getRight() - player->getWidth() / 5 >= coin->getPositionX() &&
+			player->getLeft() + player->getWidth() / 5 <= coin->getPositionX() &&
 			player->getTop() >= coin->getPositionY() &&
 			player->getBottom() <= coin->getPositionY()
 			)
@@ -377,6 +394,7 @@ void GameScene::checkTakeCoin() {
 
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
+	//whatKey(keyState);
 	enemyLogic->chasePlayer();
 	player->update();
 	for (auto goblin : goblins) {
@@ -420,3 +438,52 @@ void GameScene::update(float dt) {
 		this->addChild(menu, 3);
 	}
 }*/
+
+void GameScene::listenKeyboard() {
+	auto eventListener = EventListenerKeyboard::create();
+	eventListener->onKeyPressed = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+	{
+		switch (keyCode) {
+		case EventKeyboard::KeyCode::KEY_A:
+		case EventKeyboard::KeyCode::KEY_D:
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			keyState[static_cast<int>(keyCode)] = true;
+			keyPressed[static_cast<int>(keyCode)] = true;
+			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			player->stopAllActions();
+			// . . .
+			player->update();
+			break;
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			player->stopAllActions();
+			// . . .
+			player->update();
+			break;
+		}
+	};
+	eventListener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+	{
+		switch (keyCode) {
+		case EventKeyboard::KeyCode::KEY_A:
+		case EventKeyboard::KeyCode::KEY_D:
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			keyState[static_cast<int>(keyCode)] = false;
+			keyReleased[static_cast<int>(keyCode)] = true;
+			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			player->stopAllActions();
+			// . . .
+			player->update();
+			break;
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			player->stopAllActions();
+			// . . .
+			player->update();
+			break;
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
+}
