@@ -75,6 +75,7 @@ list(APPEND GAME_SOURCE
      Classes/Units/Player.cpp
      Classes/Units/Enemies/Goblin.cpp
      Classes/Shop.cpp
+     Classes/PopupDelegates.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -97,6 +98,7 @@ list(APPEND GAME_HEADER
      Classes/Units/Player.h
      Classes/Units/Enemies/Goblin.h
      Classes/Shop.h
+     Classes/PopupDelegates.h
      )
 
 if(ANDROID)

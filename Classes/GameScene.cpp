@@ -56,6 +56,11 @@ bool GameScene::init()
 	// create menu, it's an autorelease object
 	hud = HUD::create();
 
+	/*auto Shoplabel = Label::createWithTTF("Press ME", "fonts/Pixel Times.ttf", 24);
+	auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
+	shop1->setPosition(Point(1000, 350));*/
+	//hud->addChild(shop1, 2);
+
 	auto menu = Menu::create(menuItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	hud->addChild(menu);
@@ -88,11 +93,7 @@ bool GameScene::init()
 		this->addChild(CoinNode, 50);
 	}
 
-	int k;
-
-	k = rand() % 5000 + 2000;
-
-	shop = Shop::create(k, 200, 280, 280);
+	shop = Shop::create(3000, 200, 280, 280);
 	this->addChild(shop, 1);
 	Color4F white(1, 1, 1, 1);
 	Color4F red(.7, 0, 0, 1);
@@ -418,6 +419,31 @@ void GameScene::checkActivePlatform() {
 	}
 }
 
+void GameScene::shopButton() {
+	if (player->getRight() >= shop->getPositionX() &&
+		player->getLeft() <= shop->getPositionX() &&
+		player->getTop() >= shop->getPositionY() - 150 &&
+		player->getBottom() <= shop->getPositionY()) 
+	{
+		if (check == false) {
+			CCLOG("4mo");
+			auto Shoplabel = Label::createWithTTF("Press ME", "fonts/Pixel Times.ttf", 24);
+			auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
+			shop1->setPosition(Point(3000, 350));
+			auto menu = Menu::create(shop1, NULL);
+			menu->setName("menu");
+			menu->setPosition(Vec2::ZERO);
+			this->addChild(menu, 2);
+			check = true;
+		}
+	}
+	else
+	{
+		check = false;
+	}
+}
+
+
 void GameScene::checkTakeCoin() {
 	for (auto coin : coins) {
 		if (coin->exist == true &&
@@ -433,6 +459,11 @@ void GameScene::checkTakeCoin() {
 			removeChild(coin, false);
 		}
 	}
+}
+
+void GameScene::checkShop(Ref* sender) {
+	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin","Full Health = 2 coin","Exit to shop",[=]() {}, hud);
+	this->addChild(popup, 10000);
 }
 
 void GameScene::update(float dt) {
@@ -457,6 +488,8 @@ void GameScene::update(float dt) {
 	checkActivePlatform();
 
 	checkTakeCoin();
+
+	shopButton();
 }
 
 /*void GameScene::pause(Ref* Sender) {

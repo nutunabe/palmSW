@@ -1,4 +1,5 @@
 #include "Units/SpriteUnit.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 

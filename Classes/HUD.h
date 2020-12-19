@@ -18,9 +18,9 @@ public:
     void update();
     Label* counter;
     float stamina = 100;
+    int health = 100;
 private:
     void Init();
-    int health = 100;
 };
 
 #endif // !__HUD_H__
