@@ -31,6 +31,8 @@ public:
 
 	void pause(Ref* Sender);
 
+	void resumeScene(Ref* Sender);
+
 	CREATE_FUNC(GameScene);
 
 	Sprite* mySprite;
