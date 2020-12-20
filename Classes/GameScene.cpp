@@ -441,6 +441,41 @@ void GameScene::checkShop(Ref* sender) {
 	this->addChild(popup, 10000);
 }
 
+void GameScene::checkCollision() {
+	if (player->state == State::isAttacking)
+	for (auto goblin : goblins) {
+		if (goblin->minGroundY == player->minGroundY) {
+			if (player->getScaleX() > 0) {
+				if (goblin->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+					goblin->getPositionX() < player->getPositionX()) {
+					CCLOG("yesLeft");
+					attackGoblin(goblin, player->getAttackAnimationIndex());
+				}
+
+			}
+			else if (player->getScaleX() < 0) {
+				if (goblin->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+					goblin->getPositionX() > player->getPositionX()) {
+					CCLOG("yesRight");
+					attackGoblin(goblin, player->getAttackAnimationIndex());
+				}
+			}
+		}
+	}
+}
+
+void GameScene::attackGoblin(Goblin* goblin, int index) {
+	CCLOG("%d", index);
+	if (goblin->state != State::isTakingHit &&
+		index == 4) {
+		CCLOG("Hit!");
+		goblin->stopAllActions();
+		goblin->velocityX = 0;
+		goblin->state = State::isTakingHit;
+		goblin->takeDamage(player->getDamage());
+	}
+}
+
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	//whatKey(keyState);
@@ -448,8 +483,13 @@ void GameScene::update(float dt) {
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();
+		if (goblin->getHealth() <= 0 && goblin->state != State::isDead) {
+			goblin->stillState = State::isDying;
+			goblin->state = goblin->stillState;
+		}
 	}
 	hud->update();
+	checkCollision();
 
 	checkActivePlatform();
 	checkTakeCoin();

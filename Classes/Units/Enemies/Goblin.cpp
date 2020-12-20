@@ -30,7 +30,7 @@ void Goblin::initGoblin()
 
 	stillState = State::isIdle;
 	state = stillState;
-	health = 80;
+	health = 100;
 	stamina = 100;
 	damage = 7;
 	damageRange = width;
@@ -89,6 +89,8 @@ void Goblin::update()
 	else {
 		hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
 	}
+	hpgoblin->setPercent(health);
+
 	setPositionX(getPositionX() + velocityX);
 
 	getTexture()->setAliasTexParameters();
@@ -145,6 +147,8 @@ void Goblin::attack() {
 void Goblin::takeHit() {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+		stopAllActions();
+		takeHitAnimate->update(0);
 		state = stillState;
 	}
 }

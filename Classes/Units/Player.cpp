@@ -78,7 +78,7 @@ void Player::initPlayer()
 
 void Player::update()
 {
-	CCLOG("%d", health);
+	//CCLOG("%d", health);
 
 	velocityY -= 9.81 * 0.1;
 	setPositionY(getPositionY() + velocityY);
@@ -126,6 +126,10 @@ void Player::update()
 		break;
 	default: break;
 	}
+}
+
+int Player::getAttackAnimationIndex() {
+	return attackAnimate->getCurrentFrameIndex();
 }
 
 void Player::idle() {

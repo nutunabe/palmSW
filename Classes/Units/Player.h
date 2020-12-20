@@ -9,6 +9,7 @@ class Player : public SpriteUnit, public Character
 public:
 	static Player* create(void);
 	void update();
+	int getAttackAnimationIndex();
 
 private:
 	void initPlayer();
