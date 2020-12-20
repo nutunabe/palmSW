@@ -9,7 +9,7 @@ public:
 	bool switched = false;
 	bool switchedd = false;
 	void chasePlayer();
-	void attackPlayer();
+	void attackPlayer(Goblin* goblin);
 private:
 	Vector<Goblin*> goblins; 
 	Player* player;

@@ -328,25 +328,25 @@ void GameScene::whatKey(bool* keyState) {
 				}
 			}
 		}
-		if (keyState[77]) {									// take hit
-			if (player->state != State::isTakingHit) {
-				player->stopAllActions();
-				level->stopMoving();
-				level->flag = false;
-				player->velocityX = 0;
-				player->state = State::isTakingHit;
-				hud->getHit(10, player);
-			}
-		}
-		if (keyState[78]) {									// die
-			if (player->state != State::isDying) {
-				player->stopAllActions();
-				level->stopMoving();
-				level->flag = false;
-				player->velocityX = 0;
-				player->state = State::isDying;
-			}
-		}
+		//if (keyState[77]) {									// take hit
+		//	if (player->state != State::isTakingHit) {
+		//		player->stopAllActions();
+		//		level->stopMoving();
+		//		level->flag = false;
+		//		player->velocityX = 0;
+		//		player->state = State::isTakingHit;
+		//		hud->getHit(10, player);
+		//	}
+		//}
+		//if (keyState[78]) {									// die
+		//	if (player->state != State::isDying) {
+		//		player->stopAllActions();
+		//		level->stopMoving();
+		//		level->flag = false;
+		//		player->velocityX = 0;
+		//		player->state = State::isDying;
+		//	}
+		//}
 		if (keyState[59]) {								   // jump
 			if (hud->stamina >= 10) {
 				if (player->getBottom() == player->minGroundY) {

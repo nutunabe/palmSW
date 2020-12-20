@@ -134,6 +134,7 @@ void Goblin::attack() {
 	if (attackAnimate->getCurrentFrameIndex() == 8) {
 		stopAllActions();
 		attackAnimate->update(0);
+		state = stillState;
 	}
 }
 

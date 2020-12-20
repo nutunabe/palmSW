@@ -34,32 +34,29 @@ void EnemyLogic::chasePlayer() {
 				}
 			}
 			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == ground) {
-				attackPlayer();
+				attackPlayer(goblin);
 			}
 		}
 	}
 }
 
-void EnemyLogic::attackPlayer() {
-	for (auto goblin : goblins) {
+void EnemyLogic::attackPlayer(Goblin* goblin) {
+	if (clock() >= end) {
+		start = clock();
+		end = start + 2000;
 		if (goblin->state != State::isAttacking) {
 			goblin->stopAllActions();
 			goblin->velocityX = 0;
 			goblin->state = State::isAttacking;
-			//if (true/*start == NULL || clock() >= end*/) {
-			//	start = clock();
-			//	end = start + 500;
-			//	if (player->state != State::isDead &&
-			//		player->state != State::isDying) {
-			//		if (player->state != State::isAttacking &&
-			//			player->state != State::isTakingHit) {
-			//			player->stopAllActions();
-			//			player->velocityX = 0;
-			//			player->state = State::isTakingHit;
-			//			player->takeDamage(goblin->getDamage());
-			//		}
-			//	}
-			//}
+			if (player->state != State::isDead &&
+				player->state != State::isDying &&
+				player->state != State::isAttacking &&
+				player->state != State::isTakingHit) {
+				player->stopAllActions();
+				player->velocityX = 0;
+				player->state = State::isTakingHit;
+				player->takeDamage(goblin->getDamage());
+			}
 		}
 	}
 }

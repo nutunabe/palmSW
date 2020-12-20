@@ -78,6 +78,8 @@ void Player::initPlayer()
 
 void Player::update()
 {
+	CCLOG("%d", health);
+
 	velocityY -= 9.81 * 0.1;
 	setPositionY(getPositionY() + velocityY);
 
@@ -159,6 +161,8 @@ void Player::jump() {
 void Player::takeHit() {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+		stopAllActions();
+		takeHitAnimate->update(0);
 		state = stillState;
 	}
 }
