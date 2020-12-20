@@ -11,6 +11,7 @@ public:
 	int randFactor;
 	static Goblin* create(void);
 	void update();
+	int getAttackAnimationIndex();
 
 private:
 	ui::LoadingBar* hpgoblin;
