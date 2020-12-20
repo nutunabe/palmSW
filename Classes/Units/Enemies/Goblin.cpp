@@ -121,6 +121,10 @@ void Goblin::update()
 	}
 }
 
+int Goblin::getAttackAnimationIndex() {
+	return attackAnimate->getCurrentFrameIndex();
+}
+
 void Goblin::idle() {
 	runAction(RepeatForever::create(idleAnimate));
 }

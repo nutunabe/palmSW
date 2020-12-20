@@ -181,7 +181,7 @@ void GameScene::initEnemies() {
 	//goblinNode->drawDot(goblin->getPosition(), 3.f, red);
 	//this->addChild(goblinNode, 3);
 	//=========================================//
-	enemyLogic = new EnemyLogic(goblins, player, groundLevel);
+	enemyLogic = new EnemyLogic(goblins, player, groundLevel, hud);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -398,7 +398,7 @@ void GameScene::shopButton() {
 	if (player->getRight() >= shop->getPositionX() &&
 		player->getLeft() <= shop->getPositionX() &&
 		player->getTop() >= shop->getPositionY() - 150 &&
-		player->getBottom() <= shop->getPositionY()) 
+		player->getBottom() <= shop->getPositionY())
 	{
 		if (check == false) {
 			CCLOG("4mo");
@@ -437,7 +437,7 @@ void GameScene::checkTakeCoin() {
 }
 
 void GameScene::checkShop(Ref* sender) {
-	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin","Full Health = 2 coin","Exit to shop",[=]() {}, hud);
+	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin", "Full Health = 2 coin", "Exit to shop", [=]() {}, hud);
 	this->addChild(popup, 10000);
 }
 
@@ -479,14 +479,14 @@ void GameScene::pause(Ref* Sender) {
 
 		auto resumeLabel = Label::createWithTTF("Resume", "fonts/Pixel Times.ttf", 24);
 		resumeLabel->setGlobalZOrder(3);
-		auto resumeItem = MenuItemLabel::create(resumeLabel,CC_CALLBACK_1(GameScene::resumeScene, this));
+		auto resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(GameScene::resumeScene, this));
 		resumeItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y + resumeItem->getContentSize().height * 2));
 
 		auto menuLabel = Label::createWithTTF("Menu", "fonts/Pixel Times.ttf", 24);
 		menuLabel->setGlobalZOrder(3);
 		auto menuItem = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScene::goToMenu, this));
 		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
-		
+
 
 		auto menu = Menu::create(resumeItem, menuItem, NULL);
 		menu->setPosition(Vec2::ZERO);
