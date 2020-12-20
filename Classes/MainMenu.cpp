@@ -23,6 +23,7 @@ static void problemLoading(const char* filename)
 }
 
 bool MainMenu::init() {
+
     std::ifstream ifs("../Resources/Data.json");
     rapidjson::IStreamWrapper isw(ifs);
 
@@ -30,12 +31,16 @@ bool MainMenu::init() {
     assert(doc.IsObject());
     assert(doc.HasMember("musicVolume"));
     assert(doc["musicVolume"].IsFloat());
+
+    assert(doc.HasMember("soundfxVolume"));
+    assert(doc["soundfxVolume"].IsFloat());
     //rapidjson::Value& hello = d["musicVolume"];
     CCLOG("hello = %f", doc["musicVolume"].GetFloat());
     musicVolume = doc["musicVolume"].GetFloat();
+    soundfxVolume = doc["soundfxVolume"].GetFloat();
 
     musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
-
+    //soundfxID = AudioEngine::play2d("res/sounds/swordswing.flac", true, soundfxVolume);
     //soundEngine
 
 	if ( !Layer::init()) {
@@ -83,8 +88,13 @@ void MainMenu::showSettings( Ref* sender ) {
 
     auto musicLabel = Label::createWithTTF("Music:", "fonts/Pixel Times.ttf", 24);
     musicLabel->setName("music");
-    musicLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 2));
+    musicLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 3));
     this->addChild(musicLabel, 2);
+
+    auto soundfxLabel = Label::createWithTTF("Sound FX:", "fonts/Pixel Times.ttf", 24);
+    soundfxLabel->setName("soundFX");
+    soundfxLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 2));
+    this->addChild(soundfxLabel, 2);
 
     //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
     auto backLabel = Label::createWithTTF("Back", "fonts/Pixel Times.ttf", 24);
@@ -98,17 +108,31 @@ void MainMenu::showSettings( Ref* sender ) {
 
     slider = ui::Slider::create();
     slider->setTouchEnabled(true);
-    slider->setName("musicSlider");
+    slider->setName("musicVolume");
     slider->loadBarTexture("Slider_Back.png"); // как будет выглядеть Slider
     slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider->loadProgressBarTexture("Slider_PressBar.png");
 
     slider->setPercent(musicVolume * 100);
 
-    slider->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 2));
+    slider->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 3));
 
     slider->addEventListener(CC_CALLBACK_2(MainMenu::sliderEvent, this));
     this->addChild(slider, 4);
+
+    sliderFX = ui::Slider::create();
+    sliderFX->setTouchEnabled(true);
+    sliderFX->setName("soundfxVolume");
+    sliderFX->loadBarTexture("Slider_Back.png"); // как будет выглядеть Slider
+    sliderFX->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
+    sliderFX->loadProgressBarTexture("Slider_PressBar.png");
+
+    sliderFX->setPercent(soundfxVolume * 100);
+
+    sliderFX->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 2));
+
+    sliderFX->addEventListener(CC_CALLBACK_2(MainMenu::sliderEvent, this));
+    this->addChild(sliderFX, 4);
 
     auto label2 = Label::createWithTTF(u8" \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
     if (label2 == nullptr)
@@ -129,7 +153,9 @@ void MainMenu::showSettings( Ref* sender ) {
 
 void MainMenu::showMenu(Ref* sender) {
     this->removeChildByName("menu", true);
-    this->removeChildByName("musicSlider", true);
+    this->removeChildByName("musicVolume", true);
+    this->removeChildByName("soundFX", true);
+    this->removeChildByName("soundfxVolume", true);
     this->removeChildByName("music", true);
     this->removeChildByName("keyboard", true);
 
@@ -224,22 +250,17 @@ void MainMenu::sliderEvent(Ref* sender, ui::Slider::EventType type)
         auto slider = dynamic_cast<ui::Slider*>(sender);
         int temp = slider->getPercent();
         float dt = temp;
-        musicVolume = dt / 100;
-        //std::ofstream ifs("../Resources/Data.json");
-        //rapidjson::IStreamWrapper isw(ifs);
+        if (slider->getName() == "musicVolume") {
+            musicVolume = dt / 100;
+            doc["musicVolume"].SetFloat(musicVolume);
+            AudioEngine::setVolume(musicID, doc["musicVolume"].GetFloat());
 
-        //doc.Parse("../Resources/Data.json");
-        //assert(doc.IsObject());
-        //assert(doc.HasMember("musicVolume"));
-        //assert(doc["musicVolume"].IsFloat());
-        doc["musicVolume"].SetFloat(musicVolume);
-        AudioEngine::setVolume(musicID, doc["musicVolume"].GetFloat());
+            std::ofstream ofs("../Resources/Data.json");
+            rapidjson::OStreamWrapper osw(ofs);
 
-        std::ofstream ofs("../Resources/Data.json");
-        rapidjson::OStreamWrapper osw(ofs);
-
-        rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-        doc.Accept(writer);
+            rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+            doc.Accept(writer);
+        }
         //CCLOG(">>> LineOptionIndex: %f", musicVolume);
     }
 }

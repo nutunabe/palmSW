@@ -37,10 +37,15 @@ private:
 	void sliderEvent(Ref* sender, ui::Slider::EventType type);
 	
 	float musicVolume;
+	float soundfxVolume;
 
 	int musicID;
+	int soundfxID;
 
 	ui::Slider* slider;
+	ui::Slider* sliderFX;
+
+	Node sound;
 
 	rapidjson::Document doc;
 public:

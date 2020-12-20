@@ -25,7 +25,7 @@ bool GameScene::init()
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	auto menuItem = MenuItemImage::create(
+	/*auto menuItem = MenuItemImage::create(
 		"Menu Button.png",
 		"Menu Button Clicked.png",
 		CC_CALLBACK_1(GameScene::goToMenu, this));
@@ -41,7 +41,14 @@ bool GameScene::init()
 		float x = origin.x + visibleSize.width - menuItem->getContentSize().width / 2;
 		float y = origin.y + visibleSize.height - menuItem->getContentSize().height / 2;
 		menuItem->setPosition(Vec2(x, y));
-	}
+	}*/
+
+	auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
+	auto pauseItem = MenuItemLabel::create(pauseLabel, CC_CALLBACK_1(GameScene::pause, this));
+	pauseItem->setPosition(
+		Vec2(origin.x + visibleSize.width - pauseItem->getContentSize().width / 2,
+			origin.y + visibleSize.height - pauseItem->getContentSize().height / 2)
+	);
 
 	// create menu, it's an autorelease object
 	hud = HUD::create();
@@ -51,7 +58,7 @@ bool GameScene::init()
 	shop1->setPosition(Point(1000, 350));*/
 	//hud->addChild(shop1, 2);
 
-	auto menu = Menu::create(menuItem, NULL);
+	auto menu = Menu::create(pauseItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 
 	hud = HUD::create();
@@ -179,7 +186,13 @@ void GameScene::initEnemies() {
 
 void GameScene::goToMenu(Ref* Sender)
 {
-	Director::getInstance()->replaceScene(MainMenu::createScene());
+	if (Director::getInstance()->isPaused()) {
+		Director::getInstance()->resume();
+		Director::getInstance()->replaceScene(MainMenu::createScene());
+	}
+	else {
+		Director::getInstance()->replaceScene(MainMenu::createScene());
+	}
 }
 
 void GameScene::keyCheck() {
@@ -446,35 +459,41 @@ void GameScene::update(float dt) {
 	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 }
 
-/*void GameScene::pause(Ref* Sender) {
+void GameScene::pause(Ref* Sender) {
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	if (Director::getInstance()->isPaused()) {
 		Director::getInstance()->resume();
+		this->removeChildByName("bg", true);
 	}
 	else {
 		Director::getInstance()->pause();
-		auto menuItem = MenuItemImage::create(
-			"Menu Button.png",
-			"Menu Button Clicked.png",
-			CC_CALLBACK_1(GameScene::goToMenu, this));
-		if (menuItem == nullptr ||
-			menuItem->getContentSize().width <= 0 ||
-			menuItem->getContentSize().height <= 0)
-		{
-			problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-		}
-		else
-		{
-			float x = origin.x + visibleSize.width / 2 - menuItem->getContentSize().width / 2;
-			float y = origin.y + visibleSize.height / 2 - menuItem->getContentSize().height / 2;
-			menuItem->setPosition(Vec2(x, y));
-		}
-		auto menu = Menu::create(menuItem, NULL);
+		auto camera = Camera::getDefaultCamera();
+		auto backgroundSprite = Sprite::create("main_menu_background.png");
+		backgroundSprite->setName("bg");
+		backgroundSprite->setGlobalZOrder(2);
+		backgroundSprite->setContentSize(visibleSize);
+		backgroundSprite->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
+		this->addChild(backgroundSprite, 1);
+
+		auto resumeLabel = Label::createWithTTF("Resume", "fonts/Pixel Times.ttf", 24);
+		resumeLabel->setGlobalZOrder(3);
+		auto resumeItem = MenuItemLabel::create(resumeLabel,CC_CALLBACK_1(GameScene::resumeScene, this));
+		resumeItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y + resumeItem->getContentSize().height * 2));
+
+		auto menuLabel = Label::createWithTTF("Menu", "fonts/Pixel Times.ttf", 24);
+		menuLabel->setGlobalZOrder(3);
+		auto menuItem = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScene::goToMenu, this));
+		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
+		
+
+		auto menu = Menu::create(resumeItem, menuItem, NULL);
 		menu->setPosition(Vec2::ZERO);
-		this->addChild(menu, 3);
+		menu->setName("menu");
+		this->addChild(menu, 10);
 	}
-}*/
+}
 
 void GameScene::listenKeyboard() {
 	auto eventListener = EventListenerKeyboard::create();
@@ -523,4 +542,12 @@ void GameScene::listenKeyboard() {
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener, this);
+}
+
+void GameScene::resumeScene(Ref* Sender) {
+	if (Director::getInstance()->isPaused()) {
+		Director::getInstance()->resume();
+		this->removeChildByName("bg", true);
+		this->removeChildByName("menu", true);
+	}
 }
