@@ -70,6 +70,7 @@ void Goblin::initGoblin()
 	hBBackground->setAnchorPoint(Point(0.5, 1));
 	hBBackground->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
 	hBBackground->setScale(0.1);
+	hBBackground->setName("hb");
 	this->addChild(hBBackground);
 
 	hpgoblin = ui::LoadingBar::create("block.png");
@@ -83,13 +84,15 @@ void Goblin::initGoblin()
 
 void Goblin::update()
 {
-	if (getScaleX() > 0) {
-		hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	if (state != State::isDead) {
+		if (getScaleX() > 0) {
+			hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+		}
+		else {
+			hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
+		}
+		hpgoblin->setPercent(health);
 	}
-	else {
-		hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
-	}
-	hpgoblin->setPercent(health);
 
 	setPositionX(getPositionX() + velocityX);
 
@@ -116,6 +119,8 @@ void Goblin::update()
 		// . . .
 		break;
 	case State::isDead:
+		this->removeChild(hpgoblin, true);
+		this->removeChildByName("hb", true);
 		runAction(RepeatForever::create(deadAnimate));
 		// . . .
 		break;

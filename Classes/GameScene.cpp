@@ -467,6 +467,7 @@ void GameScene::checkCollision() {
 void GameScene::attackGoblin(Goblin* goblin, int index) {
 	CCLOG("%d", index);
 	if (goblin->state != State::isTakingHit &&
+		goblin->state != State::isDead &&
 		index == 4) {
 		CCLOG("Hit!");
 		goblin->stopAllActions();
