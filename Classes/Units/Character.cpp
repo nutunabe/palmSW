@@ -12,6 +12,10 @@ int Character::getStamina() {
 	return stamina;
 }
 
+void Character::setStamina(int st) {
+	stamina += st;
+}
+
 int Character::getDamage() {
 	return damage;
 }

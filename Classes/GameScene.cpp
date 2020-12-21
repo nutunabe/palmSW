@@ -43,32 +43,34 @@ bool GameScene::init()
 		menuItem->setPosition(Vec2(x, y));
 	}*/
 
-	auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
+
+
+	/*auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
 	auto pauseItem = MenuItemLabel::create(pauseLabel, CC_CALLBACK_1(GameScene::pause, this));
 	pauseItem->setPosition(
 		Vec2(origin.x + visibleSize.width - pauseItem->getContentSize().width / 2,
 			origin.y + visibleSize.height - pauseItem->getContentSize().height / 2)
-	);
+	);*/
 
 	// create menu, it's an autorelease object
-	hud = HUD::create();
 
 	/*auto Shoplabel = Label::createWithTTF("Press ME", "fonts/Pixel Times.ttf", 24);
 	auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
 	shop1->setPosition(Point(1000, 350));*/
 	//hud->addChild(shop1, 2);
 
-	auto menu = Menu::create(pauseItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-
-	hud = HUD::create();
-	hud->addChild(menu);
-	this->addChild(hud, 5);
-
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
 	initCharacters();
 	initEnvironment();
+
+	/*auto menu = Menu::create(pauseItem, NULL);
+	menu->setPosition(Vec2::ZERO);
+
+	hud = HUD::create(player);
+	hud->addChild(menu);
+	this->addChild(hud, 5);*/
+
 	for (int i = 0; i <= 5; i++) {
 		auto coin = Coin::create(900 + i * 50, 185, 35, 35);
 		this->addChild(coin, 2);
@@ -147,6 +149,21 @@ void GameScene::initCharacters() {
 	player->minGroundY = groundLevel;
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY - player->getBottom()));
 	this->addChild(player, 4);
+
+	//=========================================//
+	auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
+	auto pauseItem = MenuItemLabel::create(pauseLabel, CC_CALLBACK_1(GameScene::pause, this));
+	pauseItem->setPosition(
+		Vec2(origin.x + visibleSize.width - pauseItem->getContentSize().width / 2,
+			origin.y + visibleSize.height - pauseItem->getContentSize().height / 2)
+	);
+
+	auto menu = Menu::create(pauseItem, NULL);
+	menu->setPosition(Vec2::ZERO);
+
+	hud = HUD::create(player);
+	hud->addChild(menu);
+	this->addChild(hud, 5);
 	//=========================================//
 	Color4F white(1, 1, 1, 1);
 	Color4F red(.7, 0, 0, 1);
@@ -329,15 +346,14 @@ void GameScene::whatKey(bool* keyState) {
 			}
 		}
 		if (keyState[129]) {								// attack
-			if (hud->stamina >= 5) {
+			if (player->getStamina() >= 5) {
 				if (player->state != State::isAttacking) {
 					level->stopMoving();
 					level->flag = false;
 					player->stopAllActions();
 					player->velocityX = 0;
 					player->state = State::isAttacking;
-					hud->stamina -= 5;
-					hud->staminaBar->setPercent(hud->stamina);
+					player->setStamina(-5);
 				}
 			}
 		}
@@ -361,12 +377,11 @@ void GameScene::whatKey(bool* keyState) {
 		//	}
 		//}
 		if (keyState[59]) {								   // jump
-			if (hud->stamina >= 10) {
+			if (player->getStamina() >= 10) {
 				if (player->getBottom() == player->minGroundY) {
 					player->velocityY = 15;
 					player->state = State::isJumping;
-					hud->stamina -= 10;
-					hud->staminaBar->setPercent(hud->stamina);
+					player->setStamina(-10);
 				}
 			}
 		}
@@ -437,7 +452,7 @@ void GameScene::checkTakeCoin() {
 }
 
 void GameScene::checkShop(Ref* sender) {
-	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin", "Full Health = 2 coin", "Exit to shop", [=]() {}, hud);
+	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin", "Full Health = 2 coin", "Exit to shop", [=]() {}, player, hud);
 	this->addChild(popup, 10000);
 }
 

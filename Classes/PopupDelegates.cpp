@@ -95,17 +95,17 @@ namespace UICustom {
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     }
 
-    Popup* Popup::createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2,HUD* hud)
+    Popup* Popup::createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, Player* player, HUD* hud)
     {
-        return createAsConfirmDialogue(title, msg, msg1, msg2, NULL, hud);
+        return createAsConfirmDialogue(title, msg, msg1, msg2, NULL, player, hud);
     }
 
-    Popup* Popup::createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::function<void()>& YesFunc, HUD* hud)
+    Popup* Popup::createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::function<void()>& YesFunc, Player* player, HUD* hud)
     {
-        return create(title, msg, msg1, msg2, NULL, YesFunc, hud);
+        return create(title, msg, msg1, msg2, NULL, YesFunc, player, hud);
     }
 
-    Popup* Popup::create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, cocos2d::Label* lbl, const std::function<void()>& YesFunc, HUD* hud)
+    Popup* Popup::create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, cocos2d::Label* lbl, const std::function<void()>& YesFunc, Player* player, HUD* hud)
     {
         Popup* node = new (std::nothrow)Popup();
         Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -125,19 +125,28 @@ namespace UICustom {
             //lbl->setVerticalAlignment(TextVAlignment::CENTER);
 
             auto Button_1 = MenuItemImage::create(IMAGEPATH::OK_BUTTON, IMAGEPATH::OK_BUTTON_PRESSED, [=](Ref* sender) {
-                if (hud->count >= 1 && !hud->health == 100) {
+                CCLOG("button 1 pre");
+                if (hud->count >= 1 && player->getHealth() < 100) {
+                    CCLOG("button 1 act");
                     int k = rand() % 100;
-                    hud->health += k;
-                    hud->healthBar->setPercent(hud->health);
+                    if (player->getHealth() + k > 100) {
+                        player->setHealth(100 - player->getHealth());
+                    }
+                    else {
+                        player->setHealth(k);
+                    }
+                    hud->healthBar->setPercent(player->getHealth());
                     hud->count -= 1;
                     hud->update();
                 }
             });
 
             auto Button_2 = MenuItemImage::create(IMAGEPATH::OK_BUTTON, IMAGEPATH::OK_BUTTON_PRESSED, [=](Ref* sender) {
-                if (hud->count >= 2 && !hud->health == 100) {
-                    hud->health = 100;
-                    hud->healthBar->setPercent(hud->health);
+                CCLOG("button 2 pre");
+                if (hud->count >= 2 && player->getHealth() < 100) {
+                    CCLOG("button 2 act");
+                    player->setHealth(100 - player->getHealth());
+                    hud->healthBar->setPercent(player->getHealth());
                     hud->count -= 2;
                     hud->update();
                 }

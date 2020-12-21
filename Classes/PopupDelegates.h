@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Units/Player.h"
 #include "HUD.h"
 
 namespace UICustom {
@@ -36,9 +37,9 @@ namespace UICustom {
     {
 
     public:
-        static Popup* createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, HUD* hud);
-        static Popup* createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::function<void()>& YesFunc, HUD* hud);
-        static Popup* create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, cocos2d::Label* lbl, const std::function<void()>& YesFunc, HUD* hud);
+        static Popup* createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, Player* player, HUD* hud);
+        static Popup* createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::function<void()>& YesFunc, Player* player, HUD* hud);
+        static Popup* create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, cocos2d::Label* lbl, const std::function<void()>& YesFunc, Player* player, HUD* hud);
 
 
     private:

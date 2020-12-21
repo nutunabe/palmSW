@@ -16,14 +16,15 @@ public:
 	int getHealth();
 	void setHealth(int hp);
 	int getStamina();
+	void setStamina(int st);
 	int getDamage();
 	int getDamageRange();
 	void takeDamage(int damage);
 	int getVelocityMax();
 
 protected:
-	int health;
-	int stamina;
+	float health;
+	float stamina;
 	int damage;
 	int damageRange;
 	int velocityMax;

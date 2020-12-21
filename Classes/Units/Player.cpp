@@ -78,7 +78,7 @@ void Player::initPlayer()
 
 void Player::update()
 {
-	CCLOG("%d", health);
+	//CCLOG("%f", health);
 
 	velocityY -= 9.81 * 0.1;
 	setPositionY(getPositionY() + velocityY);
@@ -86,6 +86,10 @@ void Player::update()
 	if (getBottom() < minGroundY) {
 		setPositionY(minGroundY + height / 2 - paddingBottom);
 		velocityY = 0;
+	}
+
+	if (stamina < 100) {
+		stamina += 0.1;
 	}
 
 	setPositionX(getPositionX() + velocityX);

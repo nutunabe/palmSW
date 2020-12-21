@@ -10,17 +10,16 @@ USING_NS_CC;
 class HUD : public Sprite
 {
 public:
-    static HUD* create();
+    static HUD* create(Player* player);
     ui::LoadingBar* healthBar;
     ui::LoadingBar* staminaBar;
-    void getHit(int damage, Player* player);
+    void getHit(int damage);
     int count = 0;
     void update();
     Label* counter;
-    float stamina = 100;
-    int health = 100;
 private:
-    void Init();
+    void Init(Player* player);
+    Player* player;
 };
 
 #endif // !__HUD_H__

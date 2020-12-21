@@ -2,15 +2,16 @@
 
 USING_NS_CC;
 
-HUD* HUD::create() {
+HUD* HUD::create(Player* player) {
 	HUD* hud = new HUD();
 
-	hud->Init();
+	hud->Init(player);
 
 	return hud;
 }
 
-void HUD::Init() {
+void HUD::Init(Player* player) {
+	this->player = player;
 
 	auto hBBackground = Sprite::create("res/hud/hb_bg.png");
 	hBBackground->setAnchorPoint(Point(0, 1));
@@ -21,7 +22,7 @@ void HUD::Init() {
 	healthBar->setAnchorPoint(Point(0, 1));
 	healthBar->setPosition(Point(76, 742));
 	healthBar->setDirection(ui::LoadingBar::Direction::LEFT);
-	healthBar->setPercent(health);
+	healthBar->setPercent(player->getHealth());
 	this->addChild(healthBar);
 
 	auto hBBackground1 = Sprite::create("res/hud/hb_h_bg.png");
@@ -33,7 +34,7 @@ void HUD::Init() {
 	staminaBar->setAnchorPoint(Point(0, 1));
 	staminaBar->setPosition(Point(72, 706));
 	staminaBar->setDirection(ui::LoadingBar::Direction::LEFT);
-	staminaBar->setPercent(stamina);
+	staminaBar->setPercent(player->getStamina());
 	this->addChild(staminaBar);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -57,18 +58,18 @@ void HUD::Init() {
 	}
 }
 
-void HUD::getHit(int damage, Player* player) {
-	if (health <= 0) {
+void HUD::getHit(int damage) {
+	if (player->getHealth() <= 0) {
 		player->stillState = State::isDying;
 		player->state = player->stillState;
 	}
 	else {
-		health -= damage;
-		healthBar->setPercent(health);
+		healthBar->setPercent(player->getHealth());
 	}
 }
 
 void HUD::update() {
+	staminaBar->setPercent(player->getStamina());
 	removeChild(counter, true);
 	char str[200] = { 0 };
 	sprintf(str, "Coin: %d", count);
@@ -85,9 +86,5 @@ void HUD::update() {
 
 		// add the label as a child to this layer
 		this->addChild(counter, 5);
-	}
-	if (stamina <= 100) {
-		stamina = stamina + 0.1;
-		staminaBar->setPercent(stamina);
 	}
 }
