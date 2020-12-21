@@ -40,7 +40,7 @@ bool MainMenu::init() {
     soundfxVolume = doc["soundfxVolume"].GetFloat();
 
     musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
-    //soundfxID = AudioEngine::play2d("res/sounds/swordswing.flac", true, soundfxVolume);
+    //soundfxID = AudioEngine::play2d("res/sounds/swordswing.mp3", true, soundfxVolume);
     //soundEngine
 
 	if ( !Layer::init()) {
@@ -260,6 +260,19 @@ void MainMenu::sliderEvent(Ref* sender, ui::Slider::EventType type)
 
             rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
             doc.Accept(writer);
+        }
+        else if (slider->getName() == "soundfxVolume"){
+            soundfxVolume = dt / 100;
+            doc["soundfxVolume"].SetFloat(soundfxVolume);
+            AudioEngine::setVolume(soundfxID, doc["soundfxVolume"].GetFloat());
+            //soundfxID = AudioEngine::play2d("res/sounds/swordswing.mp3", false, soundfxVolume);
+            
+            std::ofstream ofs("../Resources/Data.json");
+            rapidjson::OStreamWrapper osw(ofs);
+
+            rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+            doc.Accept(writer);
+            
         }
         //CCLOG(">>> LineOptionIndex: %f", musicVolume);
     }

@@ -74,6 +74,15 @@ void Player::initPlayer()
 	setScaleY(scale);
 	setScaleX(-1 * scale);
 	spritecache->destroyInstance();
+
+	std::ifstream ifs("../Resources/Data.json");
+	rapidjson::IStreamWrapper isw(ifs);
+
+	doc.ParseStream(isw);
+	assert(doc.IsObject());
+	assert(doc.HasMember("soundfxVolume"));
+	assert(doc["soundfxVolume"].IsFloat());
+	swordswingVolume = doc["soundfxVolume"].GetFloat();
 }
 
 void Player::update()
@@ -104,10 +113,10 @@ void Player::update()
 		run();
 		// . . .
 		break;
-	case State::isAttacking:
+	case State::isAttacking: {
 		attack();
 		// . . .
-		break;
+		break; }
 	case State::isJumping:
 		jump();
 		// . . .
@@ -146,6 +155,10 @@ void Player::run() {
 
 void Player::attack() {
 	runAction(Repeat::create(attackAnimate, 1));
+	if (attackAnimate->getCurrentFrameIndex() == 1 
+		&& AudioEngine::getState(swordswing) != AudioEngine::AudioState::PLAYING) {
+			swordswing = AudioEngine::play2d("res/sounds/swordswing.mp3", false, swordswingVolume);
+	}
 	if (attackAnimate->getCurrentFrameIndex() == 6) {
 		state = stillState;
 	}

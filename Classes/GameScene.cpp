@@ -525,12 +525,16 @@ void GameScene::pause(Ref* Sender) {
 		auto menuLabel = Label::createWithTTF("Menu", "fonts/Pixel Times.ttf", 24);
 		menuLabel->setGlobalZOrder(3);
 		auto menuItem = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScene::goToMenu, this));
-		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
+		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y - resumeItem->getContentSize().height * 2));
+
+		/*auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+		settingsLabel->setGlobalZOrder(3);
+		auto menuItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(GameScene::showSettings, this));*/
 
 
 		auto menu = Menu::create(resumeItem, menuItem, NULL);
 		menu->setPosition(Vec2::ZERO);
-		menu->setName("menu");
+		menu->setName("menu1");
 		this->addChild(menu, 10);
 	}
 }
@@ -588,6 +592,6 @@ void GameScene::resumeScene(Ref* Sender) {
 	if (Director::getInstance()->isPaused()) {
 		Director::getInstance()->resume();
 		this->removeChildByName("bg", true);
-		this->removeChildByName("menu", true);
+		this->removeChildByName("menu1", true);
 	}
 }
