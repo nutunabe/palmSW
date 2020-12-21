@@ -76,36 +76,36 @@ bool GameScene::init()
 		this->addChild(coin, 2);
 		coins.pushBack(coin);
 		//=========================================//
-		Color4F white(1, 1, 1, 1);
-		Color4F red(.7, 0, 0, 1);
-		Color4F green(0, .7, 0, 1);
-		Color4F yellow(.7, .7, 0, 1);
-		auto CoinNode = DrawNode::create();
-		int xi = coin->getLeft();
-		int yi = coin->getTop();
-		int xd = coin->getRight();
-		int yd = coin->getBottom();
-		CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-		CoinNode->drawDot(coin->getPosition(), 3.f, red);
-		this->addChild(CoinNode, 50);
+		//Color4F white(1, 1, 1, 1);
+		//Color4F red(.7, 0, 0, 1);
+		//Color4F green(0, .7, 0, 1);
+		//Color4F yellow(.7, .7, 0, 1);
+		//auto CoinNode = DrawNode::create();
+		//int xi = coin->getLeft();
+		//int yi = coin->getTop();
+		//int xd = coin->getRight();
+		//int yd = coin->getBottom();
+		//CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+		//CoinNode->drawDot(coin->getPosition(), 3.f, red);
+		//this->addChild(CoinNode, 50);
 		//=========================================//
 	}
 
 	shop = Shop::create(3000, 200, 280, 280);
 	this->addChild(shop, 1);
 	//=========================================//
-	Color4F white(1, 1, 1, 1);
-	Color4F red(.7, 0, 0, 1);
-	Color4F green(0, .7, 0, 1);
-	Color4F yellow(.7, .7, 0, 1);
-	auto ShopNode = DrawNode::create();
-	int xi = shop->getLeft();
-	int yi = shop->getTop();
-	int xd = shop->getRight();
-	int yd = shop->getBottom();
-	ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-	ShopNode->drawDot(shop->getPosition(), 3.f, red);
-	this->addChild(ShopNode, 50);
+	//Color4F white(1, 1, 1, 1);
+	//Color4F red(.7, 0, 0, 1);
+	//Color4F green(0, .7, 0, 1);
+	//Color4F yellow(.7, .7, 0, 1);
+	//auto ShopNode = DrawNode::create();
+	//int xi = shop->getLeft();
+	//int yi = shop->getTop();
+	//int xd = shop->getRight();
+	//int yd = shop->getBottom();
+	//ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	//ShopNode->drawDot(shop->getPosition(), 3.f, red);
+	//this->addChild(ShopNode, 50);
 	//=========================================//
 
 	return true;
@@ -127,18 +127,18 @@ void GameScene::initEnvironment() {
 		this->addChild(platforms[i], 2);
 
 		//=========================================//
-		Color4F white(1, 1, 1, 1);
-		Color4F red(.7, 0, 0, 1);
-		Color4F green(0, .7, 0, 1);
-		Color4F yellow(.7, .7, 0, 1);
-		auto platformNode = DrawNode::create();
-		int xi = platforms[i]->getLeft();
-		int yi = platforms[i]->getTop();
-		int xd = platforms[i]->getRight();
-		int yd = platforms[i]->getBottom();
-		platformNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-		platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
-		this->addChild(platformNode, 40);
+		//Color4F white(1, 1, 1, 1);
+		//Color4F red(.7, 0, 0, 1);
+		//Color4F green(0, .7, 0, 1);
+		//Color4F yellow(.7, .7, 0, 1);
+		//auto platformNode = DrawNode::create();
+		//int xi = platforms[i]->getLeft();
+		//int yi = platforms[i]->getTop();
+		//int xd = platforms[i]->getRight();
+		//int yd = platforms[i]->getBottom();
+		//platformNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+		//platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
+		//this->addChild(platformNode, 40);
 		//=========================================//
 	}
 	// . . .
@@ -165,21 +165,21 @@ void GameScene::initCharacters() {
 	hud->addChild(menu);
 	this->addChild(hud, 5);
 	//=========================================//
-	Color4F white(1, 1, 1, 1);
-	Color4F red(.7, 0, 0, 1);
-	Color4F green(0, .7, 0, 1);
-	Color4F yellow(.7, .7, 0, 1);
-	groundNode = DrawNode::create();
-	groundNode->drawLine(Point(0.f, groundLevel), Point(visibleSize.width, groundLevel), green);
-	this->addChild(groundNode, 1);
-	playerNode = DrawNode::create();
-	int xi = player->getLeft();
-	int yi = player->getTop();
-	int xd = player->getRight();
-	int yd = player->getBottom();
-	playerNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-	playerNode->drawDot(player->getPosition(), 3.f, red);
-	this->addChild(playerNode, 4);
+	//Color4F white(1, 1, 1, 1);
+	//Color4F red(.7, 0, 0, 1);
+	//Color4F green(0, .7, 0, 1);
+	//Color4F yellow(.7, .7, 0, 1);
+	//groundNode = DrawNode::create();
+	//groundNode->drawLine(Point(0.f, groundLevel), Point(visibleSize.width, groundLevel), green);
+	//this->addChild(groundNode, 1);
+	//playerNode = DrawNode::create();
+	//int xi = player->getLeft();
+	//int yi = player->getTop();
+	//int xd = player->getRight();
+	//int yd = player->getBottom();
+	//playerNode->drawRect(Point(xi, yi), Point(xd, yd), white);
+	//playerNode->drawDot(player->getPosition(), 3.f, red);
+	//this->addChild(playerNode, 4);
 	//=========================================//
 	initEnemies();
 }
@@ -456,6 +456,42 @@ void GameScene::checkShop(Ref* sender) {
 	this->addChild(popup, 10000);
 }
 
+void GameScene::checkCollision() {
+	if (player->state == State::isAttacking)
+	for (auto goblin : goblins) {
+		if (goblin->minGroundY == player->minGroundY) {
+			if (player->getScaleX() > 0) {
+				if (goblin->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+					goblin->getPositionX() < player->getPositionX()) {
+					CCLOG("yesLeft");
+					attackGoblin(goblin, player->getAttackAnimationIndex());
+				}
+
+			}
+			else if (player->getScaleX() < 0) {
+				if (goblin->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+					goblin->getPositionX() > player->getPositionX()) {
+					CCLOG("yesRight");
+					attackGoblin(goblin, player->getAttackAnimationIndex());
+				}
+			}
+		}
+	}
+}
+
+void GameScene::attackGoblin(Goblin* goblin, int index) {
+	CCLOG("%d", index);
+	if (goblin->state != State::isTakingHit &&
+		goblin->state != State::isDead &&
+		index == 4) {
+		CCLOG("Hit!");
+		goblin->stopAllActions();
+		goblin->velocityX = 0;
+		goblin->state = State::isTakingHit;
+		goblin->takeDamage(player->getDamage());
+	}
+}
+
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	//whatKey(keyState);
@@ -463,15 +499,20 @@ void GameScene::update(float dt) {
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();
+		if (goblin->getHealth() <= 0 && goblin->state != State::isDead) {
+			goblin->stillState = State::isDying;
+			goblin->state = goblin->stillState;
+		}
 	}
 	hud->update();
+	checkCollision();
 
 	checkActivePlatform();
 	checkTakeCoin();
 
 	shopButton();
-	playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
-	groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
+	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 }
 
 void GameScene::pause(Ref* Sender) {
@@ -500,12 +541,15 @@ void GameScene::pause(Ref* Sender) {
 		auto menuLabel = Label::createWithTTF("Menu", "fonts/Pixel Times.ttf", 24);
 		menuLabel->setGlobalZOrder(3);
 		auto menuItem = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScene::goToMenu, this));
-		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
+		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y - resumeItem->getContentSize().height * 2));
 
+		/*auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+		settingsLabel->setGlobalZOrder(3);
+		auto menuItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(GameScene::showSettings, this));*/
 
 		auto menu = Menu::create(resumeItem, menuItem, NULL);
 		menu->setPosition(Vec2::ZERO);
-		menu->setName("menu");
+		menu->setName("menu1");
 		this->addChild(menu, 10);
 	}
 }
@@ -563,6 +607,6 @@ void GameScene::resumeScene(Ref* Sender) {
 	if (Director::getInstance()->isPaused()) {
 		Director::getInstance()->resume();
 		this->removeChildByName("bg", true);
-		this->removeChildByName("menu", true);
+		this->removeChildByName("menu1", true);
 	}
 }

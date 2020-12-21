@@ -30,9 +30,9 @@ void Goblin::initGoblin()
 
 	stillState = State::isIdle;
 	state = stillState;
-	health = 80;
+	health = 100;
 	stamina = 100;
-	damage = 7;
+	damage = 20;
 	damageRange = width;
 	velocityMax = 2;
 
@@ -70,6 +70,7 @@ void Goblin::initGoblin()
 	hBBackground->setAnchorPoint(Point(0.5, 1));
 	hBBackground->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
 	hBBackground->setScale(0.1);
+	hBBackground->setName("hb");
 	this->addChild(hBBackground);
 
 	hpgoblin = ui::LoadingBar::create("block.png");
@@ -83,12 +84,16 @@ void Goblin::initGoblin()
 
 void Goblin::update()
 {
-	if (getScaleX() > 0) {
-		hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+	if (state != State::isDead && state != State::isDying) {
+		if (getScaleX() > 0) {
+			hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+		}
+		else {
+			hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
+		}
+		hpgoblin->setPercent(health);
 	}
-	else {
-		hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
-	}
+
 	setPositionX(getPositionX() + velocityX);
 
 	getTexture()->setAliasTexParameters();
@@ -111,6 +116,8 @@ void Goblin::update()
 		break;
 	case State::isDying:
 		die();
+		this->removeChild(hpgoblin, true);
+		this->removeChildByName("hb", true);
 		// . . .
 		break;
 	case State::isDead:
@@ -145,6 +152,8 @@ void Goblin::attack() {
 void Goblin::takeHit() {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
+		stopAllActions();
+		takeHitAnimate->update(0);
 		state = stillState;
 	}
 }

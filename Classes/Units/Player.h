@@ -3,12 +3,17 @@
 
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
+#include <AudioEngine.h>
+#include <include/rapidjson/istreamwrapper.h>
+#include <include/rapidjson/document.h>
+#include <fstream>
 
 class Player : public SpriteUnit, public Character
 {
 public:
 	static Player* create(void);
 	void update();
+	int getAttackAnimationIndex();
 
 private:
 	void initPlayer();
@@ -19,6 +24,10 @@ private:
 	void jump();
 	void takeHit();
 	void die();
+
+	rapidjson::Document doc;
+	int swordswing;
+	float swordswingVolume;
 };
 
 #endif

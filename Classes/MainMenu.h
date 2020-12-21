@@ -28,9 +28,9 @@ private:
 
 	void menuCloseCallback( Ref *sender );
 
-	void showSettings( Ref *sender);
-
 	void showMenu(Ref *sender);
+
+	void showSettings(Ref* sender);
 
 	void showMainMenu();
 
@@ -50,7 +50,6 @@ private:
 	rapidjson::Document doc;
 public:
 	static Scene* createScene();
-	
 
 	virtual bool init();
 

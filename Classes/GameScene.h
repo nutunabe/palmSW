@@ -66,6 +66,8 @@ private:
 	void checkActivePlatform();
 	void checkTakeCoin();
 	void checkShop(Ref* sender);
+	void checkCollision();
+	void attackGoblin(Goblin* goblin, int index);
 	void initCharacters();
 	void initEnemies();
 	void initEnvironment();

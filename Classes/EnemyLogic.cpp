@@ -66,7 +66,7 @@ void EnemyLogic::attackPlayer(Goblin* goblin, int index) {
 			player->stopAllActions();
 			player->velocityX = 0;
 			player->state = State::isTakingHit;
-			player->takeDamage(10); 
+			player->takeDamage(goblin->getDamage()); 
 			hud->getHit(goblin->getDamage());
 		}
 	}
