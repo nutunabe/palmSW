@@ -5,7 +5,7 @@
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
 
-enum FightMode {
+enum class FightMode {
 	bite,
 	punch,
 	sturmtiger
@@ -18,8 +18,6 @@ public:
 	static Boss* create(void);
 	void update();
 	int getAttackAnimationIndex();
-	int getAttack2AnimationIndex();
-	int getAttack3AnimationIndex();
 	FightMode mode;
 
 private:

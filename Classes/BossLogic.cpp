@@ -11,12 +11,9 @@ void BossLogic::update() {
 	sturmTiger();
 }
 
-void BossLogic::sturmTiger() {
-	boss->mode = FightMode::sturmtiger;
-	boss->state = State::isAttacking;
-}
-
 void BossLogic::chasePlayer() {
+	switch (boss->mode) {
+	case FightMode::punch:
 		if (boss->state != State::isDead &&
 			boss->state != State::isDying &&
 			player->state != State::isDead &&
@@ -26,7 +23,7 @@ void BossLogic::chasePlayer() {
 					if (boss->state == State::isAttacking) {
 						boss->stopAllActions();
 					}
-					if (boss->getPositionX() < player->getLeft()) {		// left
+					if (boss->getPositionX() < player->getLeft()) {			// left
 						boss->velocityX = boss->getVelocityMax();
 						boss->setScaleX(abs(boss->getScaleX()));
 					}
@@ -44,10 +41,19 @@ void BossLogic::chasePlayer() {
 					boss->state = boss->stillState;
 				}
 			}
-			if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
-				attackPlayer(boss, boss->getAttackAnimationIndex()); //attention
-			}
+
 		}
+		if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
+			attackPlayer(boss, boss->getAttackAnimationIndex());
+		}
+		break;
+	case FightMode::bite:
+		bitePlayer(boss, boss->getAttackAnimationIndex());
+		break;
+	case FightMode::sturmtiger:
+
+		break;
+	}
 }
 
 void BossLogic::attackPlayer(Boss* boss, int index) {
@@ -77,4 +83,15 @@ void BossLogic::attackPlayer(Boss* boss, int index) {
 			hud->getHit(boss->getDamage());
 		}
 	}
+}
+
+void BossLogic::bitePlayer(Boss* boss, int index) {
+
+	// . . .
+	boss->state = State::isAttacking;
+}
+
+void BossLogic::sturmTiger() {
+	boss->mode = FightMode::sturmtiger;
+	boss->state = State::isAttacking;
 }

@@ -10,6 +10,7 @@ public:
 	bool switchedd = false;
 	void chasePlayer();
 	void sturmTiger();
+	void bitePlayer(Boss* boss, int index);
 	void attackPlayer(Boss* boss, int index);
 	void update();
 private:
