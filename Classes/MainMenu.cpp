@@ -23,25 +23,9 @@ static void problemLoading(const char* filename)
 }
 
 bool MainMenu::init() {
-
-    std::ifstream ifs("../Resources/Data.json");
-    rapidjson::IStreamWrapper isw(ifs);
-
-    doc.ParseStream(isw);
-    assert(doc.IsObject());
-    assert(doc.HasMember("musicVolume"));
-    assert(doc["musicVolume"].IsFloat());
-
-    assert(doc.HasMember("soundfxVolume"));
-    assert(doc["soundfxVolume"].IsFloat());
-    //rapidjson::Value& hello = d["musicVolume"];
-    CCLOG("hello = %f", doc["musicVolume"].GetFloat());
-    musicVolume = doc["musicVolume"].GetFloat();
-    soundfxVolume = doc["soundfxVolume"].GetFloat();
-
-    musicID = AudioEngine::play2d("res/sounds/bgsound3.mp3", true, musicVolume);
-    //soundfxID = AudioEngine::play2d("res/sounds/swordswing.mp3", true, soundfxVolume);
-    //soundEngine
+    musicVolume = js.getVolume("musicVolume");
+    soundfxVolume = js.getVolume("soundfxVolume");
+    musicID = AudioEngine::play2d(BG_SOUND, true, musicVolume);
 
 	if ( !Layer::init()) {
 		return false;
@@ -51,7 +35,7 @@ bool MainMenu::init() {
     origin = Director::getInstance()->getVisibleOrigin();
 
     
-    auto backgroundSprite = Sprite::create("main_menu_background.png");
+    auto backgroundSprite = Sprite::create(BG_IMAGE);
     backgroundSprite->setContentSize(visibleSize);
     backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
@@ -86,18 +70,18 @@ void MainMenu::menuCloseCallback(Ref* sender)
 void MainMenu::showSettings( Ref* sender ) {
     this->removeChildByName("menu", true);
 
-    auto musicLabel = Label::createWithTTF("Music:", "fonts/Pixel Times.ttf", 24);
+    auto musicLabel = Label::createWithTTF("Music:", FONT_DEFINITION, 24);
     musicLabel->setName("music");
     musicLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + musicLabel->getContentSize().height * 3));
     this->addChild(musicLabel, 2);
 
-    auto soundfxLabel = Label::createWithTTF("Sound FX:", "fonts/Pixel Times.ttf", 24);
+    auto soundfxLabel = Label::createWithTTF("Sound FX:", FONT_DEFINITION, 24);
     soundfxLabel->setName("soundFX");
     soundfxLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 2));
     this->addChild(soundfxLabel, 2);
 
     //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
-    auto backLabel = Label::createWithTTF("Back", "fonts/Pixel Times.ttf", 24);
+    auto backLabel = Label::createWithTTF("Back", FONT_DEFINITION, 24);
     auto backItem = MenuItemLabel::create(backLabel, CC_CALLBACK_1(MainMenu::showMenu, this));
     backItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
@@ -134,7 +118,7 @@ void MainMenu::showSettings( Ref* sender ) {
     sliderFX->addEventListener(CC_CALLBACK_2(MainMenu::sliderEvent, this));
     this->addChild(sliderFX, 4);
 
-    auto label2 = Label::createWithTTF(u8" \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", "fonts/Pixel Times.ttf", 27);
+    auto label2 = Label::createWithTTF(u8" \"A\", \"D\"; F-Attack, SPACE-Jump, 1-Take Hit, 2-Die", FONT_DEFINITION, 27);
     if (label2 == nullptr)
     {
         problemLoading("'fonts/Pixel Times.ttf'");
@@ -163,12 +147,12 @@ void MainMenu::showMenu(Ref* sender) {
     //AudioEngine::setVolume(musicID, float(musicVolume));
 
     //auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
-    auto playLabel = Label::createWithTTF("Play", "fonts/Pixel Times.ttf", 24);
+    auto playLabel = Label::createWithTTF("Play", FONT_DEFINITION, 24);
     auto playItem = MenuItemLabel::create(playLabel, CC_CALLBACK_1(MainMenu::GoToGameScene, this));
     playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + playItem->getContentSize().height * 2));
 
     //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
-    auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+    auto settingsLabel = Label::createWithTTF("Settings", FONT_DEFINITION, 24);
     auto settingsItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(MainMenu::showSettings, this));
     settingsItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
@@ -204,12 +188,12 @@ void MainMenu::showMenu(Ref* sender) {
 
 void MainMenu::showMainMenu() {
     //auto playItem = MenuItemImage::create("Play Button.png", "Play Button Clicked.png", CC_CALLBACK_1(MainMenu::GoToGameScene, this));
-    auto playLabel = Label::createWithTTF("Play", "fonts/Pixel Times.ttf", 24);
+    auto playLabel = Label::createWithTTF("Play", FONT_DEFINITION, 24);
     auto playItem = MenuItemLabel::create(playLabel, CC_CALLBACK_1(MainMenu::GoToGameScene, this));
     playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + playItem->getContentSize().height * 2));
 
     //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
-    auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+    auto settingsLabel = Label::createWithTTF("Settings", FONT_DEFINITION, 24);
     auto settingsItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(MainMenu::showSettings, this));
     settingsItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
@@ -252,28 +236,18 @@ void MainMenu::sliderEvent(Ref* sender, ui::Slider::EventType type)
         float dt = temp;
         if (slider->getName() == "musicVolume") {
             musicVolume = dt / 100;
-            doc["musicVolume"].SetFloat(musicVolume);
-            AudioEngine::setVolume(musicID, doc["musicVolume"].GetFloat());
+            AudioEngine::setVolume(musicID, musicVolume);
 
-            std::ofstream ofs("../Resources/Data.json");
-            rapidjson::OStreamWrapper osw(ofs);
+            js.setVolume("musicVolume", musicVolume);
 
-            rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-            doc.Accept(writer);
         }
         else if (slider->getName() == "soundfxVolume"){
             soundfxVolume = dt / 100;
-            doc["soundfxVolume"].SetFloat(soundfxVolume);
-            AudioEngine::setVolume(soundfxID, doc["soundfxVolume"].GetFloat());
-            //soundfxID = AudioEngine::play2d("res/sounds/swordswing.mp3", false, soundfxVolume);
+            AudioEngine::setVolume(soundfxID, js.getVolume("soundfxVolume"));
+            soundfxID = AudioEngine::play2d(PLAYER_ATTACK, false, soundfxVolume);
             
-            std::ofstream ofs("../Resources/Data.json");
-            rapidjson::OStreamWrapper osw(ofs);
-
-            rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-            doc.Accept(writer);
+            js.setVolume("soundfxVolume", soundfxVolume);
             
         }
-        //CCLOG(">>> LineOptionIndex: %f", musicVolume);
     }
 }

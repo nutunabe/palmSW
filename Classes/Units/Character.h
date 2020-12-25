@@ -27,7 +27,7 @@ protected:
 	float stamina;
 	int damage;
 	int damageRange;
-	int velocityMax;
+	float velocityMax;
 };
 
 #endif

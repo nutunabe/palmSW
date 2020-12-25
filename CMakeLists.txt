@@ -76,6 +76,7 @@ list(APPEND GAME_SOURCE
      Classes/Units/Enemies/Goblin.cpp
      Classes/Shop.cpp
      Classes/PopupDelegates.cpp
+     Classes/JsonParsing.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -99,6 +100,8 @@ list(APPEND GAME_HEADER
      Classes/Units/Enemies/Goblin.h
      Classes/Shop.h
      Classes/PopupDelegates.h
+     Classes/Definitions.h
+     Classes/JsonParsing.h
      )
 
 if(ANDROID)

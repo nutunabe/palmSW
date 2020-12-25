@@ -1,1 +1,16 @@
-{"hello":"test","musicVolume":0.479999989271164,"soundfxVolume":0.25999999046325686}
+{
+  "musicVolume": 0.3400000035762787,
+  "soundfxVolume": 0.20999999344348908,
+  "Enemy": {
+    "Goblin": {
+      "damage": 20.0,
+      "velocity": 2.5
+    }
+  },
+  "Player": {
+    "health": 150,
+    "stamina": 150,
+    "damage": 20.0,
+    "velocity": 5.0
+  }
+}

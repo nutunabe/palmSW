@@ -32,9 +32,9 @@ void Goblin::initGoblin()
 	state = stillState;
 	health = 100;
 	stamina = 100;
-	damage = 20;
+	damage = js.getEnemyDamage("Goblin");
 	damageRange = width;
-	velocityMax = 2;
+	velocityMax = js.getEnemyVelocity("Goblin");
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/goblin.plist");

@@ -15,6 +15,7 @@
 #include "Shop.h"
 #include "PopupDelegates.h"
 #include "ui/CocosGUI.h"
+#include "Definitions.h"
 
 USING_NS_CC;
 
