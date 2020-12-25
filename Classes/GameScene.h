@@ -4,7 +4,9 @@
 #include "cocos2d.h"
 #include "Units/Player.h"
 #include "Units/Enemies/Goblin.h"
+#include "Units/Enemies/Skeleton.h"
 #include "EnemyLogic.h"
+#include "SkeletonLogic.h"
 #include "Leveling.h"
 #include "KeyListener.h"
 #include "MainMenu.h"
@@ -43,6 +45,7 @@ private:
 	Vector<Coin*> coins;
 	Player* player;
 	Vector<Goblin*> goblins;
+	Vector<Skeleton*> skeletons;
 	Leveling* level;
 	KeyListener* keyListener;
 	Platform* platforms[6];
@@ -50,6 +53,7 @@ private:
 	Shop* shop;
 	HUD* hud;
 	EnemyLogic* enemyLogic;
+	SkeletonLogic* skeletonLogic;
 	Size visibleSize;
 	Vec2 origin;
 	DrawNode* playerNode;
@@ -68,6 +72,7 @@ private:
 	void checkShop(Ref* sender);
 	void checkCollision();
 	void attackGoblin(Goblin* goblin, int index);
+	void attackSkeleton(Skeleton* skeleton, int index);
 	void initCharacters();
 	void initEnemies();
 	void initEnvironment();

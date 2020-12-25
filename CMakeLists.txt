@@ -76,6 +76,9 @@ list(APPEND GAME_SOURCE
      Classes/Units/Enemies/Goblin.cpp
      Classes/Shop.cpp
      Classes/PopupDelegates.cpp
+     Classes/Units/Enemies/Skeleton.cpp
+     Classes/SkeletonLogic.cpp
+     Classes/Projectile.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -99,6 +102,9 @@ list(APPEND GAME_HEADER
      Classes/Units/Enemies/Goblin.h
      Classes/Shop.h
      Classes/PopupDelegates.h
+     Classes/Units/Enemies/Skeleton.h
+     Classes/SkeletonLogic.h
+     Classes/Projectile.h
      )
 
 if(ANDROID)

@@ -188,6 +188,7 @@ void GameScene::initEnemies() {
 	auto goblin = Goblin::create();
 	goblin->minGroundY = groundLevel;
 	goblin->setPosition(Point((visibleSize.width * 0.7) + origin.x, goblin->minGroundY - goblin->getBottom()));
+	goblin->setName("goblin");
 	this->addChild(goblin, 3);
 	goblins.pushBack(goblin);
 	//=========================================//
@@ -198,7 +199,22 @@ void GameScene::initEnemies() {
 	//goblinNode->drawDot(goblin->getPosition(), 3.f, red);
 	//this->addChild(goblinNode, 3);
 	//=========================================//
-	enemyLogic = new EnemyLogic(goblins, player, groundLevel, hud);
+	//enemyLogic = new EnemyLogic(goblins, player, groundLevel, hud);
+	
+	auto skeleton = Skeleton::create();
+	skeleton->minGroundY = groundLevel;
+	skeleton->setPosition(Point(1500 , skeleton->minGroundY - skeleton->getBottom()));
+	this->addChild(skeleton, 3);
+	skeletons.pushBack(skeleton);
+	//========================================//
+	/*Color4F red(.7, 0, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+	auto skeletonNode = DrawNode::create();
+	skeletonNode->drawRect(Point(skeleton->getLeft(), skeleton->getTop()), Point(skeleton->getRight(), skeleton->getBottom()), yellow);
+	skeletonNode->drawDot(skeleton->getPosition(), 3.f, red);
+	this->addChild(skeletonNode, 3);*/
+	//========================================//	if (goblin->state = State::isDead) {
+	skeletonLogic = new SkeletonLogic(skeletons, player, groundLevel, hud);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -477,6 +493,25 @@ void GameScene::checkCollision() {
 			}
 		}
 	}
+	for (auto skeleton : skeletons) {
+		if (skeleton->minGroundY == player->minGroundY) {
+			if (player->getScaleX() > 0) {
+				if (skeleton->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+					skeleton->getPositionX() < player->getPositionX()) {
+					CCLOG("yesLeft");
+					attackSkeleton(skeleton, player->getAttackAnimationIndex());
+				}
+
+			}
+			else if (player->getScaleX() < 0) {
+				if (skeleton->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+					skeleton->getPositionX() > player->getPositionX()) {
+					CCLOG("yesRight");
+					attackSkeleton(skeleton, player->getAttackAnimationIndex());
+				}
+			}
+		}
+	}
 }
 
 void GameScene::attackGoblin(Goblin* goblin, int index) {
@@ -492,10 +527,22 @@ void GameScene::attackGoblin(Goblin* goblin, int index) {
 	}
 }
 
+void GameScene::attackSkeleton(Skeleton* skeleton, int index) {
+	if (skeleton->state != State::isTakingHit &&
+		skeleton->state != State::isDead &&
+		index == 4) {
+		CCLOG("Hit!");
+		skeleton->stopAllActions();
+		skeleton->velocityX = 0;
+		skeleton->state = State::isTakingHit;
+		skeleton->takeDamage(player->getDamage());
+	}
+}
+
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
-	//whatKey(keyState);
-	enemyLogic->chasePlayer();
+	//enemyLogic->chasePlayer();
+	skeletonLogic->chasePlayer();
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();
@@ -504,6 +551,14 @@ void GameScene::update(float dt) {
 			goblin->state = goblin->stillState;
 		}
 	}
+	for (auto skeleton : skeletons) {
+		skeleton->update();
+		if (skeleton->getHealth() <= 0 && skeleton->state != State::isDead) {
+			skeleton->stillState = State::isDying;
+			skeleton->state = skeleton->stillState;
+		}
+	}
+
 	hud->update();
 	checkCollision();
 
