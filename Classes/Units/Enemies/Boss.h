@@ -5,6 +5,12 @@
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
 
+enum FightMode {
+	bite,
+	punch,
+	sturmtiger
+};
+
 class Boss : public SpriteUnit, public Character
 {
 public:
@@ -14,6 +20,7 @@ public:
 	int getAttackAnimationIndex();
 	int getAttack2AnimationIndex();
 	int getAttack3AnimationIndex();
+	FightMode mode;
 
 private:
 	ui::LoadingBar* hpboss;

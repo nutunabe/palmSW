@@ -2,12 +2,6 @@
 #include "Units/Player.h"
 #include "Hud.h"
 
-enum FightMode {
-	bite,
-	punch,
-	sturmtiger
-};
-
 class BossLogic
 {
 public:
@@ -23,5 +17,4 @@ private:
 	HUD* hud;
 	clock_t start;
 	clock_t end;
-	FightMode mode;
 };
