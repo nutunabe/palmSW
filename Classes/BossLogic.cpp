@@ -40,12 +40,6 @@ void BossLogic::sturmTiger(float dt) {
 	}
 	start += dt;
 
-	/*if (switchedd == false) {
-		switchedd = true;
-		for (auto bp : bossproj) {
-			bp->setPosition(Point(player->getPositionX(), 800));
-		}
-	}*/
 }
 
 void BossLogic::chasePlayer(float dt) {

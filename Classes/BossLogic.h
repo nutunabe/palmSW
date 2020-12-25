@@ -11,6 +11,7 @@ public:
 	bool switchedd = false;
 	void chasePlayer(float dt);
 	void sturmTiger(float dt);
+	void bitePlayer(Boss* boss, int index);
 	void attackPlayer(Boss* boss, int index);
 	void update(float dt);
 private:
