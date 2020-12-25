@@ -64,6 +64,7 @@ list(APPEND GAME_SOURCE
      Classes/KeyListener.cpp
      Classes/Leveling.cpp
      Classes/Platform.cpp
+     Classes/BossLogic.cpp
      Classes/HUD.cpp
      Classes/Enemy.cpp
      Classes/Coin.cpp
@@ -74,9 +75,11 @@ list(APPEND GAME_SOURCE
      Classes/Units/SpriteUnit.cpp
      Classes/Units/Player.cpp
      Classes/Units/Enemies/Goblin.cpp
+     Classes/Units/Enemies/Boss.cpp
      Classes/Shop.cpp
      Classes/PopupDelegates.cpp
      Classes/JsonParsing.cpp
+     Classes/BossProjectile.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -87,6 +90,7 @@ list(APPEND GAME_HEADER
      Classes/KeyListener.h
      Classes/Leveling.h
      Classes/Platform.h
+     Classes/BossLogic.h
      Classes/HUD.h
      Classes/Enemy.h
      Classes/Coin.h
@@ -98,10 +102,12 @@ list(APPEND GAME_HEADER
      Classes/Units/SpriteUnit.h
      Classes/Units/Player.h
      Classes/Units/Enemies/Goblin.h
+     Classes/Units/Enemies/Boss.h
      Classes/Shop.h
      Classes/PopupDelegates.h
      Classes/Definitions.h
      Classes/JsonParsing.h
+     Classes/BossProjectile.h
      )
 
 if(ANDROID)
