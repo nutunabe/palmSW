@@ -113,7 +113,17 @@ void Boss::update()
 		// . . .
 		break;
 	case State::isAttacking:
-		attack2();
+		switch (mode) {
+		case FightMode::punch:
+			attack1();
+			break;
+		case FightMode::bite:
+			attack2();
+			break;
+		case FightMode::sturmtiger:
+			attack3();
+			break;
+		}
 		// . . .
 		break;
 	case State::isTakingHit:
@@ -135,15 +145,17 @@ void Boss::update()
 }
 
 int Boss::getAttackAnimationIndex() {
-	return attackAnimate->getCurrentFrameIndex();
-}
-
-int Boss::getAttack2AnimationIndex() {
-	return attack2Animate->getCurrentFrameIndex();
-}
-
-int Boss::getAttack3AnimationIndex() {
-	return attack3Animate->getCurrentFrameIndex();
+	switch (mode) {
+	case FightMode::punch:
+		return attackAnimate->getCurrentFrameIndex();
+		break;
+	case FightMode::bite:
+		return attack2Animate->getCurrentFrameIndex();
+		break;
+	case FightMode::sturmtiger:
+		return attack3Animate->getCurrentFrameIndex();
+		break;
+	}
 }
 
 void Boss::idle() {

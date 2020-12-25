@@ -7,7 +7,13 @@ BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud) {
 }
 
 void BossLogic::update() {
-	chasePlayer();
+	//chasePlayer();
+	sturmTiger();
+}
+
+void BossLogic::sturmTiger() {
+	boss->mode = FightMode::sturmtiger;
+	boss->state = State::isAttacking;
 }
 
 void BossLogic::chasePlayer() {
@@ -39,7 +45,7 @@ void BossLogic::chasePlayer() {
 				}
 			}
 			if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
-				attackPlayer(boss, boss->getAttack2AnimationIndex()); //attention
+				attackPlayer(boss, boss->getAttackAnimationIndex()); //attention
 			}
 		}
 }
