@@ -17,6 +17,7 @@
 #include "ui/CocosGUI.h"
 #include "Units/Enemies/Boss.h"
 #include "BossLogic.h"
+#include "BossProjectile.h"
 
 USING_NS_CC;
 
@@ -59,6 +60,8 @@ private:
 	DrawNode* bossNode;
 	Boss* boss;
 	BossLogic* bossLogic;
+	Vector<BossProjectile*> bossproj;
+
 	int keys[8] = { 26,27,124,127,129,59,77,78 };
 	bool keyState[256];
 	bool keyReleased[256];

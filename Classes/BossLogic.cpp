@@ -1,22 +1,54 @@
 #include "BossLogic.h"
 
-BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud) {
+BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile*> bossproj) {
 	this->player = player;
 	this->boss = boss;
 	this->hud = hud;
+	this->bossproj = bossproj;
 }
 
-void BossLogic::update() {
-	//chasePlayer();
-	sturmTiger();
+void BossLogic::update(float dt) {
+	//chasePlayer(dt);
+	sturmTiger(dt);
+
 }
 
-void BossLogic::sturmTiger() {
+void BossLogic::sturmTiger(float dt) {
 	boss->mode = FightMode::sturmtiger;
 	boss->state = State::isAttacking;
+
+	if (start >= 0.5 && start < 0.6) {
+		bossproj.at(0)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 1.0 && start < 1.1) {
+		bossproj.at(1)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 1.5 && start < 1.6) {
+		bossproj.at(2)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 2.0 && start < 2.1) {
+		bossproj.at(3)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 2.5 && start < 2.6) {
+		bossproj.at(4)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 3.0 && start < 3.1) {
+		bossproj.at(5)->setPositionX(player->getPositionX());
+	} else
+	if (start >= 3.5 && start < 3.6) {
+		bossproj.at(6)->setPositionX(player->getPositionX());
+	}
+	start += dt;
+
+	/*if (switchedd == false) {
+		switchedd = true;
+		for (auto bp : bossproj) {
+			bp->setPosition(Point(player->getPositionX(), 800));
+		}
+	}*/
 }
 
-void BossLogic::chasePlayer() {
+void BossLogic::chasePlayer(float dt) {
 		if (boss->state != State::isDead &&
 			boss->state != State::isDying &&
 			player->state != State::isDead &&
@@ -57,14 +89,14 @@ void BossLogic::attackPlayer(Boss* boss, int index) {
 		boss->state = State::isAttacking;
 	}
 
-	if (clock() >= end) {
+	/*if (clock() >= end) {
 		start = clock();
 		end = start + 2000;
 		switched = true;
 	}
 	else {
 		switched = false;
-	}
+	}*/
 
 	if (boss->state == State::isAttacking) {
 		if (player->state != State::isAttacking &&

@@ -205,6 +205,13 @@ void GameScene::initEnemies() {
 	boss->setPosition(Point(1000, boss->minGroundY - boss->getBottom()));
 	this->addChild(boss, 3);
 
+	for (int i = 0; i < 7; i++) {
+		auto bp = BossProjectile::create();
+		bp->setPosition(Point(0, 800));
+		bossproj.pushBack(bp);
+		this->addChild(bp, 5);
+	}
+
 	Color4F red(.7, 0, 0, 1);
 	Color4F yellow(.7, .7, 0, 1);
 	bossNode = DrawNode::create();
@@ -213,7 +220,7 @@ void GameScene::initEnemies() {
 	bossNode->setName("bossNode");
 	this->addChild(bossNode, 3);
 
-	bossLogic = new BossLogic(boss, player, hud);
+	bossLogic = new BossLogic(boss, player, hud, bossproj);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -511,7 +518,7 @@ void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	//whatKey(keyState);
 	//enemyLogic->chasePlayer();
-	bossLogic->update();
+	bossLogic->update(dt);
 	boss->update();
 	player->update();
 	/*for (auto goblin : goblins) {

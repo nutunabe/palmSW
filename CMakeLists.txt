@@ -78,6 +78,7 @@ list(APPEND GAME_SOURCE
      Classes/Units/Enemies/Boss.cpp
      Classes/Shop.cpp
      Classes/PopupDelegates.cpp
+     Classes/BossProjectile.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -103,6 +104,7 @@ list(APPEND GAME_HEADER
      Classes/Units/Enemies/Boss.h
      Classes/Shop.h
      Classes/PopupDelegates.h
+     Classes/BossProjectile.h
      )
 
 if(ANDROID)
