@@ -199,6 +199,21 @@ void GameScene::initEnemies() {
 	//this->addChild(goblinNode, 3);
 	//=========================================//
 	enemyLogic = new EnemyLogic(goblins, player, groundLevel, hud);
+
+	boss = Boss::create();
+	boss->minGroundY = groundLevel;
+	boss->setPosition(Point(1000, boss->minGroundY - boss->getBottom()));
+	this->addChild(boss, 3);
+
+	Color4F red(.7, 0, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+	bossNode = DrawNode::create();
+	bossNode->drawRect(Point(boss->getLeft(), boss->getTop()), Point(boss->getRight(), boss->getBottom()), yellow);
+	bossNode->drawDot(boss->getPosition(), 3.f, red);
+	bossNode->setName("bossNode");
+	this->addChild(bossNode, 3);
+
+	bossLogic = new BossLogic(boss, player, hud);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -495,15 +510,17 @@ void GameScene::attackGoblin(Goblin* goblin, int index) {
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	//whatKey(keyState);
-	enemyLogic->chasePlayer();
+	//enemyLogic->chasePlayer();
+	bossLogic->update();
+	boss->update();
 	player->update();
-	for (auto goblin : goblins) {
+	/*for (auto goblin : goblins) {
 		goblin->update();
 		if (goblin->getHealth() <= 0 && goblin->state != State::isDead) {
 			goblin->stillState = State::isDying;
 			goblin->state = goblin->stillState;
 		}
-	}
+	}*/
 	hud->update();
 	checkCollision();
 
@@ -513,6 +530,7 @@ void GameScene::update(float dt) {
 	shopButton();
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	bossNode->setPositionX(bossNode->getPositionX() + boss->velocityX);
 }
 
 void GameScene::pause(Ref* Sender) {
