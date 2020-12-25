@@ -20,6 +20,9 @@ public:
 private:
     void Init(Player* player);
     Player* player;
+
+    int maxHealth;
+    int maxStamina;
 };
 
 #endif // !__HUD_H__

@@ -45,7 +45,7 @@ bool GameScene::init()
 
 
 
-	/*auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
+	/*auto pauseLabel = Label::createWithTTF("Pause", FONT_DEFINITION, 24);
 	auto pauseItem = MenuItemLabel::create(pauseLabel, CC_CALLBACK_1(GameScene::pause, this));
 	pauseItem->setPosition(
 		Vec2(origin.x + visibleSize.width - pauseItem->getContentSize().width / 2,
@@ -54,7 +54,7 @@ bool GameScene::init()
 
 	// create menu, it's an autorelease object
 
-	/*auto Shoplabel = Label::createWithTTF("Press ME", "fonts/Pixel Times.ttf", 24);
+	/*auto Shoplabel = Label::createWithTTF("Press ME", FONT_DEFINITION, 24);
 	auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
 	shop1->setPosition(Point(1000, 350));*/
 	//hud->addChild(shop1, 2);
@@ -117,7 +117,7 @@ void GameScene::initEnvironment() {
 	this->addChild(level, 1);
 	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 
-	platforms[0] = Platform::create(200, 125, 200, 50);
+	platforms[0] = Platform::create(200, 125, 400, 50);
 	platforms[1] = Platform::create(800, 125, 200, 50);
 	platforms[2] = Platform::create(450, 175, 200, 50);
 	platforms[3] = Platform::create(200, 235, 200, 50);
@@ -151,7 +151,7 @@ void GameScene::initCharacters() {
 	this->addChild(player, 4);
 
 	//=========================================//
-	auto pauseLabel = Label::createWithTTF("Pause", "fonts/Pixel Times.ttf", 24);
+	auto pauseLabel = Label::createWithTTF("Pause", FONT_DEFINITION, 24);
 	auto pauseItem = MenuItemLabel::create(pauseLabel, CC_CALLBACK_1(GameScene::pause, this));
 	pauseItem->setPosition(
 		Vec2(origin.x + visibleSize.width - pauseItem->getContentSize().width / 2,
@@ -215,6 +215,29 @@ void GameScene::initEnemies() {
 	this->addChild(skeletonNode, 3);*/
 	//========================================//	if (goblin->state = State::isDead) {
 	skeletonLogic = new SkeletonLogic(skeletons, player, groundLevel, hud);
+	enemyLogic = new EnemyLogic(goblins, player, groundLevel, hud);
+
+	boss = Boss::create();
+	boss->minGroundY = groundLevel;
+	boss->setPosition(Point(1000, boss->minGroundY - boss->getBottom()));
+	this->addChild(boss, 3);
+
+	for (int i = 0; i < 7; i++) {
+		auto bp = BossProjectile::create();
+		bp->setPosition(Point(0, 800));
+		bossproj.pushBack(bp);
+		this->addChild(bp, 5);
+	}
+
+	Color4F red(.7, 0, 0, 1);
+	Color4F yellow(.7, .7, 0, 1);
+	bossNode = DrawNode::create();
+	bossNode->drawRect(Point(boss->getLeft(), boss->getTop()), Point(boss->getRight(), boss->getBottom()), yellow);
+	bossNode->drawDot(boss->getPosition(), 3.f, red);
+	bossNode->setName("bossNode");
+	this->addChild(bossNode, 3);
+
+	bossLogic = new BossLogic(boss, player, hud, bossproj);
 }
 
 void GameScene::goToMenu(Ref* Sender)
@@ -432,8 +455,7 @@ void GameScene::shopButton() {
 		player->getBottom() <= shop->getPositionY())
 	{
 		if (check == false) {
-			CCLOG("4mo");
-			auto Shoplabel = Label::createWithTTF("Press ME", "fonts/Pixel Times.ttf", 24);
+			auto Shoplabel = Label::createWithTTF("Press ME", FONT_DEFINITION, 24);
 			auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
 			shop1->setPosition(Point(3000, 350));
 			auto menu = Menu::create(shop1, NULL);
@@ -543,6 +565,10 @@ void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
 	//enemyLogic->chasePlayer();
 	skeletonLogic->chasePlayer();
+	//whatKey(keyState);
+	//enemyLogic->chasePlayer();
+	bossLogic->update(dt);
+	boss->update();
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();
@@ -558,7 +584,6 @@ void GameScene::update(float dt) {
 			skeleton->state = skeleton->stillState;
 		}
 	}
-
 	hud->update();
 	checkCollision();
 
@@ -568,6 +593,7 @@ void GameScene::update(float dt) {
 	shopButton();
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
+	bossNode->setPositionX(bossNode->getPositionX() + boss->velocityX);
 }
 
 void GameScene::pause(Ref* Sender) {
@@ -588,17 +614,17 @@ void GameScene::pause(Ref* Sender) {
 		backgroundSprite->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y));
 		this->addChild(backgroundSprite, 1);
 
-		auto resumeLabel = Label::createWithTTF("Resume", "fonts/Pixel Times.ttf", 24);
+		auto resumeLabel = Label::createWithTTF("Resume", FONT_DEFINITION, 24);
 		resumeLabel->setGlobalZOrder(3);
 		auto resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(GameScene::resumeScene, this));
 		resumeItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y + resumeItem->getContentSize().height * 2));
 
-		auto menuLabel = Label::createWithTTF("Menu", "fonts/Pixel Times.ttf", 24);
+		auto menuLabel = Label::createWithTTF("Menu", FONT_DEFINITION, 24);
 		menuLabel->setGlobalZOrder(3);
 		auto menuItem = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScene::goToMenu, this));
 		menuItem->setPosition(Point(camera->getPositionX() + origin.x, visibleSize.height / 2 + origin.y - resumeItem->getContentSize().height * 2));
 
-		/*auto settingsLabel = Label::createWithTTF("Settings", "fonts/Pixel Times.ttf", 24);
+		/*auto settingsLabel = Label::createWithTTF("Settings", FONT_DEFINITION, 24);
 		settingsLabel->setGlobalZOrder(3);
 		auto menuItem = MenuItemLabel::create(settingsLabel, CC_CALLBACK_1(GameScene::showSettings, this));*/
 

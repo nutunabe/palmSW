@@ -22,7 +22,8 @@ void HUD::Init(Player* player) {
 	healthBar->setAnchorPoint(Point(0, 1));
 	healthBar->setPosition(Point(76, 742));
 	healthBar->setDirection(ui::LoadingBar::Direction::LEFT);
-	healthBar->setPercent(player->getHealth());
+	healthBar->setPercent(100);
+	maxHealth = player->getHealth();
 	this->addChild(healthBar);
 
 	auto hBBackground1 = Sprite::create("res/hud/hb_h_bg.png");
@@ -34,7 +35,8 @@ void HUD::Init(Player* player) {
 	staminaBar->setAnchorPoint(Point(0, 1));
 	staminaBar->setPosition(Point(72, 706));
 	staminaBar->setDirection(ui::LoadingBar::Direction::LEFT);
-	staminaBar->setPercent(player->getStamina());
+	staminaBar->setPercent(100);
+	maxStamina = player->getStamina();
 	this->addChild(staminaBar);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -60,16 +62,17 @@ void HUD::Init(Player* player) {
 
 void HUD::getHit(int damage) {
 	if (player->getHealth() <= 0) {
+		healthBar->setPercent(0);
 		player->stillState = State::isDying;
 		player->state = player->stillState;
 	}
 	else {
-		healthBar->setPercent(player->getHealth());
+		healthBar->setPercent(player->getHealth() * 100 / maxHealth);
 	}
 }
 
 void HUD::update() {
-	staminaBar->setPercent(player->getStamina());
+	staminaBar->setPercent(player->getStamina() * 100 / maxStamina);
 	removeChild(counter, true);
 	char str[200] = { 0 };
 	sprintf(str, "Coin: %d", count);

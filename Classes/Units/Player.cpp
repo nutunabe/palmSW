@@ -30,14 +30,14 @@ void Player::initPlayer()
 
 	stillState = State::isReady;
 	state = stillState;
-	health = 100;
-	stamina = 100;
-	damage = 20;
+	health = js.getPlayerHealth();
+	stamina = js.getPlayerStamina();
+	damage = js.getPlayerDamage();
 	damageRange = width;
-	velocityMax = 5;
+	velocityMax = js.getPlayerVelocity();
 
 	spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("res/characters/hero.plist");
+	spritecache->addSpriteFramesWithFile(PLAYER_PLIST);
 
 	// Animation Idle
 	idleAnimate = initAnimation("Idle", 4, 0.15f);
@@ -75,14 +75,7 @@ void Player::initPlayer()
 	setScaleX(-1 * scale);
 	spritecache->destroyInstance();
 
-	std::ifstream ifs("../Resources/Data.json");
-	rapidjson::IStreamWrapper isw(ifs);
-
-	doc.ParseStream(isw);
-	assert(doc.IsObject());
-	assert(doc.HasMember("soundfxVolume"));
-	assert(doc["soundfxVolume"].IsFloat());
-	swordswingVolume = doc["soundfxVolume"].GetFloat();
+	swordswingVolume = js.getVolume("soundfxVolume");
 }
 
 void Player::update()
@@ -161,7 +154,7 @@ void Player::attack() {
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 1 
 		&& AudioEngine::getState(swordswing) != AudioEngine::AudioState::PLAYING) {
-			swordswing = AudioEngine::play2d("res/sounds/swordswing.mp3", false, swordswingVolume);
+			swordswing = AudioEngine::play2d(PLAYER_ATTACK, false, swordswingVolume);
 	}
 	if (attackAnimate->getCurrentFrameIndex() == 6) {
 		state = stillState;

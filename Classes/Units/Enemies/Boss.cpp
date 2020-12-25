@@ -1,26 +1,26 @@
-#include "Goblin.h"
+#include "Boss.h"
 #include "Windows.h"
 
 USING_NS_CC;
 
-Goblin* Goblin::create()
+Boss* Boss::create()
 {
-	Goblin* goblin = new Goblin();
-	if (goblin->init())
+	Boss* boss = new Boss();
+	if (boss->init())
 	{
 		srand(time(nullptr));
-		goblin->setAnchorPoint(Point(0.5f, 0.5f));
-		goblin->autorelease();
-		goblin->initGoblin();
-		return goblin;
+		boss->setAnchorPoint(Point(0.5f, 0.5f));
+		boss->autorelease();
+		boss->initBoss();
+		return boss;
 	}
-	CC_SAFE_DELETE(goblin);
+	CC_SAFE_DELETE(boss);
 	return NULL;
 }
 
-void Goblin::initGoblin()
+void Boss::initBoss()
 {
-	scale = 2.5;
+	scale = 6;
 	width = 45 * scale;
 	height = 45 * scale;
 	paddingTop = -13 * scale;
@@ -32,12 +32,12 @@ void Goblin::initGoblin()
 	state = stillState;
 	health = 100;
 	stamina = 100;
-	damage = js.getEnemyDamage("Goblin");
+	damage = 34;
 	damageRange = width;
-	velocityMax = js.getEnemyVelocity("Goblin");
+	velocityMax = 3;
 
 	spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("res/characters/goblin.plist");
+	spritecache->addSpriteFramesWithFile("res/characters/mushroom.plist");
 
 	// Animation Idle
 	idleAnimate = initAnimation("Idle", 4, 0.15f);
@@ -48,6 +48,12 @@ void Goblin::initGoblin()
 	// Animation Attack
 	attackAnimate = initAnimation("Attack", 8, 0.075f, "");
 	attackAnimate->retain();
+	// Animation Attack2
+	attack2Animate = initAnimation("Attack2", 8, 0.075f, "");
+	attack2Animate->retain();
+	// Animation Attack3
+	attack3Animate = initAnimation("Attack3", 11, 0.075f, "");
+	attack3Animate->retain();
 	// Animation Take Hit
 	takeHitAnimate = initAnimation("Take Hit", 4, 0.05f, "");
 	takeHitAnimate->retain();
@@ -73,25 +79,25 @@ void Goblin::initGoblin()
 	hBBackground->setName("hb");
 	this->addChild(hBBackground);
 
-	hpgoblin = ui::LoadingBar::create("block.png");
-	hpgoblin->setAnchorPoint(Point(0.5, 1));
-	hpgoblin->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
-	hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
-	hpgoblin->setPercent(health);
-	hpgoblin->setScale(0.1);
-	this->addChild(hpgoblin);
+	hpboss = ui::LoadingBar::create("block.png");
+	hpboss->setAnchorPoint(Point(0.5, 1));
+	hpboss->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
+	hpboss->setDirection(ui::LoadingBar::Direction::RIGHT);
+	hpboss->setPercent(health);
+	hpboss->setScale(0.1);
+	this->addChild(hpboss);
 }
 
-void Goblin::update()
+void Boss::update()
 {
 	if (state != State::isDead && state != State::isDying) {
 		if (getScaleX() > 0) {
-			hpgoblin->setDirection(ui::LoadingBar::Direction::LEFT);
+			hpboss->setDirection(ui::LoadingBar::Direction::LEFT);
 		}
 		else {
-			hpgoblin->setDirection(ui::LoadingBar::Direction::RIGHT);
+			hpboss->setDirection(ui::LoadingBar::Direction::RIGHT);
 		}
-		hpgoblin->setPercent(health);
+		hpboss->setPercent(health);
 	}
 
 	setPositionX(getPositionX() + velocityX);
@@ -107,7 +113,17 @@ void Goblin::update()
 		// . . .
 		break;
 	case State::isAttacking:
-		attack();
+		switch (mode) {
+		case FightMode::punch:
+			attack1();
+			break;
+		case FightMode::bite:
+			attack2();
+			break;
+		case FightMode::sturmtiger:
+			attack3();
+			break;
+		}
 		// . . .
 		break;
 	case State::isTakingHit:
@@ -116,7 +132,7 @@ void Goblin::update()
 		break;
 	case State::isDying:
 		die();
-		this->removeChild(hpgoblin, true);
+		this->removeChild(hpboss, true);
 		this->removeChildByName("hb", true);
 		// . . .
 		break;
@@ -128,19 +144,29 @@ void Goblin::update()
 	}
 }
 
-int Goblin::getAttackAnimationIndex() {
-	return attackAnimate->getCurrentFrameIndex();
+int Boss::getAttackAnimationIndex() {
+	switch (mode) {
+	case FightMode::punch:
+		return attackAnimate->getCurrentFrameIndex();
+		break;
+	case FightMode::bite:
+		return attack2Animate->getCurrentFrameIndex();
+		break;
+	case FightMode::sturmtiger:
+		return attack3Animate->getCurrentFrameIndex();
+		break;
+	}
 }
 
-void Goblin::idle() {
+void Boss::idle() {
 	runAction(RepeatForever::create(idleAnimate));
 }
 
-void Goblin::run() {
+void Boss::run() {
 	runAction(RepeatForever::create(runAnimate));
 }
 
-void Goblin::attack() {
+void Boss::attack1() {
 	runAction(Repeat::create(attackAnimate, 1));
 	if (attackAnimate->getCurrentFrameIndex() == 8) {
 		stopAllActions();
@@ -149,7 +175,25 @@ void Goblin::attack() {
 	}
 }
 
-void Goblin::takeHit() {
+void Boss::attack2() {
+	runAction(Repeat::create(attack2Animate, 1));
+	if (attack2Animate->getCurrentFrameIndex() == 8) {
+		stopAllActions();
+		attack2Animate->update(0);
+		state = stillState;
+	}
+}
+
+void Boss::attack3() {
+	runAction(Repeat::create(attack3Animate, 1));
+	if (attack3Animate->getCurrentFrameIndex() == 11) {
+		stopAllActions();
+		attack3Animate->update(0);
+		state = stillState;
+	}
+}
+
+void Boss::takeHit() {
 	runAction(Repeat::create(takeHitAnimate, 1));
 	if (takeHitAnimate->getCurrentFrameIndex() == 2) {
 		stopAllActions();
@@ -158,7 +202,7 @@ void Goblin::takeHit() {
 	}
 }
 
-void Goblin::die() {
+void Boss::die() {
 	runAction(Repeat::create(deathAnimate, 1));
 	if (deathAnimate->getCurrentFrameIndex() == 3) {
 		stopAllActions();

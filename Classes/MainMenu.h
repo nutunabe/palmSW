@@ -10,13 +10,8 @@ class MainMenu
 #include "GameScene.h"
 #include "AudioEngine.h"
 #include <ui/CocosGUI.h>
-#include "include/rapidjson/document.h"
-#include "include/rapidjson/error/en.h"
-#include <include/rapidjson/istreamwrapper.h>
-#include <include/rapidjson/ostreamwrapper.h>
-#include "include/rapidjson/writer.h"
-#include <iostream>
-#include <fstream>
+#include "Definitions.h"
+#include "JsonParsing.h"
 
 using namespace cocos2d;
 
@@ -36,6 +31,8 @@ private:
 
 	void sliderEvent(Ref* sender, ui::Slider::EventType type);
 	
+	JsonParsing js = JsonParsing();
+
 	float musicVolume;
 	float soundfxVolume;
 
@@ -45,9 +42,6 @@ private:
 	ui::Slider* slider;
 	ui::Slider* sliderFX;
 
-	Node sound;
-
-	rapidjson::Document doc;
 public:
 	static Scene* createScene();
 

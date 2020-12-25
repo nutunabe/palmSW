@@ -4,9 +4,8 @@
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
 #include <AudioEngine.h>
-#include <include/rapidjson/istreamwrapper.h>
-#include <include/rapidjson/document.h>
-#include <fstream>
+#include "JsonParsing.h"
+#include "Definitions.h"
 
 class Player : public SpriteUnit, public Character
 {
@@ -25,7 +24,7 @@ private:
 	void takeHit();
 	void die();
 
-	rapidjson::Document doc;
+	JsonParsing js = JsonParsing();
 	int swordswing;
 	float swordswingVolume;
 };
