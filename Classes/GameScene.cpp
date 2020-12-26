@@ -287,7 +287,7 @@ void GameScene::initEnemies() {
 
 	boss = Boss::create();
 	boss->minGroundY = groundLevel;
-	boss->setPosition(Point(1000, boss->minGroundY - boss->getBottom()));
+	boss->setPosition(Point(5600, boss->minGroundY - boss->getBottom()));
 	this->addChild(boss, 3);
 
 	for (int i = 0; i < 7; i++) {
@@ -641,8 +641,8 @@ void GameScene::update(float dt) {
 	skeletonLogic->chasePlayer(dt);
 	//whatKey(keyState);
 	//enemyLogic->chasePlayer();
-	//bossLogic->update(dt);
-	//boss->update();
+	bossLogic->update(dt);
+	boss->update();
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();

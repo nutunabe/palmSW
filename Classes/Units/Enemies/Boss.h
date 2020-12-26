@@ -4,6 +4,7 @@
 #include "ui/CocosGUI.h"
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
+#include "JsonParsing.h"
 
 enum class FightMode {
 	bite,
@@ -22,6 +23,7 @@ public:
 
 private:
 	ui::LoadingBar* hpboss;
+	JsonParsing js = JsonParsing();
 
 	Animate* attack2Animate;
 	Animate* attack3Animate;

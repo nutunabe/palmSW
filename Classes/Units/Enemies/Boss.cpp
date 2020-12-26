@@ -32,9 +32,9 @@ void Boss::initBoss()
 	state = stillState;
 	health = 100;
 	stamina = 100;
-	damage = 34;
+	damage = js.getEnemyDamage("Mushroom");
 	damageRange = width;
-	velocityMax = 3;
+	velocityMax = js.getEnemyVelocity("Mushroom");
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/mushroom.plist");

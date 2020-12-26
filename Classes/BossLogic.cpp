@@ -10,10 +10,12 @@ BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile
 
 void BossLogic::update(float dt) {
 	if (player->getPositionX() >= 5250 && player->getPositionX() <= 6000) {
-		if (updateTime > 10.0 && updateTime < 11.0) {
+		if (updateTime > 10.0 && updateTime < 10.1) {
+			boss->stopAllActions();
 			boss->mode = FightMode::sturmtiger;
 		}
-		if (updateTime > 20.0) {
+		if (updateTime > 20.0 && updateTime < 20.1) {
+			boss->stopAllActions();
 			boss->mode = FightMode::bite;
 			updateTime = 0;
 		}
@@ -67,10 +69,16 @@ void BossLogic::chasePlayer(float dt) {
 		if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
 			attackPlayer(boss, boss->getAttackAnimationIndex(), dt);
 		}
+		else {
+			attackTime = -1;
+		}
 		break;
 	case FightMode::bite:
 		if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
 			bitePlayer(boss, boss->getAttackAnimationIndex(), dt);
+		}
+		else {
+			attackTime = -1;
 		}
 		break;
 	}
@@ -84,7 +92,7 @@ void BossLogic::attackPlayer(Boss* boss, int index, float dt) {
 		boss->state = State::isAttacking;
 	}
 
-	if (attackTime >= 2.0) {
+	if (attackTime >= 2.0 || attackTime==-1) {
 		attackTime = 0;
 		switched = true;
 	}
@@ -112,7 +120,7 @@ void BossLogic::bitePlayer(Boss* boss, int index, float dt) {
 		boss->state = State::isAttacking;
 	}
 
-	if (attackTime >= 2.0) {
+	if (attackTime >= 2.0 || attackTime == -1) {
 		attackTime = 0;
 		switched = true;
 	}
@@ -161,6 +169,7 @@ void BossLogic::sturmTiger(float dt) {
 	}
 	if (attackTime >= 4.5) {
 		attackTime = 0;
+		boss->stopAllActions();
 		boss->mode = FightMode::punch;
 	}
 	attackTime += dt;

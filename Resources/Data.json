@@ -8,8 +8,12 @@
       "velocity": 2.5
     },
     "Skeleton": {
-      "damage": 27.0,
+      "damage": 30.0,
       "velocity": 2.0
+    },
+    "Mushroom": {
+      "damage": 44.0,
+      "velocity": 3.0
     }
   },
   "Player": {

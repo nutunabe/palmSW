@@ -1,6 +1,6 @@
 #pragma once
 #include "JsonParsing.h"
-#define DATA "../Resources/Data.json"
+#define DATA "Resources/Data.json"
 
 #define BG_SOUND "res/sounds/bgsound3.mp3"
 #define BG_IMAGE "main_menu_background.png"
