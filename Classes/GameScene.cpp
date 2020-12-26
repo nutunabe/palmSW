@@ -71,12 +71,17 @@ bool GameScene::init()
 	this->addChild(hud, 5);*/
 
 	for (int i = 0; i <= 2; i++) {
-		auto coin = Coin::create(1150 + i * 50, 250, 35, 35);
+		auto coin = Coin::create(1150 + i * 50, 300, 35, 35);
 		this->addChild(coin, 2);
 		coins.pushBack(coin);
 	}
 	for (int i = 0; i <= 4; i++) {
-		auto coin = Coin::create(2600 + i * 50, 350, 35, 35);
+		auto coin = Coin::create(2600 + i * 50, 400, 35, 35);
+		this->addChild(coin, 2);
+		coins.pushBack(coin);
+	}
+	for (int i = 0; i <= 3; i++) {
+		auto coin = Coin::create(4525 + i * 50, 400, 35, 35);
 		this->addChild(coin, 2);
 		coins.pushBack(coin);
 	}
@@ -119,6 +124,22 @@ void GameScene::initEnvironment() {
 	this->addChild(platform, 2);
 	platforms.pushBack(platform);
 	platform = Platform::create(2700, 300, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+
+	platform = Platform::create(4000, 127, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(4300, 207, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(4600, 302, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(4900, 203, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(5200, 119, 300, 50);
 	this->addChild(platform, 2);
 	platforms.pushBack(platform);
 	/*platforms[1] = Platform::create(800, 125, 200, 50);
@@ -233,6 +254,24 @@ void GameScene::initEnemies() {
 	skeleton = Skeleton::create();
 	skeleton->minGroundY = platforms.at(8)->getTop();
 	skeleton->setPosition(Point(2700, skeleton->minGroundY - skeleton->getBottom()));
+	this->addChild(skeleton, 3);
+	skeletons.pushBack(skeleton);
+
+	skeleton = Skeleton::create();
+	skeleton->minGroundY = platforms.at(10)->getTop();
+	skeleton->setPosition(Point(4300, skeleton->minGroundY - skeleton->getBottom()));
+	this->addChild(skeleton, 3);
+	skeletons.pushBack(skeleton);
+
+	skeleton = Skeleton::create();
+	skeleton->minGroundY = platforms.at(11)->getTop();
+	skeleton->setPosition(Point(4600, skeleton->minGroundY - skeleton->getBottom()));
+	this->addChild(skeleton, 3);
+	skeletons.pushBack(skeleton);
+
+	skeleton = Skeleton::create();
+	skeleton->minGroundY = platforms.at(12)->getTop();
+	skeleton->setPosition(Point(4900, skeleton->minGroundY - skeleton->getBottom()));
 	this->addChild(skeleton, 3);
 	skeletons.pushBack(skeleton);
 	//========================================//
