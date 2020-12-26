@@ -36,8 +36,12 @@ void SkeletonLogic::chasePlayer(float dt) {
 					skeleton->state = skeleton->stillState;
 				}
 			}
-			if (skeleton->getPositionX() < player->getRight() && skeleton->getPositionX() > player->getLeft() && player->minGroundY == skeleton->minGroundY) {
+			if (skeleton->getPositionX() <= player->getRight() && skeleton->getPositionX() >= player->getLeft() && player->minGroundY == skeleton->minGroundY) {
+				skeleton->velocityX = 0;
 				attackPlayer(skeleton, skeleton->getAttackAnimationIndex(), dt);
+			}
+			else {
+				skeleton->attackTime = -1;
 			}
 		}
 	}
@@ -50,19 +54,19 @@ void SkeletonLogic::attackPlayer(Skeleton* skeleton, int index, float dt) {
 		skeleton->state = State::isAttacking;
 	}
 
-	if (start >= 2.0) {
-		start = 0;
+	if (skeleton->attackTime >= 2.0 || skeleton->attackTime == -1) {
+		skeleton->attackTime = 0;
 		switched = true;
 	}
 	else {
-		start += dt;
+		skeleton->attackTime += dt;
 		switched = false;
 	}
 
 	if (skeleton->state == State::isAttacking) {
 		if (player->state != State::isAttacking &&
 			player->state != State::isTakingHit &&
-			index == 1) {
+			index == 5) {
 			player->stopAllActions();
 			player->velocityX = 0;
 			player->state = State::isTakingHit;

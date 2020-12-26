@@ -12,6 +12,7 @@ public:
 	float velocityX;
 	float velocityY;
 	int minGroundY;
+	float attackTime;
 
 	int getHealth();
 	void setHealth(int hp);

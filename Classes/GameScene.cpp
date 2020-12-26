@@ -103,10 +103,10 @@ void GameScene::initEnvironment() {
 	this->addChild(platform, 2);
 	platforms.pushBack(platform);
 
-	platform = Platform::create(2200, 125, 400, 50);
+	platform = Platform::create(2200, 123, 400, 50);
 	this->addChild(platform, 2);
 	platforms.pushBack(platform);
-	platform = Platform::create(2800, 123, 400, 50);
+	platform = Platform::create(2800, 121, 400, 50);
 	this->addChild(platform, 2);
 	platforms.pushBack(platform);
 	platform = Platform::create(2300, 200, 100, 50);

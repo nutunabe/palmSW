@@ -36,21 +36,24 @@ void EnemyLogic::chasePlayer(float dt) {
 					goblin->state = goblin->stillState;
 				}
 			}
-			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == goblin->minGroundY) {
+			if (goblin->getPositionX() <= player->getRight() && goblin->getPositionX() >= player->getLeft() && player->minGroundY == goblin->minGroundY) {
 				goblin->velocityX = 0;
 				attackPlayer(goblin, goblin->getAttackAnimationIndex(), dt);
+			}
+			else {
+				goblin->attackTime = -1;
 			}
 		}
 	}
 }
 
 void EnemyLogic::attackPlayer(Goblin* goblin, int index, float dt) {
-	if (start >= 2.0 || start == -1) {
-		start = 0;
+	if (goblin->attackTime >= 2.0 || goblin->attackTime == -1) {
+		goblin->attackTime = 0;
 		switched = true;
 	}
 	else {
-		start += dt;
+		goblin->attackTime += dt;
 		switched = false;
 	}
 

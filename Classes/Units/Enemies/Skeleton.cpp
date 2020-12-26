@@ -35,6 +35,7 @@ void Skeleton::initSkeleton()
 	damage = js.getEnemyDamage("Skeleton");
 	damageRange = width;
 	velocityMax = js.getEnemyVelocity("Skeleton");
+	attackTime = -1;
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/skeleton1.plist");

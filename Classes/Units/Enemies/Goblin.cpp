@@ -35,6 +35,7 @@ void Goblin::initGoblin()
 	damage = js.getEnemyDamage("Goblin");
 	damageRange = width;
 	velocityMax = js.getEnemyVelocity("Goblin");
+	attackTime = -1;
 
 	spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("res/characters/goblin.plist");
