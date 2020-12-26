@@ -19,6 +19,7 @@ private:
 	Boss* boss;
 	Player* player;
 	HUD* hud;
-	float start = 0;
+	float updateTime = 0;
+	float attackTime = 0;
 	float end = 0;
 };
