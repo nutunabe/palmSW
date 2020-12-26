@@ -52,7 +52,7 @@ private:
 	Vector<Skeleton*> skeletons;
 	Leveling* level;
 	KeyListener* keyListener;
-	Platform* platforms[6];
+	Vector<Platform*> platforms;
 	Platform* activePlatform;
 	Shop* shop;
 	HUD* hud;

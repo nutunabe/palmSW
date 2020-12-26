@@ -12,8 +12,8 @@ Platform* Platform::create(int x, int y, int width, int height) {
 		platform->Init();
 
 		platform->scale = 1.0;
-		platform->width = 200;
-		platform->height = 50;
+		platform->width = width;
+		platform->height = height;
 		platform->paddingTop = 0 * platform->scale;
 		platform->paddingBottom = 0 * platform->scale;
 		platform->paddingLeft = 0 * platform->scale;
@@ -33,7 +33,7 @@ Platform::Platform() {
 void Platform::Init() {
 	//auto sprite = Sprite::create("platform.png");
 	//sprite->setAnchorPoint(Point(0, 1));
-	//sprite->setContentSize(size);
+	this->setContentSize(size);
 	//sprite->setPosition(coordinate);
 	
 	//this->addChild(sprite);

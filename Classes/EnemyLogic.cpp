@@ -28,7 +28,7 @@ void EnemyLogic::chasePlayer(float dt) {
 					}
 					goblin->state = State::isRunning;
 				}
-				if (player->state == State::isDead || player->minGroundY > ground) {
+				if (player->state == State::isDead || player->minGroundY != goblin->minGroundY) {
 					goblin->velocityX = 0;
 					if (goblin->state == State::isAttacking) {
 						goblin->stopAllActions();
@@ -36,7 +36,7 @@ void EnemyLogic::chasePlayer(float dt) {
 					goblin->state = goblin->stillState;
 				}
 			}
-			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == ground) {
+			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == goblin->minGroundY) {
 				goblin->velocityX = 0;
 				attackPlayer(goblin, goblin->getAttackAnimationIndex(), dt);
 			}
@@ -67,7 +67,6 @@ void EnemyLogic::attackPlayer(Goblin* goblin, int index, float dt) {
 			player->velocityX = 0;
 			player->state = State::isTakingHit;
 			player->takeDamage(goblin->getDamage());
-			hud->getHit(goblin->getDamage());
 		}
 	}
 }

@@ -62,7 +62,6 @@ bool GameScene::init()
 	keyListener = KeyListener::create(this->_eventDispatcher);
 
 	initCharacters();
-	initEnvironment();
 
 	/*auto menu = Menu::create(pauseItem, NULL);
 	menu->setPosition(Vec2::ZERO);
@@ -71,42 +70,19 @@ bool GameScene::init()
 	hud->addChild(menu);
 	this->addChild(hud, 5);*/
 
-	for (int i = 0; i <= 5; i++) {
-		auto coin = Coin::create(900 + i * 50, 185, 35, 35);
+	for (int i = 0; i <= 2; i++) {
+		auto coin = Coin::create(1150 + i * 50, 250, 35, 35);
 		this->addChild(coin, 2);
 		coins.pushBack(coin);
-		//=========================================//
-		//Color4F white(1, 1, 1, 1);
-		//Color4F red(.7, 0, 0, 1);
-		//Color4F green(0, .7, 0, 1);
-		//Color4F yellow(.7, .7, 0, 1);
-		//auto CoinNode = DrawNode::create();
-		//int xi = coin->getLeft();
-		//int yi = coin->getTop();
-		//int xd = coin->getRight();
-		//int yd = coin->getBottom();
-		//CoinNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-		//CoinNode->drawDot(coin->getPosition(), 3.f, red);
-		//this->addChild(CoinNode, 50);
-		//=========================================//
+	}
+	for (int i = 0; i <= 4; i++) {
+		auto coin = Coin::create(2600 + i * 50, 350, 35, 35);
+		this->addChild(coin, 2);
+		coins.pushBack(coin);
 	}
 
 	shop = Shop::create(3000, 200, 280, 280);
 	this->addChild(shop, 1);
-	//=========================================//
-	//Color4F white(1, 1, 1, 1);
-	//Color4F red(.7, 0, 0, 1);
-	//Color4F green(0, .7, 0, 1);
-	//Color4F yellow(.7, .7, 0, 1);
-	//auto ShopNode = DrawNode::create();
-	//int xi = shop->getLeft();
-	//int yi = shop->getTop();
-	//int xd = shop->getRight();
-	//int yd = shop->getBottom();
-	//ShopNode->drawRect(Point(xi, yi), Point(xd, yd), white);
-	//ShopNode->drawDot(shop->getPosition(), 3.f, red);
-	//this->addChild(ShopNode, 50);
-	//=========================================//
 
 	return true;
 }
@@ -117,14 +93,39 @@ void GameScene::initEnvironment() {
 	this->addChild(level, 1);
 	level->setPositionX(player->getPositionX() - Director::getInstance()->getWinSize().width);
 
-	platforms[0] = Platform::create(200, 125, 400, 50);
-	platforms[1] = Platform::create(800, 125, 200, 50);
+	auto platform = Platform::create(800, 125, 200, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(1200, 205, 500, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(1600, 125, 200, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+
+	platform = Platform::create(2200, 125, 400, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(2800, 123, 400, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(2300, 200, 100, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(2100, 270, 100, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(2250, 370, 250, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	platform = Platform::create(2700, 300, 300, 50);
+	this->addChild(platform, 2);
+	platforms.pushBack(platform);
+	/*platforms[1] = Platform::create(800, 125, 200, 50);
 	platforms[2] = Platform::create(450, 175, 200, 50);
 	platforms[3] = Platform::create(200, 235, 200, 50);
 	platforms[4] = Platform::create(550, 275, 200, 50);
-	platforms[5] = Platform::create(650, 375, 200, 50);
-	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
-		this->addChild(platforms[i], 2);
+	platforms[5] = Platform::create(650, 375, 200, 50);*/
 
 		//=========================================//
 		//Color4F white(1, 1, 1, 1);
@@ -140,7 +141,6 @@ void GameScene::initEnvironment() {
 		//platformNode->drawDot(platforms[i]->getPosition(), 3.f, red);
 		//this->addChild(platformNode, 40);
 		//=========================================//
-	}
 	// . . .
 }
 
@@ -149,6 +149,8 @@ void GameScene::initCharacters() {
 	player->minGroundY = groundLevel;
 	player->setPosition(Point((visibleSize.width / 2) + origin.x, player->minGroundY - player->getBottom()));
 	this->addChild(player, 4);
+
+	initEnvironment();
 
 	//=========================================//
 	auto pauseLabel = Label::createWithTTF("Pause", FONT_DEFINITION, 24);
@@ -191,6 +193,27 @@ void GameScene::initEnemies() {
 	goblin->setName("goblin");
 	this->addChild(goblin, 3);
 	goblins.pushBack(goblin);
+
+	goblin = Goblin::create();
+	goblin->minGroundY = platforms.at(1)->getTop();
+	goblin->setPosition(Point(1200, goblin->minGroundY - goblin->getBottom()));
+	goblin->setName("goblin");
+	this->addChild(goblin, 3);
+	goblins.pushBack(goblin);
+
+	goblin = Goblin::create();
+	goblin->minGroundY = platforms.at(3)->getTop();
+	goblin->setPosition(Point(2200, goblin->minGroundY - goblin->getBottom()));
+	goblin->setName("goblin");
+	this->addChild(goblin, 3);
+	goblins.pushBack(goblin);
+
+	goblin = Goblin::create();
+	goblin->minGroundY = platforms.at(4)->getTop();
+	goblin->setPosition(Point(2700, goblin->minGroundY - goblin->getBottom()));
+	goblin->setName("goblin");
+	this->addChild(goblin, 3);
+	goblins.pushBack(goblin);
 	//=========================================//
 	//Color4F red(.7, 0, 0, 1);
 	//Color4F yellow(.7, .7, 0, 1);
@@ -204,6 +227,12 @@ void GameScene::initEnemies() {
 	auto skeleton = Skeleton::create();
 	skeleton->minGroundY = groundLevel;
 	skeleton->setPosition(Point(1500 , skeleton->minGroundY - skeleton->getBottom()));
+	this->addChild(skeleton, 3);
+	skeletons.pushBack(skeleton);
+
+	skeleton = Skeleton::create();
+	skeleton->minGroundY = platforms.at(8)->getTop();
+	skeleton->setPosition(Point(2700, skeleton->minGroundY - skeleton->getBottom()));
 	this->addChild(skeleton, 3);
 	skeletons.pushBack(skeleton);
 	//========================================//
@@ -229,13 +258,13 @@ void GameScene::initEnemies() {
 		this->addChild(bp, 5);
 	}
 
-	Color4F red(.7, 0, 0, 1);
+	/*Color4F red(.7, 0, 0, 1);
 	Color4F yellow(.7, .7, 0, 1);
 	bossNode = DrawNode::create();
 	bossNode->drawRect(Point(boss->getLeft(), boss->getTop()), Point(boss->getRight(), boss->getBottom()), yellow);
 	bossNode->drawDot(boss->getPosition(), 3.f, red);
 	bossNode->setName("bossNode");
-	this->addChild(bossNode, 3);
+	this->addChild(bossNode, 3);*/
 
 	bossLogic = new BossLogic(boss, player, hud, bossproj);
 }
@@ -429,12 +458,12 @@ void GameScene::whatKey(bool* keyState) {
 
 void GameScene::checkActivePlatform() {
 	int maxY = -1;
-	for (int i = 0; i < (sizeof(platforms) / sizeof(*platforms)); i++) {
-		if (player->getRight() - player->getWidth() / 4 > platforms[i]->getLeft() && player->getLeft() + player->getWidth() / 4 < platforms[i]->getRight()) {
-			if (player->getBottom() >= platforms[i]->getTop()) {
-				if (platforms[i]->getTop() > maxY) {
-					maxY = platforms[i]->getTop();
-					activePlatform = platforms[i];
+	for (auto p: platforms) {
+		if (player->getRight() - player->getWidth() / 4 > p->getLeft() && player->getLeft() + player->getWidth() / 4 < p->getRight()) {
+			if (player->getBottom() >= p->getTop()) {
+				if (p->getTop() > maxY) {
+					maxY = p->getTop();
+					activePlatform = p;
 				}
 			}
 		}
@@ -563,12 +592,18 @@ void GameScene::attackSkeleton(Skeleton* skeleton, int index) {
 
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
-	//enemyLogic->chasePlayer(dt);
-	//skeletonLogic->chasePlayer(dt);
+
+	if (player->getHealth() <= 0 && player->state != State::isDead) {
+		player->stillState = State::isDying;
+		player->state = player->stillState;
+	}
+
+	enemyLogic->chasePlayer(dt);
+	skeletonLogic->chasePlayer(dt);
 	//whatKey(keyState);
 	//enemyLogic->chasePlayer();
-	bossLogic->update(dt);
-	boss->update();
+	//bossLogic->update(dt);
+	//boss->update();
 	player->update();
 	for (auto goblin : goblins) {
 		goblin->update();
@@ -593,7 +628,7 @@ void GameScene::update(float dt) {
 	shopButton();
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
-	bossNode->setPositionX(bossNode->getPositionX() + boss->velocityX);
+	//bossNode->setPositionX(bossNode->getPositionX() + boss->velocityX);
 }
 
 void GameScene::pause(Ref* Sender) {

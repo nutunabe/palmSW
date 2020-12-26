@@ -13,7 +13,6 @@ public:
     static HUD* create(Player* player);
     ui::LoadingBar* healthBar;
     ui::LoadingBar* staminaBar;
-    void getHit(int damage);
     int count = 0;
     void update();
     Label* counter;

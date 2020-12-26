@@ -100,7 +100,6 @@ void BossLogic::attackPlayer(Boss* boss, int index, float dt) {
 			player->velocityX = 0;
 			player->state = State::isTakingHit;
 			player->takeDamage(boss->getDamage());
-			hud->getHit(boss->getDamage());
 		}
 	}
 }
@@ -116,28 +115,28 @@ void BossLogic::sturmTiger(float dt) {
 	boss->mode = FightMode::sturmtiger;
 	boss->state = State::isAttacking;
 
-	if (attackTime >= 0.5 && attackTime < 0.6) {
+	if (attackTime >= 1.0 && attackTime < 1.1) {
 		bossproj.at(0)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 1.0 && attackTime < 1.1) {
+	if (attackTime >= 1.5 && attackTime < 1.6) {
 		bossproj.at(1)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 1.5 && attackTime < 1.6) {
+	if (attackTime >= 2.0 && attackTime < 2.1) {
 		bossproj.at(2)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 2.0 && attackTime < 2.1) {
+	if (attackTime >= 2.5 && attackTime < 2.6) {
 		bossproj.at(3)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 2.5 && attackTime < 2.6) {
+	if (attackTime >= 3.0 && attackTime < 3.1) {
 		bossproj.at(4)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 3.0 && attackTime < 3.1) {
+	if (attackTime >= 3.5 && attackTime < 3.6) {
 		bossproj.at(5)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 3.5 && attackTime < 3.6) {
+	if (attackTime >= 4.0 && attackTime < 4.1) {
 		bossproj.at(6)->setPositionX(player->getPositionX());
 	}
-	if (attackTime >= 4.0) {
+	if (attackTime >= 4.5) {
 		attackTime = 0;
 		boss->mode = FightMode::punch;
 	}

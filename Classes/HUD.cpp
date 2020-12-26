@@ -60,18 +60,8 @@ void HUD::Init(Player* player) {
 	}
 }
 
-void HUD::getHit(int damage) {
-	if (player->getHealth() <= 0) {
-		healthBar->setPercent(0);
-		player->stillState = State::isDying;
-		player->state = player->stillState;
-	}
-	else {
-		healthBar->setPercent(player->getHealth() * 100 / maxHealth);
-	}
-}
-
 void HUD::update() {
+	healthBar->setPercent(player->getHealth() * 100 / maxHealth);
 	staminaBar->setPercent(player->getStamina() * 100 / maxStamina);
 	removeChild(counter, true);
 	char str[200] = { 0 };
