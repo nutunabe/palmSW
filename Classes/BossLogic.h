@@ -12,7 +12,7 @@ public:
 	void chasePlayer(float dt);
 	void sturmTiger(float dt);
 	void bitePlayer(Boss* boss, int index);
-	void attackPlayer(Boss* boss, int index);
+	void attackPlayer(Boss* boss, int index, float dt);
 	void update(float dt);
 private:
 	Vector<BossProjectile*> bossproj;

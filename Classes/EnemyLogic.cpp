@@ -7,7 +7,7 @@ EnemyLogic::EnemyLogic(Vector<Goblin*> goblin, Player* player, float groundLvl, 
 	this->hud = hud;
 }
 
-void EnemyLogic::chasePlayer() {
+void EnemyLogic::chasePlayer(float dt) {
 	for (auto goblin : goblins) {
 		if (goblin->state != State::isDead &&
 			goblin->state != State::isDying &&
@@ -37,26 +37,26 @@ void EnemyLogic::chasePlayer() {
 				}
 			}
 			if (goblin->getPositionX() < player->getRight() && goblin->getPositionX() > player->getLeft() && player->minGroundY == ground) {
-				attackPlayer(goblin, goblin->getAttackAnimationIndex());
+				goblin->velocityX = 0;
+				attackPlayer(goblin, goblin->getAttackAnimationIndex(), dt);
 			}
 		}
 	}
 }
 
-void EnemyLogic::attackPlayer(Goblin* goblin, int index) {
-	if (goblin->state != State::isAttacking && switched) {
-		goblin->stopAllActions();
-		goblin->velocityX = 0;
-		goblin->state = State::isAttacking;
-	}
-
-	if (clock() >= end) {
-		start = clock();
-		end = start + 2000;
+void EnemyLogic::attackPlayer(Goblin* goblin, int index, float dt) {
+	if (start >= 2.0 || start == -1) {
+		start = 0;
 		switched = true;
 	}
 	else {
+		start += dt;
 		switched = false;
+	}
+
+	if (goblin->state != State::isAttacking && switched) {
+		goblin->stopAllActions();
+		goblin->state = State::isAttacking;
 	}
 
 	if (goblin->state == State::isAttacking) {
@@ -66,7 +66,7 @@ void EnemyLogic::attackPlayer(Goblin* goblin, int index) {
 			player->stopAllActions();
 			player->velocityX = 0;
 			player->state = State::isTakingHit;
-			player->takeDamage(goblin->getDamage()); 
+			player->takeDamage(goblin->getDamage());
 			hud->getHit(goblin->getDamage());
 		}
 	}

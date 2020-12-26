@@ -7,7 +7,7 @@ SkeletonLogic::SkeletonLogic(Vector<Skeleton*> skeleton, Player* player, float g
 	this->hud = hud;
 }
 
-void SkeletonLogic::chasePlayer() {
+void SkeletonLogic::chasePlayer(float dt) {
 	for (auto skeleton : skeletons) {
 		if (skeleton->state != State::isDead &&
 			skeleton->state != State::isDying &&
@@ -37,25 +37,25 @@ void SkeletonLogic::chasePlayer() {
 				}
 			}
 			if (skeleton->getPositionX() < player->getRight() && skeleton->getPositionX() > player->getLeft() && player->minGroundY == ground) {
-				attackPlayer(skeleton, skeleton->getAttackAnimationIndex());
+				attackPlayer(skeleton, skeleton->getAttackAnimationIndex(), dt);
 			}
 		}
 	}
 }
 
-void SkeletonLogic::attackPlayer(Skeleton* skeleton, int index) {
+void SkeletonLogic::attackPlayer(Skeleton* skeleton, int index, float dt) {
 	if (skeleton->state != State::isAttacking && switched) {
 		skeleton->stopAllActions();
 		skeleton->velocityX = 0;
 		skeleton->state = State::isAttacking;
 	}
 
-	if (clock() >= end) {
-		start = clock();
-		end = start + 2000;
+	if (start >= 2.0) {
+		start = 0;
 		switched = true;
 	}
 	else {
+		start += dt;
 		switched = false;
 	}
 

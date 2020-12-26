@@ -5,17 +5,17 @@
 class SkeletonLogic
 {
 public:
-	SkeletonLogic(Vector<Skeleton*> skeleton , Player* player, float groundLvl, HUD* hud);
+	SkeletonLogic(Vector<Skeleton*> skeleton, Player* player, float groundLvl, HUD* hud);
 	float ground;
 	bool switched = false;
 	bool switchedd = false;
-	void chasePlayer();
-	void attackPlayer(Skeleton* skeleton, int index);
+	void chasePlayer(float dt);
+	void attackPlayer(Skeleton* skeleton, int index, float dt);
 private:
 	Vector<Skeleton*> skeletons;
 	Player* player;
 	HUD* hud;
-	clock_t start;
-	clock_t end;
+	float start = 0;
+	float end;
 };
 

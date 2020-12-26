@@ -563,8 +563,8 @@ void GameScene::attackSkeleton(Skeleton* skeleton, int index) {
 
 void GameScene::update(float dt) {
 	whatKey(keyListener->keyState);
-	//enemyLogic->chasePlayer();
-	skeletonLogic->chasePlayer();
+	enemyLogic->chasePlayer(dt);
+	//skeletonLogic->chasePlayer(dt);
 	//whatKey(keyState);
 	//enemyLogic->chasePlayer();
 	bossLogic->update(dt);

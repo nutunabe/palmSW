@@ -9,12 +9,12 @@ public:
 	float ground;
 	bool switched = false;
 	bool switchedd = false;
-	void chasePlayer();
-	void attackPlayer(Goblin* goblin, int index);
+	void chasePlayer(float dt);
+	void attackPlayer(Goblin* goblin, int index, float dt);
 private:
-	Vector<Goblin*> goblins; 
+	Vector<Goblin*> goblins;
 	Player* player;
 	HUD* hud;
-	clock_t start;
-	clock_t end;
+	float start = -1;
+	float end;
 };
