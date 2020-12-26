@@ -81,7 +81,7 @@ bool GameScene::init()
 		coins.pushBack(coin);
 	}
 
-	shop = Shop::create(3000, 200, 280, 280);
+	shop = Shop::create(3500, 200, 280, 280);
 	this->addChild(shop, 1);
 
 	return true;
@@ -486,7 +486,7 @@ void GameScene::shopButton() {
 		if (check == false) {
 			auto Shoplabel = Label::createWithTTF("Press ME", FONT_DEFINITION, 24);
 			auto shop1 = MenuItemLabel::create(Shoplabel, CC_CALLBACK_1(GameScene::checkShop, this));
-			shop1->setPosition(Point(3000, 350));
+			shop1->setPosition(shop->getPosition());
 			auto menu = Menu::create(shop1, NULL);
 			menu->setName("menu");
 			menu->setPosition(Vec2::ZERO);
@@ -569,7 +569,7 @@ void GameScene::attackGoblin(Goblin* goblin, int index) {
 	CCLOG("%d", index);
 	if (goblin->state != State::isTakingHit &&
 		goblin->state != State::isDead &&
-		index == 4) {
+		index == 4 && goblin->getHealth() > 0) {
 		CCLOG("Hit!");
 		goblin->stopAllActions();
 		goblin->velocityX = 0;
@@ -581,7 +581,7 @@ void GameScene::attackGoblin(Goblin* goblin, int index) {
 void GameScene::attackSkeleton(Skeleton* skeleton, int index) {
 	if (skeleton->state != State::isTakingHit &&
 		skeleton->state != State::isDead &&
-		index == 4) {
+		index == 4 && skeleton->getHealth() > 0) {
 		CCLOG("Hit!");
 		skeleton->stopAllActions();
 		skeleton->velocityX = 0;

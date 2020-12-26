@@ -33,6 +33,7 @@ void Player::initPlayer()
 	health = js.getPlayerHealth();
 	stamina = js.getPlayerStamina();
 	maxStamina = stamina;
+	maxHealth = health;
 	damage = js.getPlayerDamage();
 	damageRange = width;
 	velocityMax = js.getPlayerVelocity();

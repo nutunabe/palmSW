@@ -14,6 +14,7 @@ public:
 	void update();
 	int getAttackAnimationIndex();
 	int maxStamina;
+	int maxHealth;
 
 private:
 	void initPlayer();

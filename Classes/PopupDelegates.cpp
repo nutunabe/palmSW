@@ -112,25 +112,25 @@ namespace UICustom {
         if (node && node->init())
         {
             auto lbl = Label::createWithTTF(msg, FONT::GAME_FONT, FONT::DESCRIPTION_TEXT_SIZE);
-            lbl->setPosition(Point(3000, 350));
+            lbl->setPosition(Point(3500, 350));
             lbl->enableShadow(Color4B::BLACK, Size(0, -2));
             //lbl->setVerticalAlignment(TextVAlignment::CENTER);
             auto lbl1 = Label::createWithTTF(msg1, FONT::GAME_FONT, FONT::DESCRIPTION_TEXT_SIZE);
-            lbl1->setPosition(Point(3000, 285));
+            lbl1->setPosition(Point(3500, 285));
             lbl1->enableShadow(Color4B::BLACK, Size(0, -2));
             //lbl->setVerticalAlignment(TextVAlignment::CENTER);
             auto lbl2 = Label::createWithTTF(msg2, FONT::GAME_FONT, FONT::DESCRIPTION_TEXT_SIZE);
-            lbl2->setPosition(Point(3000, 205));
+            lbl2->setPosition(Point(3500, 205));
             lbl2->enableShadow(Color4B::BLACK, Size(0, -2));
             //lbl->setVerticalAlignment(TextVAlignment::CENTER);
 
             auto Button_1 = MenuItemImage::create(IMAGEPATH::OK_BUTTON, IMAGEPATH::OK_BUTTON_PRESSED, [=](Ref* sender) {
                 CCLOG("button 1 pre");
-                if (hud->count >= 1 && player->getHealth() < 100) {
+                if (hud->count >= 1 && player->getHealth() < player->maxHealth) {
                     CCLOG("button 1 act");
-                    int k = rand() % 100;
-                    if (player->getHealth() + k > 100) {
-                        player->setHealth(100 - player->getHealth());
+                    int k = rand() % player->maxHealth;
+                    if (player->getHealth() + k > player->maxHealth) {
+                        player->setHealth(player->maxHealth - player->getHealth());
                     }
                     else {
                         player->setHealth(k);
@@ -143,9 +143,9 @@ namespace UICustom {
 
             auto Button_2 = MenuItemImage::create(IMAGEPATH::OK_BUTTON, IMAGEPATH::OK_BUTTON_PRESSED, [=](Ref* sender) {
                 CCLOG("button 2 pre");
-                if (hud->count >= 2 && player->getHealth() < 100) {
+                if (hud->count >= 2 && player->getHealth() < player->maxHealth) {
                     CCLOG("button 2 act");
-                    player->setHealth(100 - player->getHealth());
+                    player->setHealth(player->maxHealth - player->getHealth());
                     hud->healthBar->setPercent(player->getHealth());
                     hud->count -= 2;
                     hud->update();
@@ -158,10 +158,10 @@ namespace UICustom {
 
             Menu* menu = Menu::create(Button_1, Button_2, Button_close, NULL);
             node->addChild(menu, 2);
-            menu->setPosition(Point(3270, 275));
+            menu->setPosition(Point(3770, 275));
             menu->alignItemsVerticallyWithPadding(FONT::LABEL_OFFSET / 2);
 
-            lbl->setPosition(Point(3000, 350));
+            lbl->setPosition(Point(3500, 350));
             CONFIRM_DIALOGUE_SIZE_OFFSET = Size(CONFIRM_DIALOGUE_SIZE_OFFSET.width, 300);
             node->addChild(lbl, 3);
             node->initBg(lbl->getContentSize() + CONFIRM_DIALOGUE_SIZE_OFFSET, title);
@@ -187,7 +187,7 @@ namespace UICustom {
         _bg = ui::ImageView::create(IMAGEPATH::BACKGROUND_IMAGE);
         this->addChild(_bg);
 
-        _bg->setPosition(Point(3000, 280));
+        _bg->setPosition(Point(3500, 280));
         _bg->setScale9Enabled(true);
         _bg->setContentSize(size);
 
@@ -200,7 +200,7 @@ namespace UICustom {
         fill->setContentSize(Size(size.width - FONT::LABEL_OFFSET / 2, size.height - FONT::LABEL_OFFSET * 2));*/
 
         Label* heading = Label::createWithTTF(title, FONT::GAME_FONT, FONT::TITLE_TEXT_SIZE);
-        heading->setPosition(Point(3000, 305));
+        heading->setPosition(Point(3500, 305));
         _bg->addChild(heading);
         heading->enableOutline(Color4B::BLACK, FONT::LABEL_STROKE);
         heading->enableShadow(Color4B::BLACK, Size(0, -3));
