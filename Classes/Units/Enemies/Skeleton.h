@@ -4,6 +4,7 @@
 #include "ui/CocosGUI.h"
 #include "Units/SpriteUnit.h"
 #include "Units/Character.h"
+#include "JsonParsing.h"
 
 class Skeleton : public SpriteUnit, public Character
 {
@@ -15,6 +16,7 @@ public:
 
 private:
 	ui::LoadingBar* hpskeleton;
+	JsonParsing js = JsonParsing();
 
 	void initSkeleton();
 	void idle();

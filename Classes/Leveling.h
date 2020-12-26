@@ -4,6 +4,7 @@
 #include <cocos2d.h>
 #include <iostream>
 #include "Units/Player.h"
+#include "Definitions.h"
 
 USING_NS_CC;
 
@@ -26,6 +27,7 @@ private:
 
 	void update(float dt);
 	void Init();
+	JsonParsing js = JsonParsing();
 };
 
 #endif // !__LEVELING_H__

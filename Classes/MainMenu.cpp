@@ -77,7 +77,7 @@ void MainMenu::showSettings( Ref* sender ) {
 
     auto soundfxLabel = Label::createWithTTF("Sound FX:", FONT_DEFINITION, 24);
     soundfxLabel->setName("soundFX");
-    soundfxLabel->setPosition(Point(visibleSize.width / 2 + origin.x - musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 2));
+    soundfxLabel->setPosition(Point(visibleSize.width / 2 + origin.x - soundfxLabel->getContentSize().width / 1.3, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 1.5));
     this->addChild(soundfxLabel, 2);
 
     //auto settingsItem = MenuItemImage::create("settings.png", "settings.png", CC_CALLBACK_1(MainMenu::showSettings, this));
@@ -113,7 +113,7 @@ void MainMenu::showSettings( Ref* sender ) {
 
     sliderFX->setPercent(soundfxVolume * 100);
 
-    sliderFX->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 2));
+    sliderFX->setPosition(Point(visibleSize.width / 2 + origin.x + musicLabel->getContentSize().width, visibleSize.height / 2 + origin.y + soundfxLabel->getContentSize().height * 1.5));
 
     sliderFX->addEventListener(CC_CALLBACK_2(MainMenu::sliderEvent, this));
     this->addChild(sliderFX, 4);

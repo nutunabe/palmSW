@@ -116,3 +116,14 @@ int JsonParsing::getPlayerStamina() {
     assert(doc["Player"]["stamina"].IsInt());
     return doc["Player"]["stamina"].GetInt();
 }
+
+int JsonParsing::getLevel() {
+    std::ifstream ifs(DATA);
+    rapidjson::IStreamWrapper isw(ifs);
+
+    doc.ParseStream(isw);
+    assert(doc.IsObject());
+    assert(doc.HasMember("Level"));
+    assert(doc["Level"].IsInt());
+    return doc["Level"].GetInt();
+}
