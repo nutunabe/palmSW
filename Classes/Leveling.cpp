@@ -22,12 +22,15 @@ void Leveling::Init()
 	char str[200] = { 0 };
 	char str1[200] = { 0 };
 	char str2[200] = { 0 };
-	auto layer = Sprite::create("Levels/Level1/Layer1.png");
+	int level = js.getLevel();
+	char temp[100] = { 0 };
+	sprintf(temp, LEVEL_PATH "%d/Layer1.png", level);
+	auto layer = Sprite::create(temp);
 	layer->setAnchorPoint(Point(0, 0));
 	layer->setPosition(Point(0, 0));
 	this->addChild(layer);
 	for (int i = 2; i < 10; i++) {
-		sprintf(str, "Levels/Level1/Layer%d.png", i);
+		sprintf(str, LEVEL_PATH "%d/Layer%d.png", level,i);
 		sprintf(str1, "layer%d", i);
 		sprintf(str2, "layer1%d", i);
 		auto layer = Sprite::create(str);

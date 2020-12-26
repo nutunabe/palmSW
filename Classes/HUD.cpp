@@ -36,7 +36,6 @@ void HUD::Init(Player* player) {
 	staminaBar->setPosition(Point(72, 706));
 	staminaBar->setDirection(ui::LoadingBar::Direction::LEFT);
 	staminaBar->setPercent(100);
-	maxStamina = player->getStamina();
 	this->addChild(staminaBar);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -62,7 +61,7 @@ void HUD::Init(Player* player) {
 
 void HUD::update() {
 	healthBar->setPercent(player->getHealth() * 100 / maxHealth);
-	staminaBar->setPercent(player->getStamina() * 100 / maxStamina);
+	staminaBar->setPercent(player->getStamina() * 100 / player->maxStamina);
 	removeChild(counter, true);
 	char str[200] = { 0 };
 	sprintf(str, "Coin: %d", count);

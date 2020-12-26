@@ -29,6 +29,8 @@ public:
 	float getPlayerVelocity();
 	int getPlayerHealth();
 	int getPlayerStamina();
+
+	int getLevel();
 };
 
 #endif // !__JSON_PARSING_H__

@@ -13,6 +13,7 @@ public:
 	static Player* create(void);
 	void update();
 	int getAttackAnimationIndex();
+	int maxStamina;
 
 private:
 	void initPlayer();

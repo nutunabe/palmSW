@@ -32,6 +32,7 @@ void Player::initPlayer()
 	state = stillState;
 	health = js.getPlayerHealth();
 	stamina = js.getPlayerStamina();
+	maxStamina = stamina;
 	damage = js.getPlayerDamage();
 	damageRange = width;
 	velocityMax = js.getPlayerVelocity();
@@ -90,7 +91,7 @@ void Player::update()
 		velocityY = 0;
 	}
 
-	if (stamina < 100) {
+	if (stamina < maxStamina) {
 		stamina += 0.1;
 	}
 
