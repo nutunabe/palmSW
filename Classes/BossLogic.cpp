@@ -11,10 +11,8 @@ BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile
 void BossLogic::update(float dt) {
 	switch (boss->mode) {
 	case FightMode::punch:
-		chasePlayer(dt);
-		break;
 	case FightMode::bite:
-		bitePlayer(boss, boss->getAttackAnimationIndex());
+		chasePlayer(dt);
 		break;
 	case FightMode::sturmtiger:
 		sturmTiger(dt);
@@ -52,9 +50,19 @@ void BossLogic::chasePlayer(float dt) {
 		}
 
 	}
-	if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
-		attackPlayer(boss, boss->getAttackAnimationIndex(), dt);
+	switch (boss->mode) {
+	case FightMode::punch:
+		if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
+			attackPlayer(boss, boss->getAttackAnimationIndex(), dt);
+		}
+		break;
+	case FightMode::bite:
+		if (boss->getPositionX() < player->getRight() && boss->getPositionX() > player->getLeft()) {
+			bitePlayer(boss, boss->getAttackAnimationIndex(), dt);
+		}
+		break;
 	}
+
 }
 
 void BossLogic::attackPlayer(Boss* boss, int index, float dt) {
@@ -86,7 +94,7 @@ void BossLogic::attackPlayer(Boss* boss, int index, float dt) {
 	}
 }
 
-void BossLogic::bitePlayer(Boss* boss, int index) {
+void BossLogic::bitePlayer(Boss* boss, int index, float dt) {
 
 	// . . .
 	boss->state = State::isAttacking;
