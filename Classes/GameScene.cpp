@@ -287,7 +287,7 @@ void GameScene::initEnemies() {
 
 	boss = Boss::create();
 	boss->minGroundY = groundLevel;
-	boss->setPosition(Point(5600, boss->minGroundY - boss->getBottom()));
+	boss->setPosition(Point(6700, boss->minGroundY - boss->getBottom()));
 	this->addChild(boss, 3);
 
 	for (int i = 0; i < 7; i++) {
@@ -637,13 +637,9 @@ void GameScene::update(float dt) {
 		player->state = player->stillState;
 	}
 
-	enemyLogic->chasePlayer(dt);
-	skeletonLogic->chasePlayer(dt);
-	//whatKey(keyState);
-	//enemyLogic->chasePlayer();
-	bossLogic->update(dt);
-	boss->update();
 	player->update();
+	hud->update();
+	boss->update();
 	for (auto goblin : goblins) {
 		goblin->update();
 		if (goblin->getHealth() <= 0 && goblin->state != State::isDead) {
@@ -658,13 +654,33 @@ void GameScene::update(float dt) {
 			skeleton->state = skeleton->stillState;
 		}
 	}
-	hud->update();
+	if (bossTrigger == false) {
+		enemyLogic->chasePlayer(dt);
+		skeletonLogic->chasePlayer(dt);
+	}
+	else {
+		bossLogic->update(dt);
+
+		for (auto goblin : goblins) {
+			goblin->velocityX = 0;
+		}
+		for (auto skeleton : skeletons) {
+			skeleton->velocityX = 0;
+		}
+	}
+
 	checkCollision();
 
 	checkActivePlatform();
 	checkTakeCoin();
 
 	shopButton();
+
+	if (player->getPositionX() >= 6500) {
+		bossTrigger = true;
+		levelLeftEdge = 6500 - visibleSize.width / 2;
+		levelRightEdge = 6500 + visibleSize.width / 2;
+	}
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);
 	//bossNode->setPositionX(bossNode->getPositionX() + boss->velocityX);

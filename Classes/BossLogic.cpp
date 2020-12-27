@@ -1,6 +1,7 @@
 #include "BossLogic.h"
 
 BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile*> bossproj) {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
 	this->player = player;
 	this->boss = boss;
 	this->hud = hud;
@@ -9,7 +10,13 @@ BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile
 }
 
 void BossLogic::update(float dt) {
-	if (player->getPositionX() >= 5250 && player->getPositionX() <= 6000) {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	if (player->getPositionX() >= 6500) {
+		bossTrigger = true;
+	}
+
+	if (bossTrigger) {
 		if (updateTime > 10.0 && updateTime < 10.1) {
 			boss->stopAllActions();
 			boss->mode = FightMode::sturmtiger;

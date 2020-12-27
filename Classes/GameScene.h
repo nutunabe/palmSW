@@ -28,6 +28,7 @@ class GameScene : public cocos2d::Scene
 {
 public:
 	bool check = false;
+	bool bossTrigger = false;
 
 	static cocos2d::Scene* createScene();
 
@@ -44,7 +45,7 @@ public:
 	Sprite* mySprite;
 	int groundLevel = 65;
 	int levelLeftEdge = 0;
-	int levelRightEdge = 6000;
+	int levelRightEdge = 8000;
 private:
 	Vector<Coin*> coins;
 	Player* player;

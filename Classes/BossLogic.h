@@ -9,6 +9,7 @@ public:
 	BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile*> bossproj);
 	bool switched = false;
 	bool switchedd = false;
+	bool bossTrigger = false;
 	void chasePlayer(float dt);
 	void sturmTiger(float dt);
 	void bitePlayer(Boss* boss, int index, float dt);
