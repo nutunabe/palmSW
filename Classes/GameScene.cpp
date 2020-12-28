@@ -660,6 +660,10 @@ void GameScene::update(float dt) {
 		player->stillState = State::isDying;
 		player->state = player->stillState;
 	}
+	if (boss->getHealth() <= 0 && boss->state != State::isDead) {
+		boss->stillState = State::isDying;
+		boss->state = boss->stillState;
+	}
 
 	player->update();
 	hud->update();
