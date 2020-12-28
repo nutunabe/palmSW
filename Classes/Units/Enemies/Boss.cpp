@@ -30,7 +30,7 @@ void Boss::initBoss()
 
 	stillState = State::isIdle;
 	state = stillState;
-	health = 100;
+	health = 700;
 	stamina = 100;
 	damage = js.getEnemyDamage("Mushroom");
 	damageRange = width;
@@ -83,7 +83,7 @@ void Boss::initBoss()
 	hpboss->setAnchorPoint(Point(0.5, 1));
 	hpboss->setPosition(Point(this->getPositionX() + 75, this->getPositionY() + 100));
 	hpboss->setDirection(ui::LoadingBar::Direction::RIGHT);
-	hpboss->setPercent(health);
+	hpboss->setPercent(health * 100 / 700);
 	hpboss->setScale(0.1);
 	this->addChild(hpboss);
 }
@@ -97,7 +97,7 @@ void Boss::update()
 		else {
 			hpboss->setDirection(ui::LoadingBar::Direction::RIGHT);
 		}
-		hpboss->setPercent(health);
+		hpboss->setPercent(health * 100 / 700);
 	}
 
 	setPositionX(getPositionX() + velocityX);

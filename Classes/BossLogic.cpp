@@ -12,32 +12,35 @@ BossLogic::BossLogic(Boss* boss, Player* player, HUD* hud, Vector<BossProjectile
 void BossLogic::update(float dt) {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	if (player->getPositionX() >= 6500) {
-		bossTrigger = true;
-	}
-
-	if (bossTrigger) {
-		if (updateTime > 10.0 && updateTime < 10.1) {
-			boss->stopAllActions();
-			boss->mode = FightMode::sturmtiger;
-		}
-		if (updateTime > 20.0 && updateTime < 20.1) {
-			boss->stopAllActions();
-			boss->mode = FightMode::bite;
-			updateTime = 0;
+	if (boss->state != State::isDead &&
+		boss->state != State::isDying) {
+		if (player->getPositionX() >= 6500) {
+			bossTrigger = true;
 		}
 
-		switch (boss->mode) {
-		case FightMode::punch:
-		case FightMode::bite:
-			chasePlayer(dt);
-			break;
-		case FightMode::sturmtiger:
-			sturmTiger(dt);
-			break;
-		}
+		if (bossTrigger) {
+			if (updateTime > 10.0 && updateTime < 10.1) {
+				boss->stopAllActions();
+				boss->mode = FightMode::sturmtiger;
+			}
+			if (updateTime > 20.0 && updateTime < 20.1) {
+				boss->stopAllActions();
+				boss->mode = FightMode::bite;
+				updateTime = 0;
+			}
 
-		updateTime += dt;
+			switch (boss->mode) {
+			case FightMode::punch:
+			case FightMode::bite:
+				chasePlayer(dt);
+				break;
+			case FightMode::sturmtiger:
+				sturmTiger(dt);
+				break;
+			}
+
+			updateTime += dt;
+		}
 	}
 }
 

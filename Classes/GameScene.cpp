@@ -646,9 +646,9 @@ void GameScene::attackBoss(Boss* mush, int index) {
 		mush->state != State::isDead &&
 		index == 4 && mush->getHealth() > 0) {
 		CCLOG("Hit!");
-		mush->stopAllActions();
+		//mush->stopAllActions();
 		mush->velocityX = 0;
-		mush->state = State::isTakingHit;
+		//mush->state = State::isTakingHit;
 		mush->takeDamage(mush->getDamage());
 	}
 }
@@ -660,7 +660,8 @@ void GameScene::update(float dt) {
 		player->stillState = State::isDying;
 		player->state = player->stillState;
 	}
-	if (boss->getHealth() <= 0 && boss->state != State::isDead) {
+	if (boss->getHealth() <= 0 && boss->state != State::isDead && boss->stillState != State::isDying) {
+		boss->stopAllActions();
 		boss->stillState = State::isDying;
 		boss->state = boss->stillState;
 	}
