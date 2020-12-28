@@ -127,3 +127,14 @@ int JsonParsing::getLevel() {
     assert(doc["Level"].IsInt());
     return doc["Level"].GetInt();
 }
+
+void JsonParsing::setPlayerDamage(float dmg) {
+    float temp = getPlayerDamage();
+    doc["Player"]["damage"].SetFloat(temp + dmg);
+
+    std::ofstream ofs(DATA);
+    rapidjson::OStreamWrapper osw(ofs);
+
+    rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
+    doc.Accept(writer);
+}

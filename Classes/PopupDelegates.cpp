@@ -144,7 +144,11 @@ namespace UICustom {
             });
 
             auto Button_3 = MenuItemImage::create(IMAGEPATH::OK_BUTTON, IMAGEPATH::OK_BUTTON_PRESSED, [=](Ref* sender) {
-
+                if (hud->count >= 1) {
+                    player->upgradeDamage(10.0);
+                    hud->count -= 1;
+                    hud->update();
+                }
             });
 
             auto Button_close = MenuItemImage::create(IMAGEPATH::CANCEL_BUTTON, IMAGEPATH::CANCEL_BUTTON_PRESSED, [=](Ref* sender) {

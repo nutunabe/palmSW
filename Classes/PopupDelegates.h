@@ -6,6 +6,7 @@
 #include "ui/CocosGUI.h"
 #include "Units/Player.h"
 #include "HUD.h"
+#include "JsonParsing.h"
 
 namespace UICustom {
 
@@ -30,6 +31,7 @@ namespace UICustom {
     private:
         bool _isAnimated = false;
         void update();
+       
     };
 
 

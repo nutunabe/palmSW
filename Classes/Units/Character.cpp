@@ -31,3 +31,7 @@ void Character::takeDamage(int damage) {
 int Character::getVelocityMax() {
 	return velocityMax;
 }
+
+void Character::upgradeDamage(float dmg) {
+	damage += dmg;
+}

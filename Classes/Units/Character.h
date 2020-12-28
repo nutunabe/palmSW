@@ -23,6 +23,8 @@ public:
 	void takeDamage(int damage);
 	int getVelocityMax();
 
+	void upgradeDamage(float dmg);
+
 protected:
 	float health;
 	float stamina;

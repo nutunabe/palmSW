@@ -26,6 +26,7 @@ public:
 	float getEnemyVelocity(char *name);
 
 	float getPlayerDamage();
+	void setPlayerDamage(float dmg);
 	float getPlayerVelocity();
 	int getPlayerHealth();
 	int getPlayerStamina();
