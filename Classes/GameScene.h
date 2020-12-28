@@ -83,6 +83,7 @@ private:
 	void checkCollision();
 	void attackGoblin(Goblin* goblin, int index);
 	void attackSkeleton(Skeleton* skeleton, int index);
+	void attackBoss(Boss* mush, int index);
 	void initCharacters();
 	void initEnemies();
 	void initEnvironment();
