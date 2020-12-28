@@ -563,41 +563,53 @@ void GameScene::checkShop(Ref* sender) {
 }
 
 void GameScene::checkCollision() {
-	if (player->state == State::isAttacking)
-	for (auto goblin : goblins) {
-		if (goblin->minGroundY == player->minGroundY) {
-			if (player->getScaleX() > 0) {
-				if (goblin->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
-					goblin->getPositionX() < player->getPositionX()) {
-					CCLOG("yesLeft");
-					attackGoblin(goblin, player->getAttackAnimationIndex());
-				}
+	if (player->state == State::isAttacking) {
+		for (auto goblin : goblins) {
+			if (goblin->minGroundY == player->minGroundY) {
+				if (player->getScaleX() > 0) {
+					if (goblin->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+						goblin->getPositionX() < player->getPositionX()) {
+						attackGoblin(goblin, player->getAttackAnimationIndex());
+					}
 
-			}
-			else if (player->getScaleX() < 0) {
-				if (goblin->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
-					goblin->getPositionX() > player->getPositionX()) {
-					CCLOG("yesRight");
-					attackGoblin(goblin, player->getAttackAnimationIndex());
+				}
+				else if (player->getScaleX() < 0) {
+					if (goblin->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+						goblin->getPositionX() > player->getPositionX()) {
+						attackGoblin(goblin, player->getAttackAnimationIndex());
+					}
 				}
 			}
 		}
-	}
-	for (auto skeleton : skeletons) {
-		if (skeleton->minGroundY == player->minGroundY) {
+		for (auto skeleton : skeletons) {
+			if (skeleton->minGroundY == player->minGroundY) {
+				if (player->getScaleX() > 0) {
+					if (skeleton->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+						skeleton->getPositionX() < player->getPositionX()) {
+						attackSkeleton(skeleton, player->getAttackAnimationIndex());
+					}
+
+				}
+				else if (player->getScaleX() < 0) {
+					if (skeleton->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+						skeleton->getPositionX() > player->getPositionX()) {
+						attackSkeleton(skeleton, player->getAttackAnimationIndex());
+					}
+				}
+			}
+		}
+		if (boss->minGroundY == player->minGroundY) {
 			if (player->getScaleX() > 0) {
-				if (skeleton->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
-					skeleton->getPositionX() < player->getPositionX()) {
-					CCLOG("yesLeft");
-					attackSkeleton(skeleton, player->getAttackAnimationIndex());
+				if (boss->getPositionX() > (player->getPositionX() - player->getDamageRange()) &&
+					boss->getPositionX() < player->getPositionX()) {
+					attackBoss(boss, player->getAttackAnimationIndex());
 				}
 
 			}
 			else if (player->getScaleX() < 0) {
-				if (skeleton->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
-					skeleton->getPositionX() > player->getPositionX()) {
-					CCLOG("yesRight");
-					attackSkeleton(skeleton, player->getAttackAnimationIndex());
+				if (boss->getPositionX() < (player->getPositionX() + player->getDamageRange()) &&
+					boss->getPositionX() > player->getPositionX()) {
+					attackBoss(boss, player->getAttackAnimationIndex());
 				}
 			}
 		}
@@ -626,6 +638,18 @@ void GameScene::attackSkeleton(Skeleton* skeleton, int index) {
 		skeleton->velocityX = 0;
 		skeleton->state = State::isTakingHit;
 		skeleton->takeDamage(player->getDamage());
+	}
+}
+
+void GameScene::attackBoss(Boss* mush, int index) {
+	if (mush->state != State::isTakingHit &&
+		mush->state != State::isDead &&
+		index == 4 && mush->getHealth() > 0) {
+		CCLOG("Hit!");
+		mush->stopAllActions();
+		mush->velocityX = 0;
+		mush->state = State::isTakingHit;
+		mush->takeDamage(mush->getDamage());
 	}
 }
 
