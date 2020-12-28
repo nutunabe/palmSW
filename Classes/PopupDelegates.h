@@ -14,6 +14,7 @@ namespace UICustom {
     {
 
     public:
+        bool isshow;
         static PopupDelegates* create();
 
     protected:
@@ -37,9 +38,9 @@ namespace UICustom {
     {
 
     public:
-        static Popup* createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, Player* player, HUD* hud);
-        static Popup* createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::function<void()>& YesFunc, Player* player, HUD* hud);
-        static Popup* create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, cocos2d::Label* lbl, const std::function<void()>& YesFunc, Player* player, HUD* hud);
+        static Popup* createAsMessage(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::string& msg3, Player* player, HUD* hud);
+        static Popup* createAsConfirmDialogue(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::string& msg3, const std::function<void()>& YesFunc, Player* player, HUD* hud);
+        static Popup* create(const std::string& title, const std::string& msg, const std::string& msg1, const std::string& msg2, const std::string& msg3, cocos2d::Label* lbl, const std::function<void()>& YesFunc, Player* player, HUD* hud);
 
 
     private:

@@ -558,7 +558,7 @@ void GameScene::checkTakeCoin() {
 }
 
 void GameScene::checkShop(Ref* sender) {
-	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("MAGAZZZ", "rnd Health = 1 coin", "Full Health = 2 coin", "Exit to shop", [=]() {}, player, hud);
+	UICustom::Popup* popup = UICustom::Popup::createAsConfirmDialogue("", "rnd Health = 1 coin", "Full Health = 2 coin", "+10 damage = 1 coin", "Exit to shop", [=]() {}, player, hud);
 	this->addChild(popup, 10000);
 }
 

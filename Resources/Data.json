@@ -1,25 +1,25 @@
 {
-  "musicVolume": 0.3400000035762787,
-  "soundfxVolume": 0.20999999344348908,
-  "Level": 1,
-  "Enemy": {
-    "Goblin": {
-      "damage": 20.0,
-      "velocity": 2.5
+    "musicVolume": 0.0,
+    "soundfxVolume": 0.20999999344348908,
+    "Level": 1,
+    "Enemy": {
+        "Goblin": {
+            "damage": 20.0,
+            "velocity": 2.5
+        },
+        "Skeleton": {
+            "damage": 30.0,
+            "velocity": 2.0
+        },
+        "Mushroom": {
+            "damage": 44.0,
+            "velocity": 3.0
+        }
     },
-    "Skeleton": {
-      "damage": 30.0,
-      "velocity": 2.0
-    },
-    "Mushroom": {
-      "damage": 44.0,
-      "velocity": 3.0
+    "Player": {
+        "health": 150,
+        "stamina": 150,
+        "damage": 20.0,
+        "velocity": 5.0
     }
-  },
-  "Player": {
-    "health": 150,
-    "stamina": 150,
-    "damage": 20.0,
-    "velocity": 5.0
-  }
 }
