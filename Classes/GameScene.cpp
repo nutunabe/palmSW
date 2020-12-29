@@ -716,7 +716,8 @@ void GameScene::update(float dt) {
 	}
 
 	if (bossDefeated && player->getRight() >= levelRightEdge - 50) {
-		CCLOG("YOU WIN");
+		auto scene = WinScreen::createScene();
+		Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene));
 	}
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);

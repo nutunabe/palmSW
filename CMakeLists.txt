@@ -83,6 +83,7 @@ list(APPEND GAME_SOURCE
      Classes/Projectile.cpp
      Classes/JsonParsing.cpp
      Classes/BossProjectile.cpp
+     Classes/WinScreen.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -114,6 +115,7 @@ list(APPEND GAME_HEADER
      Classes/Definitions.h
      Classes/JsonParsing.h
      Classes/BossProjectile.h
+     Classes/WinScreen.h
      )
 
 if(ANDROID)

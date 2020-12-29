@@ -21,6 +21,7 @@
 #include "Units/Enemies/Boss.h"
 #include "BossLogic.h"
 #include "BossProjectile.h"
+#include "WinScreen.h"
 
 USING_NS_CC;
 
