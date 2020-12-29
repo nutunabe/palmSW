@@ -664,6 +664,10 @@ void GameScene::update(float dt) {
 		boss->stopAllActions();
 		boss->stillState = State::isDying;
 		boss->state = boss->stillState;
+
+		levelLeftEdge = 0;
+		bossDefeated = true;
+		bossTrigger = false;
 	}
 
 	player->update();
@@ -705,10 +709,14 @@ void GameScene::update(float dt) {
 
 	shopButton();
 
-	if (player->getPositionX() >= 6500) {
+	if (bossDefeated == false && player->getPositionX() >= 6500) {
 		bossTrigger = true;
 		levelLeftEdge = 6500 - visibleSize.width / 2;
 		levelRightEdge = 6500 + visibleSize.width / 2;
+	}
+
+	if (bossDefeated && player->getRight() >= levelRightEdge - 50) {
+		CCLOG("YOU WIN");
 	}
 	//playerNode->setPosition(Point(player->getPositionX() - origin.x - visibleSize.width / 2, player->getPositionY() - 130));
 	//groundNode->setPositionX(playerNode->getPositionX() + player->velocityX);

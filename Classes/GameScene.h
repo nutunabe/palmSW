@@ -29,6 +29,7 @@ class GameScene : public cocos2d::Scene
 public:
 	bool check = false;
 	bool bossTrigger = false;
+	bool bossDefeated = false;
 
 	static cocos2d::Scene* createScene();
 
